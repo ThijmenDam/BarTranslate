@@ -19,7 +19,7 @@ Translations are done by presenting a simple (altered) webview of translate.goog
   * Option to set custom frame size (small, medium, large)
   * Option to enable/disable top bar
   * Option to set font size of text boxes
- * Installer that gives the option to set the above settings upon installation
+ * Installer that gives the option to configure the above settings upon installation
 
 # Extra information
 * BarTranslate version 0.1 (BETA)
