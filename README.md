@@ -14,21 +14,12 @@ Translations are done by presenting a simple (altered) webview of translate.goog
 
 # Future features
 * Settings page, including:
-<<<<<<< HEAD
-* Option to set default source and target languages
-* Option to change interface language
-* Option to set custom frame size (small, medium, large)
-* Option to enable/disable top bar
-* Option to set font size of text boxes
+ * Option to set default source and target languages
+ * Option to change interface language
+ * Option to set custom frame size (small, medium, large)
+ * Option to enable/disable top bar
+ * Option to set font size of text boxes
 * Installer that gives the option to configure the above settings upon installation
-=======
-  * Option to set default source and target languages
-  * Option to change interface language
-  * Option to set custom frame size (small, medium, large)
-  * Option to enable/disable top bar
-  * Option to set font size of text boxes
- * Installer that gives the option to configure the above settings upon installation
->>>>>>> a4d3ec73b002d77446c46de47753d31ea49b143d
 
 # Extra information
 * BarTranslate version 0.1 (BETA)
