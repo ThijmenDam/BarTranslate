@@ -3,8 +3,6 @@ BarTranslate is a handy menu bar translator widget for MacOS.
 
 Translations are done by presenting a simple (altered) webview of translate.google.com in a quick and easily accessible interface.
 
-<img src="interface-snapshot.png" alt="BarTranslate interface snapshot" width="350"/>
-
 # Future features
 * Settings page, including:
   * Option to set default source and target languages
