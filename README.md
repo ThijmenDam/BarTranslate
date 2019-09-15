@@ -9,6 +9,8 @@ Translations are done by presenting a simple (altered) webview of translate.goog
 1. Download BarTranslate.zip
 1. Unzip the file
 1. Place BarTranslate.app in your Applications folder
+1. Run BarTranslate.app
+1. Happy translating!
 
 # Future features
 * Settings page, including:
