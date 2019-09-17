@@ -7,7 +7,8 @@ Supported translation providers:
 * Google Translate 
 * Naver Papago
 
-<img src="interface-snapshot.png" alt="BarTranslate interface snapshot" width="350"/>
+<img src="interface-snapshot-google.png" alt="BarTranslate interface snapshot" width="350"/>
+<img src="interface-snapshot.png-papago" alt="BarTranslate interface snapshot" width="350"/>
 
 # How to install
 1. Download BarTranslate.zip
