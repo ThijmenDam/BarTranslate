@@ -16,7 +16,6 @@ Translations are done by presenting a simple (altered) webview of translate.goog
 * Settings page, including:
    * Support for Papago translations
    * Option to set default source and target languages
-   * Option to set custom frame size (small, medium, large)
 * Installer that gives the option to configure the above settings upon installation
 
 # Extra information
