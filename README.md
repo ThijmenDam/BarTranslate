@@ -20,6 +20,7 @@ Supported translation providers:
 * Settings page, including:
    * Support for Papago translations (DONE)
    * Option to set default source and target languages
+   * Launch on startup
 * Installer that gives the option to configure the above settings upon installation
 
 # Extra information
