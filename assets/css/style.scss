@@ -2,3 +2,8 @@
 ---
 
 @import "{{ site.theme }}";
+
+.page-header {
+  background-color: #5087ec;
+  background-image: none;
+}
