@@ -10,11 +10,19 @@ Supported translation providers:
 <img src="images/interface-snapshot-google.png" alt="BarTranslate interface snapshot" width="350"/><img src="images/interface-snapshot-papago.png" alt="BarTranslate interface snapshot" width="350"/>
 
 # How to install
+
+1. Refer to the [latest releases](https://github.com/ThijmenDam/BarTranslate/releases)
 1. Download BarTranslate.zip
 1. Unzip the file
 1. Place BarTranslate.app in your Applications folder
 1. Run BarTranslate.app
 1. Happy translating!
+
+# Features
+* A quick and easily accessible interface
+* User friendly interaction
+* Support for both Google Translate and Naver Papago
+
 
 # Future features
 * Settings page, including:
@@ -23,7 +31,7 @@ Supported translation providers:
    * Launch on startup
 * Installer that gives the option to configure the above settings upon installation
 * Optional keyboard shortcut to show/hide BarTranslator
-* Auto update
+* Automatic updates
 * Dark mode
 
 # Extra information
