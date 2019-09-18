@@ -23,6 +23,8 @@ Supported translation providers:
    * Launch on startup
 * Installer that gives the option to configure the above settings upon installation
 * Optional keyboard shortcut to show/hide BarTranslator
+* Auto update
+* Dark mode
 
 # Extra information
 * BarTranslate version 0.020 (BETA)
