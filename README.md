@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="assets/css/style.css">
+
 # BarTranslate for MacOS (BETA)
 BarTranslate is a handy menu bar translator widget for MacOS.
 
@@ -7,7 +9,10 @@ Supported translation providers:
 * Google Translate 
 * Naver Papago
 
-<img src="images/interface-snapshot-google.png" alt="BarTranslate interface snapshot" width="350"/><img src="images/interface-snapshot-papago.png" alt="BarTranslate interface snapshot" width="350"/>
+<div class="images_readme">
+<img src="images/interface-snapshot-google.png" alt="BarTranslate interface snapshot"/>
+<img src="images/interface-snapshot-papago.png" alt="BarTranslate interface snapshot"/>
+</div>
 
 # How to install
 
