@@ -2,3 +2,24 @@
 ---
 
 @import "{{ site.theme }}";
+
+.page-header {
+  background-color: #5087ec;
+  background-image: none;
+}
+
+main#content h1 {
+  color: #3375e0;
+}
+
+div.images_readme {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+div.images_readme img {
+  max-width: 350px;
+  max-height: 435px;
+}
