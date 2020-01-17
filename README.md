@@ -10,7 +10,7 @@ Supported translation providers:
 * Naver Papago
 
 <div class="images_readme">
-<img src="images/interface-snapshot.png" alt="BarTranslate interface snapshot"/>
+<img src="assets/images/interface-snapshot.png" alt="BarTranslate interface snapshot"/>
 </div>
 
 # How to install
