@@ -42,5 +42,5 @@ Supported translation providers:
 * MacOS Sierra (10.12) or above is required.
 
 # Support the author
-Like my work? <a src="https://www.paypal.me/thijmendam">Consider buying me a coffee!</a>
+Like my work? [Consider buying me a coffee!](https://www.paypal.me/thijmendam)
 
