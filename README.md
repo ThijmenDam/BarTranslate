@@ -9,9 +9,7 @@ Supported translation providers:
 * Google Translate 
 * Naver Papago
 
-<div class="images_readme">
 <img src="assets/images/interface-snapshot.png" alt="BarTranslate interface snapshot"/>
-</div>
 
 # How to install
 
