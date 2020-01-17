@@ -40,3 +40,7 @@ Supported translation providers:
 * BarTranslate version 0.020 (BETA)
 * BarTranslate is still in development, meaning that a) minor issues may arise and b) its functionality is not (yet) as extensive as I plan to.
 * MacOS Sierra (10.12) or above is required.
+
+# Support the author
+Like my work? <a src="https://www.paypal.me/thijmendam">Consider buying me a coffee!</a>
+
