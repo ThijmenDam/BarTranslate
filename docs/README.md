@@ -1,8 +1,5 @@
 <link rel="stylesheet" href="assets/css/style.css">
 
-# BarTranslate
-🚀 A handy menu  translator widget for MacOS, Windows and Linux.
-
 <p align="center">
     <img src="assets/images/interface-snapshot.png" alt="BarTranslate interface snapshot" width="400" height="500"/>
 </p>
