@@ -5,7 +5,9 @@
 Translations are done by presenting a simple (altered) webview of your preferred translation provider in a quick and 
 easily accessible interface.
 
-<img src="docs/assets/interface-snapshot.png" alt="BarTranslate interface snapshot" width="400" height="500"/>
+<p align="center">
+    <img src="docs/assets/images/interface-snapshot.png" alt="BarTranslate interface snapshot" width="400" height="500"/>
+</p>
 
 ##  Installation
 
