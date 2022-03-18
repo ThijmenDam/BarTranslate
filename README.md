@@ -1,6 +1,6 @@
 
 # BarTranslate
-> A handy menu  translator widget for MacOS, Windows and Linux.
+#### A handy menu  translator widget for MacOS, Windows and Linux.
 
 Translations are done by presenting a simple (altered) webview of your preferred translation provider in a quick and 
 easily accessible interface.
