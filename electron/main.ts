@@ -98,6 +98,10 @@ function createMenubarApp() {
       }
     });
 
+    translateWindow.on('show', () => {
+      translateWindow.webContents.focus();
+    });
+
     translateWindow.on('blur', () => {
       if (!menuBar.window) return;
       if (!menuBar.window.isFocused()) {
