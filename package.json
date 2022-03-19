@@ -1,5 +1,6 @@
 {
   "name": "bartranslate",
+  "productName": "BarTranslate",
   "license": "GPL-3.0",
   "author": "Thijmen Dam <thijmendam@icloud.com>",
   "version": "0.2",

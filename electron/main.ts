@@ -1,10 +1,11 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
-  app, BrowserWindow, ipcMain, shell,
+  app, BrowserWindow, ipcMain, shell, Menu
 } from 'electron';
 import { menubar, Menubar } from 'menubar';
 import * as path from 'path';
 import { GoogleTranslateCSS } from './injections';
+import setAppMenu from './menu';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -28,7 +29,9 @@ function createMenubarApp() {
 
   const translateWidth = appWidth - appMargin * 2;
   const translateHeight = appHeight - appHeaderHeight - appMargin * 2;
-
+  
+  setAppMenu();
+  
   menuBar = menubar({
     icon: path.join(assetsPath, '/BarTranslateIcon.png').toString(),
     index: MAIN_WINDOW_WEBPACK_ENTRY,
@@ -74,7 +77,9 @@ function createMenubarApp() {
       },
       alwaysOnTop: true,
     });
-
+    
+    menuBar.window.setMenu(null);
+    
     translateWindow.loadURL('https://translate.google.com/');
 
     translateWindow.on('ready-to-show', () => {
