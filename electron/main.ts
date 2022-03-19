@@ -100,6 +100,7 @@ function createMenubarApp() {
 
     translateWindow.on('show', () => {
       translateWindow.webContents.focus();
+      translateWindow.webContents.executeJavaScript("document.querySelector('textarea').focus()");
     });
 
     translateWindow.on('blur', () => {
