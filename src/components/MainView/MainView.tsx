@@ -19,7 +19,10 @@ export default function MainView() {
 
   return (
     <MainViewStyle>
-      <Header toggleSettings={() => { toggleSettings(); }} />
+      <Header
+        toggleSettings={() => { toggleSettings(); }}
+        showSettings={showSettings}
+      />
       {showSettings && showSettings ? <Settings /> : <Translate />}
     </MainViewStyle>
   );
