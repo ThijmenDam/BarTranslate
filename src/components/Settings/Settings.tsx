@@ -6,7 +6,7 @@ export default function Settings() {
   return (
     <SettingsStyle>
       <ContainerStyle>
-        More features coming soon!
+        <p>More features coming soon!</p>
       </ContainerStyle>
 
       <SponsorStyle onClick={() => { window.Main.sponsor(); }}>

@@ -7,7 +7,7 @@
 </p>
 
 Translations are done by presenting a simple (altered) webview of your preferred translation provider in a quick and
-easily accessible interface.
+easily accessible interface. You can show/hide the app using `alt/option + k`.
 
 ##  Installation
 
@@ -37,13 +37,14 @@ Available for MacOS, Windows and Linux.
 
 Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discussions)!
 
-* A quick and easily accessible interface for Google Translate
-* Available for MacOS, Windows and Linux
+* A quick and easily accessible interface for Google Translate.
+* Available for MacOS, Windows and Linux.
+* Hotkey `alt/option + k` to open the tanslate window.
 
 ### Planned
 
 * Automatic dark mode based on system.
-* Customizable hotkey to open the translation window.
+* Customizable hotkey.
 * Support for Naver Papago.
 
 ## Notice for Developers

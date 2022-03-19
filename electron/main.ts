@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
-  app, BrowserWindow, ipcMain, shell, Menu
+  app, BrowserWindow, ipcMain, shell, globalShortcut,
 } from 'electron';
 import { menubar, Menubar } from 'menubar';
 import * as path from 'path';
@@ -29,9 +29,9 @@ function createMenubarApp() {
 
   const translateWidth = appWidth - appMargin * 2;
   const translateHeight = appHeight - appHeaderHeight - appMargin * 2;
-  
+
   setAppMenu();
-  
+
   menuBar = menubar({
     icon: path.join(assetsPath, '/BarTranslateIcon.png').toString(),
     index: MAIN_WINDOW_WEBPACK_ENTRY,
@@ -77,9 +77,9 @@ function createMenubarApp() {
       },
       alwaysOnTop: true,
     });
-    
+
     menuBar.window.setMenu(null);
-    
+
     translateWindow.loadURL('https://translate.google.com/');
 
     translateWindow.on('ready-to-show', () => {
@@ -139,9 +139,20 @@ async function registerListeners() {
   });
 }
 
+async function registerShortcuts() {
+  globalShortcut.register('Alt+K', () => {
+    if (!menuBar.window?.isVisible()) {
+      menuBar.showWindow();
+    } else {
+      menuBar.hideWindow();
+    }
+  });
+}
+
 app.on('ready', createMenubarApp)
   .whenReady()
   .then(registerListeners)
+  .then(registerShortcuts)
   // eslint-disable-next-line no-console
   .catch((e) => console.error(e));
 
