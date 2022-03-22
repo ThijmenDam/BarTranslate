@@ -1,6 +1,6 @@
 import { css } from 'styled-components';
 
-const GoogleTranslateCSS = css`
+const HideRedundantElementsCSS = css`
   .pGxpHc,                  /* Page header */
   .VjFXz, .Oim1sf,          /* Space behind page header */
   .a88hkc,                  /* "Sent feedback" button */
@@ -11,6 +11,21 @@ const GoogleTranslateCSS = css`
   nav {                     /* Buttons below translate input */
     display: none!important;
   }
-`.toString();
+`;
 
-export { GoogleTranslateCSS };
+const DarkModeCSS = css`
+
+`;
+
+interface CSSOptions {
+  darkmode: boolean
+}
+
+function CSSInjections(options: CSSOptions): string {
+  if (options.darkmode) {
+    return HideRedundantElementsCSS.concat(DarkModeCSS).join('');
+  }
+  return HideRedundantElementsCSS.toString();
+}
+
+export { CSSInjections };

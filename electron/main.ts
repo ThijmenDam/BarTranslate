@@ -4,7 +4,7 @@ import {
 } from 'electron';
 import { menubar, Menubar } from 'menubar';
 import * as path from 'path';
-import { GoogleTranslateCSS } from './injections';
+import { CSSInjections } from './injections';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -34,6 +34,7 @@ function createMenubarApp() {
     index: MAIN_WINDOW_WEBPACK_ENTRY,
     preloadWindow: true,
     browserWindow: {
+      skipTaskbar: true,
       show: false,
       height: appHeight,
       width: appWidth,
@@ -57,6 +58,7 @@ function createMenubarApp() {
 
     translateWindow = new BrowserWindow({
       show: false,
+      skipTaskbar: true,
       parent: menuBar.window,
       height: translateHeight,
       width: translateWidth,
@@ -75,19 +77,23 @@ function createMenubarApp() {
       alwaysOnTop: true,
     });
 
+    app.dock.hide();
+
     menuBar.window.setMenu(null);
 
     translateWindow.loadURL('https://translate.google.com/');
 
     translateWindow.on('ready-to-show', () => {
-      translateWindow.webContents.insertCSS(GoogleTranslateCSS);
+      translateWindow.webContents.insertCSS(CSSInjections({
+        darkmode: true,
+      }));
     });
 
     menuBar.on('show', () => {
       if (!translateWindow.isVisible() && !settingsVisible) {
         translateWindow.show();
         // TODO: check if dark mode is on, and insert CSS accordingly
-        // translateWindow.webContents.insertCSS(GoogleTranslateCSS);
+        // translateWindow.webContents.insertCSS(HideRedundantElementsCSS);
       }
     });
 
