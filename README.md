@@ -40,6 +40,7 @@ Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discu
 * A quick and easily accessible interface for Google Translate.
 * Available for MacOS, Windows and Linux.
 * Hotkey `alt/option + k` to open the tanslate window.
+* Hotkey `alt/option + l` to switch languages.
 
 ### Planned
 
