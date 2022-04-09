@@ -4,7 +4,7 @@ import {
 } from 'electron';
 import { menubar, Menubar } from 'menubar';
 import * as path from 'path';
-import { CSSInjections } from './injections';
+import { CSSInjections, JSInjections } from './injections';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -91,9 +91,13 @@ function createMenubarApp() {
 
     menuBar.on('show', () => {
       if (!translateWindow.isVisible() && !settingsVisible) {
-        translateWindow.show();
-        // TODO: check if dark mode is on, and insert CSS accordingly
+        // TODO: check if auto scroll is enabled (i.e. future settings option), and insert CSS accordingly
+        // translateWindow.webContents.executeJavaScript('window.scrollTo(0, 0)');
+
+        // TODO: check if dark mode is enabled, and insert CSS accordingly
         // translateWindow.webContents.insertCSS(HideRedundantElementsCSS);
+
+        translateWindow.show();
       }
     });
 
@@ -105,8 +109,6 @@ function createMenubarApp() {
     });
 
     translateWindow.on('show', () => {
-      // TODO: this should hopefully resolve a positioning bug that occurs
-      //  when an external screen is removed with the lid closed
       if (menuBar.window) {
         translateWindow.setPosition(
           menuBar.window.getPosition()[0] + appMargin,
@@ -115,7 +117,7 @@ function createMenubarApp() {
       }
 
       translateWindow.webContents.focus();
-      translateWindow.webContents.executeJavaScript("document.querySelector('textarea').focus()");
+      translateWindow.webContents.executeJavaScript(JSInjections.focusTextArea);
     });
 
     translateWindow.on('blur', () => {
@@ -169,7 +171,7 @@ async function registerShortcuts() {
   // Switch languages
   globalShortcut.register('Alt+L', () => {
     if (translateWindow.isVisible()) {
-      translateWindow.webContents.executeJavaScript('document.getElementsByClassName("U2dVxe")[0].click()');
+      translateWindow.webContents.executeJavaScript(JSInjections.clearTextArea + JSInjections.swapLanguages);
     }
   });
 }

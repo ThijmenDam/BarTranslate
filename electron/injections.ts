@@ -32,4 +32,13 @@ function CSSInjections(options: CSSOptions): string {
   return HideRedundantElementsCSS.toString();
 }
 
-export { CSSInjections };
+const JSInjections = {
+  focusTextArea: 'document.querySelector("textarea").focus();',
+  swapLanguages: 'document.getElementsByClassName("U2dVxe")[0].click();',
+  clearTextArea: `
+    document.querySelector("textarea").value = "";
+    document.querySelector("textarea").dispatchEvent(new Event("input", { bubbles: true }));
+  `,
+};
+
+export { CSSInjections, JSInjections };
