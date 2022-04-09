@@ -105,6 +105,15 @@ function createMenubarApp() {
     });
 
     translateWindow.on('show', () => {
+      // TODO: this should hopefully resolve a positioning bug that occurs
+      //  when an external screen is removed with the lid closed
+      if (menuBar.window) {
+        translateWindow.setPosition(
+          menuBar.window.getPosition()[0] + appMargin,
+          menuBar.window.getPosition()[1] + appHeaderHeight + appMargin,
+        );
+      }
+
       translateWindow.webContents.focus();
       translateWindow.webContents.executeJavaScript("document.querySelector('textarea').focus()");
     });
@@ -148,11 +157,19 @@ async function registerListeners() {
 }
 
 async function registerShortcuts() {
+  // Show or hide app
   globalShortcut.register('Alt+K', () => {
     if (!menuBar.window?.isVisible()) {
       menuBar.showWindow();
     } else {
       menuBar.hideWindow();
+    }
+  });
+
+  // Switch languages
+  globalShortcut.register('Alt+L', () => {
+    if (translateWindow.isVisible()) {
+      translateWindow.webContents.executeJavaScript('document.getElementsByClassName("U2dVxe")[0].click()');
     }
   });
 }
