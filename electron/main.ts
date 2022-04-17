@@ -29,6 +29,9 @@ function createMenubarApp() {
   const translateWidth = appWidth - appMargin * 2;
   const translateHeight = appHeight - appHeaderHeight - appMargin * 2;
 
+  // Disable zoom in main window
+  app.commandLine.appendSwitch('disable-pinch');
+
   menuBar = menubar({
     icon: path.join(assetsPath, '/BarTranslateIcon.png').toString(),
     index: MAIN_WINDOW_WEBPACK_ENTRY,
@@ -85,7 +88,7 @@ function createMenubarApp() {
 
     translateWindow.on('ready-to-show', () => {
       translateWindow.webContents.insertCSS(CSSInjections({
-        darkmode: true,
+        darkmode: false,
       }));
     });
 

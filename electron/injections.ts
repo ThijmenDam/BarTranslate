@@ -11,9 +11,16 @@ const HideRedundantElementsCSS = css`
   nav {                     /* Buttons below translate input */
     display: none!important;
   }
-  .OlSOob {                 /* Translate view. */
+
+  /* Translate view at top */
+  div[jsname="gnoFo"] {
     position: absolute;
     width: 100%;
+  }
+  
+  /* Background color of translate view */
+  .zQTmif {
+    background: #f1f1f7!important;
   }
 `;
 

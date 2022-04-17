@@ -10,12 +10,13 @@ export const SettingsStyle = styled.div`
 
 export const ContainerStyle = styled.div`
   height: auto;
+  width: 100%;
+  padding: 18px 16px;
+  margin: auto;
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-style: italic;
+  color: #303030;
 `;
 
 export const SponsorStyle = styled.div`

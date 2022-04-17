@@ -8,6 +8,7 @@ export const MainViewStyle = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #fafafa;
+  //background-color: #fafafa;
+  background-color: #f1f1f7;
   overflow: hidden;
 `;
