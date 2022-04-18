@@ -7,7 +7,7 @@ import path from 'path';
 import { appConfig } from './config';
 import { JSInjections } from './injections';
 import { initTranslateWindow } from './translate-window';
-import { validateWebContentsInputEvent, isDev } from './utils';
+import { isDev, validateWebContentsInputEvent } from './utils';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -54,7 +54,9 @@ function createMenubarApp() {
     }
 
     menuBar.window.setMenu(null);
-    menuBar.window.webContents.on('before-input-event', validateWebContentsInputEvent);
+
+    registerListeners();
+    registerShortcuts();
 
     menuBar.on('show', () => {
       if (!translateWindow.isVisible() && !settingsVisible) {
@@ -77,7 +79,7 @@ function createMenubarApp() {
   });
 }
 
-async function registerListeners() {
+function registerListeners() {
   /**
    * This comes from bridge integration, check bridge.ts
    */
@@ -105,8 +107,8 @@ async function registerListeners() {
   });
 }
 
-async function registerShortcuts() {
-  // Show or hide app
+function registerShortcuts() {
+  // Global: show or hide app
   globalShortcut.register('Alt+K', () => {
     if (!menuBar.window?.isVisible()) {
       menuBar.showWindow();
@@ -115,18 +117,29 @@ async function registerShortcuts() {
     }
   });
 
-  // Switch languages
+  // Global: switch languages
+  // TODO: make local
   globalShortcut.register('Alt+L', () => {
     if (translateWindow.isVisible()) {
       translateWindow.webContents.executeJavaScript(JSInjections.clearTextArea + JSInjections.swapLanguages);
     }
   });
+
+  if (!menuBar.window) {
+    throw new Error('Could not register input event because MenuBar BrowserWindow is not found!');
+  }
+
+  // Local: webcontents shortcuts
+  menuBar.window.webContents.on('before-input-event', (event, input) => {
+    validateWebContentsInputEvent(event, input, menuBar);
+  });
+  translateWindow.webContents.on('before-input-event', (event, input) => {
+    validateWebContentsInputEvent(event, input, menuBar);
+  });
 }
 
 app.on('ready', createMenubarApp)
   .whenReady()
-  .then(registerListeners)
-  .then(registerShortcuts)
   // eslint-disable-next-line no-console
   .catch((e) => console.error(e));
 

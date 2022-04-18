@@ -8,9 +8,9 @@ import { MainViewStyle } from './styles';
 export default function MainView() {
   const [showSettings, setShowSettings] = useState<boolean>(false);
 
-  // TODO
-  window.Main.on('ping', () => {
-    console.log('pong');
+  window.Main.on('showSettings', () => {
+    window.Main.setSettings(true);
+    setShowSettings(true);
   });
 
   function toggleSettings() {

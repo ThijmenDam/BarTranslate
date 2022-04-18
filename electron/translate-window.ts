@@ -34,8 +34,6 @@ export function initTranslateWindow(menuBar: Menubar): BrowserWindow {
     alwaysOnTop: true,
   });
 
-  translateWindow.webContents.on('before-input-event', validateWebContentsInputEvent);
-
   translateWindow.loadURL('https://translate.google.com/').catch((e) => {
     throw e; // TODO
   });
