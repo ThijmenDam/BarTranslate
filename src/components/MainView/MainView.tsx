@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Header from '../Header';
 import Settings from '../Settings';
 
@@ -8,14 +8,15 @@ import { MainViewStyle } from './styles';
 export default function MainView() {
   const [showSettings, setShowSettings] = useState<boolean>(false);
 
+  // TODO
+  window.Main.on('ping', () => {
+    console.log('pong');
+  });
+
   function toggleSettings() {
     window.Main.setSettings(!showSettings);
     setShowSettings(!showSettings);
   }
-
-  useEffect(() => {
-
-  }, [showSettings]);
 
   return (
     <MainViewStyle>

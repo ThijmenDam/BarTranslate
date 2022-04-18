@@ -2,18 +2,18 @@
 import {
   app, BrowserWindow, ipcMain, shell, globalShortcut,
 } from 'electron';
-import { menubar, Menubar } from 'menubar';
-import * as path from 'path';
-import { CSSInjections, JSInjections } from './injections';
+import { Menubar, menubar } from 'menubar';
+import path from 'path';
+import { appConfig } from './config';
+import { JSInjections } from './injections';
+import { initTranslateWindow } from './translate-window';
+import { validateWebContentsInputEvent, isDev } from './utils';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
-const isDev = process.env.NODE_ENV === 'development';
-
 let menuBar: Menubar;
 let translateWindow: BrowserWindow;
-
 let settingsVisible : boolean;
 
 const assetsPath = process.env.NODE_ENV === 'production'
@@ -21,17 +21,6 @@ const assetsPath = process.env.NODE_ENV === 'production'
   : path.join(app.getAppPath(), 'assets');
 
 function createMenubarApp() {
-  const appWidth = 400;
-  const appHeight = 500;
-  const appMargin = 4; // See MainView/styles.ts
-  const appHeaderHeight = 40; // See MainView/styles.ts
-
-  const translateWidth = appWidth - appMargin * 2;
-  const translateHeight = appHeight - appHeaderHeight - appMargin * 2;
-
-  // Disable zoom in main window
-  app.commandLine.appendSwitch('disable-pinch');
-
   menuBar = menubar({
     icon: path.join(assetsPath, '/BarTranslateIcon.png').toString(),
     index: MAIN_WINDOW_WEBPACK_ENTRY,
@@ -39,8 +28,8 @@ function createMenubarApp() {
     browserWindow: {
       skipTaskbar: true,
       show: false,
-      height: appHeight,
-      width: appWidth,
+      height: appConfig.height,
+      width: appConfig.width,
       transparent: true,
       frame: false,
       resizable: isDev,
@@ -57,40 +46,15 @@ function createMenubarApp() {
   });
 
   menuBar.on('ready', () => {
-    if (!menuBar.window) return;
-
-    translateWindow = new BrowserWindow({
-      show: false,
-      skipTaskbar: true,
-      parent: menuBar.window,
-      height: translateHeight,
-      width: translateWidth,
-      paintWhenInitiallyHidden: false,
-      x: menuBar.window.getPosition()[0] + appMargin,
-      y: menuBar.window.getPosition()[1] + appHeaderHeight + appMargin,
-      frame: false,
-      resizable: isDev,
-      movable: false,
-      fullscreenable: false,
-      hasShadow: false,
-      minimizable: false,
-      webPreferences: {
-        devTools: isDev,
-      },
-      alwaysOnTop: true,
-    });
-
     app.dock.hide();
+    translateWindow = initTranslateWindow(menuBar);
+
+    if (!menuBar.window) {
+      throw new Error('Menubar BrowserWindow not properly initialized!');
+    }
 
     menuBar.window.setMenu(null);
-
-    translateWindow.loadURL('https://translate.google.com/');
-
-    translateWindow.on('ready-to-show', () => {
-      translateWindow.webContents.insertCSS(CSSInjections({
-        darkmode: false,
-      }));
-    });
+    menuBar.window.webContents.on('before-input-event', validateWebContentsInputEvent);
 
     menuBar.on('show', () => {
       if (!translateWindow.isVisible() && !settingsVisible) {
@@ -106,26 +70,6 @@ function createMenubarApp() {
 
     menuBar.on('focus-lost', () => {
       if (!translateWindow.isFocused()) {
-        translateWindow.hide();
-        menuBar.hideWindow();
-      }
-    });
-
-    translateWindow.on('show', () => {
-      if (menuBar.window) {
-        translateWindow.setPosition(
-          menuBar.window.getPosition()[0] + appMargin,
-          menuBar.window.getPosition()[1] + appHeaderHeight + appMargin,
-        );
-      }
-
-      translateWindow.webContents.focus();
-      translateWindow.webContents.executeJavaScript(JSInjections.focusTextArea);
-    });
-
-    translateWindow.on('blur', () => {
-      if (!menuBar.window) return;
-      if (!menuBar.window.isFocused()) {
         translateWindow.hide();
         menuBar.hideWindow();
       }
