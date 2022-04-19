@@ -34,7 +34,6 @@ export default function Settings(props: SettingsProps) {
             checked={props.appSettings?.autoscroll || false}
             appSettings={props.appSettings}
             setAppSettings={props.setAppSettings}
-            disabled
           />
 
         </ToggleGroupStyle>

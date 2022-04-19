@@ -17,6 +17,7 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 let menuBar: Menubar;
 let translateWindow: BrowserWindow;
 let settingsVisible : boolean;
+let currentAppSettings: AppSettings;
 
 const assetsPath = process.env.NODE_ENV === 'production'
   ? path.join(process.resourcesPath, 'assets')
@@ -61,12 +62,11 @@ function createMenubarApp() {
     registerShortcuts();
     registerSettings();
 
-    // TODO: communicate settings with renderer
-
     menuBar.on('show', () => {
       if (!translateWindow.isVisible() && !settingsVisible) {
-        // TODO: check if auto scroll is enabled (i.e. future settings option), and insert CSS accordingly
-        // translateWindow.webContents.executeJavaScript('window.scrollTo(0, 0)');
+        if (currentAppSettings.autoscroll) {
+          translateWindow.webContents.executeJavaScript('window.scrollTo(0, 0)');
+        }
 
         // TODO: check if dark mode is enabled, and insert CSS accordingly
         // translateWindow.webContents.insertCSS(HideRedundantElementsCSS);
@@ -88,7 +88,9 @@ async function registerSettings() {
   if (!menuBar.window) {
     throw new Error('Could not register settings: MenuBar BrowserWindow not found!');
   }
-  menuBar.window.webContents.send('setSettings', await fetchAppSettingsFromFile());
+  const settings = await fetchAppSettingsFromFile();
+  currentAppSettings = settings;
+  menuBar.window.webContents.send('setSettings', settings);
 }
 
 function registerListeners() {
@@ -115,6 +117,7 @@ function registerListeners() {
   });
 
   ipcMain.on('writeSettingsToFile', async (_, appSettings: AppSettings) => {
+    currentAppSettings = appSettings;
     await writeAppSettingsToFile(appSettings);
   });
 
