@@ -3,7 +3,7 @@ import { BrowserWindow } from 'electron';
 import { Menubar } from 'menubar';
 import { appConfig } from './config';
 import { CSSInjections, JSInjections } from './injections';
-import { isDev, validateWebContentsInputEvent } from './utils';
+import { isDev } from './utils';
 
 export function initTranslateWindow(menuBar: Menubar): BrowserWindow {
   if (!menuBar.window) {

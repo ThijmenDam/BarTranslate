@@ -1,17 +1,42 @@
+import { Dispatch } from 'react';
+import { AppSettings } from '../../../electron/types';
 import Toggle, { ToggleGroupStyle } from '../Toggle';
 
 import {
   SettingsStyle, ContainerStyle, SponsorStyle, EmojiStyle,
 } from './styles';
 
-export default function Settings() {
+interface SettingsProps {
+  appSettings: AppSettings
+  setAppSettings: Dispatch<AppSettings>
+}
+
+export default function Settings(props: SettingsProps) {
   return (
     <SettingsStyle>
       <ContainerStyle>
 
         <ToggleGroupStyle>
-          <Toggle id="darkmode" label="Use system darkmode" disabled divider />
-          <Toggle id="scroll-top" label="Scroll translate view to top when shown" disabled />
+
+          <Toggle
+            setting="darkmode"
+            label="Use system darkmode"
+            checked={false}
+            appSettings={props.appSettings}
+            setAppSettings={props.setAppSettings}
+            disabled
+            divider
+          />
+
+          <Toggle
+            setting="autoscroll"
+            label="Scroll translate view to top when shown"
+            checked={props.appSettings?.autoscroll || false}
+            appSettings={props.appSettings}
+            setAppSettings={props.setAppSettings}
+            // onToggle={(value) => { toggle('autoscroll', value); }}
+          />
+
         </ToggleGroupStyle>
 
       </ContainerStyle>

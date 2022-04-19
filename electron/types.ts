@@ -4,3 +4,8 @@ export interface AppConfig {
   margin: number
   headerHeight: number
 }
+
+export interface AppSettings {
+  autoscroll: boolean
+  darkmode: boolean
+}

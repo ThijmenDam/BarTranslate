@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { contextBridge, ipcRenderer } from 'electron';
+import { AppSettings } from './types';
 
 export const api = {
   /**
@@ -18,8 +19,12 @@ export const api = {
     ipcRenderer.send('shutdown');
   },
 
-  setSettings: (settings: boolean) => {
-    ipcRenderer.send('setSettings', settings);
+  showSettings: (show: boolean) => {
+    ipcRenderer.send('showSettings', show);
+  },
+
+  setSettings: (settings: AppSettings) => {
+    ipcRenderer.send('writeSettingsToFile', settings);
   },
 
   sponsor: () => {

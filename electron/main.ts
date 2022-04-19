@@ -6,7 +6,9 @@ import { Menubar, menubar } from 'menubar';
 import path from 'path';
 import { appConfig } from './config';
 import { JSInjections } from './injections';
+import { fetchAppSettingsFromFile, writeAppSettingsToFile } from './settings';
 import { initTranslateWindow } from './translate-window';
+import { AppSettings } from './types';
 import { isDev, validateWebContentsInputEvent } from './utils';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
@@ -57,6 +59,9 @@ function createMenubarApp() {
 
     registerListeners();
     registerShortcuts();
+    registerSettings();
+
+    // TODO: communicate settings with renderer
 
     menuBar.on('show', () => {
       if (!translateWindow.isVisible() && !settingsVisible) {
@@ -79,6 +84,13 @@ function createMenubarApp() {
   });
 }
 
+async function registerSettings() {
+  if (!menuBar.window) {
+    throw new Error('Could not register settings: MenuBar BrowserWindow not found!');
+  }
+  menuBar.window.webContents.send('setSettings', await fetchAppSettingsFromFile());
+}
+
 function registerListeners() {
   /**
    * This comes from bridge integration, check bridge.ts
@@ -92,14 +104,18 @@ function registerListeners() {
     app.quit();
   });
 
-  ipcMain.on('setSettings', (_, settings: boolean) => {
-    if (settings) {
+  ipcMain.on('showSettings', (_, show: boolean) => {
+    if (show) {
       settingsVisible = true;
       translateWindow.hide();
     } else {
       settingsVisible = false;
       translateWindow.show();
     }
+  });
+
+  ipcMain.on('writeSettingsToFile', async (_, appSettings: AppSettings) => {
+    await writeAppSettingsToFile(appSettings);
   });
 
   ipcMain.on('sponsor', () => {
