@@ -1,5 +1,33 @@
 import styled from 'styled-components';
 
+export const SettingsGroupTitleStyle = styled.span`
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #717077;
+  font-weight: 200;
+  margin-bottom: 6px;
+  padding-left: 6px;
+`;
+
+export const SettingsGroupStyle = styled.div`
+  width: 100%;
+  background-color: #fff;
+  padding: 12px 16px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  
+  hr {
+    margin-top: 10px;
+    border: none;
+    height: 1px;
+    width: calc(100% + 16px);
+    background-color: #ededed;
+  }
+`;
+
 export const SettingsStyle = styled.div`
   height: 100%;
   width: 100%;

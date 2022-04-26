@@ -84,13 +84,16 @@ function createMenubarApp() {
   });
 }
 
-async function registerSettings() {
-  if (!menuBar.window) {
-    throw new Error('Could not register settings: MenuBar BrowserWindow not found!');
-  }
-  const settings = await fetchAppSettingsFromFile();
-  currentAppSettings = settings;
-  menuBar.window.webContents.send('setSettings', settings);
+function registerSettings() {
+  fetchAppSettingsFromFile()
+    .then((settings) => {
+      if (!menuBar.window) {
+        throw new Error('Could not register settings: MenuBar BrowserWindow not found!');
+      }
+
+      currentAppSettings = settings;
+      menuBar.window.webContents.send('setSettings', settings);
+    });
 }
 
 function registerListeners() {

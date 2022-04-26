@@ -1,9 +1,9 @@
 import { Dispatch } from 'react';
 import { AppSettings } from '../../../electron/types';
-import Toggle, { ToggleGroupStyle } from '../Toggle';
+import Toggle from '../Toggle';
 
 import {
-  SettingsStyle, ContainerStyle, SponsorStyle, EmojiStyle,
+  SettingsStyle, ContainerStyle, SponsorStyle, EmojiStyle, SettingsGroupTitleStyle, SettingsGroupStyle,
 } from './styles';
 
 interface SettingsProps {
@@ -16,7 +16,11 @@ export default function Settings(props: SettingsProps) {
     <SettingsStyle>
       <ContainerStyle>
 
-        <ToggleGroupStyle>
+        <SettingsGroupTitleStyle>
+          Settings
+        </SettingsGroupTitleStyle>
+
+        <SettingsGroupStyle>
 
           <Toggle
             setting="darkmode"
@@ -36,7 +40,13 @@ export default function Settings(props: SettingsProps) {
             setAppSettings={props.setAppSettings}
           />
 
-        </ToggleGroupStyle>
+        </SettingsGroupStyle>
+
+        <SettingsGroupTitleStyle>
+          Key Bindings
+        </SettingsGroupTitleStyle>
+
+        <SettingsGroupStyle />
 
       </ContainerStyle>
 

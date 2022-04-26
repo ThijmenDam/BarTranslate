@@ -73,21 +73,3 @@ export const ToggleStyle = styled.div`
     background-color: #777;
   }
 `;
-
-export const ToggleGroupStyle = styled.div`
-  width: 100%;
-  background-color: #fff;
-  padding: 12px 16px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  
-  hr {
-    margin-top: 10px;
-    border: none;
-    height: 1px;
-    width: calc(100% + 16px);
-    background-color: #ededed;
-  }
-`;
