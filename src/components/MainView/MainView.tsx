@@ -8,22 +8,23 @@ import { MainViewStyle } from './styles';
 
 export default function MainView() {
   const [appSettings, setAppSettings] = useState<AppSettings>({ autoscroll: false, darkmode: false });
-
   const [showSettings, setShowSettings] = useState<boolean>(false);
-
-  window.Main.on('showSettings', () => {
-    window.Main.showSettings(true);
-    setShowSettings(true);
-  });
-
-  window.Main.on('setSettings', (settingsFromMain: AppSettings) => {
-    setAppSettings(settingsFromMain);
-  });
 
   function toggleSettings() {
     window.Main.showSettings(!showSettings);
     setShowSettings(!showSettings);
   }
+
+  useEffect(() => {
+    window.Main.on('showSettings', () => {
+      window.Main.showSettings(true);
+      setShowSettings(true);
+    });
+
+    window.Main.on('setSettings', (settingsFromMain: AppSettings) => {
+      setAppSettings(settingsFromMain);
+    });
+  }, []);
 
   useEffect(() => {
     if (!appSettings) return;
