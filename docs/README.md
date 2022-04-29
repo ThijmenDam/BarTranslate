@@ -5,7 +5,7 @@
 </p>
 
 Translations are done by presenting a simple (altered) webview of your preferred translation provider in a quick and
-easily accessible interface. You can show/hide the app using `alt/option + k`.
+easily accessible interface.
 
 ##  Installation
 
@@ -37,8 +37,8 @@ Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discu
 
 * A quick and easily accessible interface for Google Translate.
 * Available for MacOS, Windows and Linux.
-* Hotkey `alt/option + k` to open the tanslate window.
-* Hotkey `alt/option + l` to switch languages.
+* Hotkey `alt / option + K` to toggle the app.
+* Hotkey `alt / option + L` to switch languages.
 
 ### Planned
 
