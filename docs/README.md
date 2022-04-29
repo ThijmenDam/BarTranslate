@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="assets/css/style.css">
 
 <p align="center">
-    <img src="assets/images/interface-snapshot.png" alt="BarTranslate interface snapshot" width="400" height="500"/>
+    <img src="assets/images/interface-snapshot.png" alt="BarTranslate interface snapshot" max-height="500"/>
 </p>
 
 Translations are done by presenting a simple (altered) webview of your preferred translation provider in a quick and
