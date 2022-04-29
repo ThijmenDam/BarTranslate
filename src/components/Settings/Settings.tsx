@@ -1,5 +1,6 @@
 import { Dispatch } from 'react';
 import { AppSettings } from '../../../electron/types';
+import KeyBinding from '../KeyBinding';
 import Toggle from '../Toggle';
 
 import {
@@ -46,7 +47,20 @@ export default function Settings(props: SettingsProps) {
           Key Bindings
         </SettingsGroupTitleStyle>
 
-        <SettingsGroupStyle />
+        <SettingsGroupStyle>
+
+          <KeyBinding
+            label="Toggle app"
+            defaultLabel="alt / option + K"
+            divider
+          />
+
+          <KeyBinding
+            label="Switch languages"
+            defaultLabel="alt / option + L"
+          />
+
+        </SettingsGroupStyle>
 
       </ContainerStyle>
 

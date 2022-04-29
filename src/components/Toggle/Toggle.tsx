@@ -11,7 +11,7 @@ interface ToggleProps {
   appSettings: AppSettings
   setAppSettings: Dispatch<AppSettings>
   disabled?: boolean
-  divider?: boolean
+  divider?: true
 }
 
 export default function Toggle(props: ToggleProps): JSX.Element {
