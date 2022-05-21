@@ -49,7 +49,9 @@ function createMenubarApp() {
   });
 
   menuBar.on('ready', () => {
-    app.dock.hide();
+    setTimeout(() => {
+      app.dock.hide();
+    }, 1000);
     translateWindow = initTranslateWindow(menuBar);
 
     if (!menuBar.window) {
