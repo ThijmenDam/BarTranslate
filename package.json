@@ -3,7 +3,7 @@
   "productName": "BarTranslate",
   "license": "GPL-3.0",
   "author": "Thijmen Dam <thijmendam@icloud.com>",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "A handy menu bar translator widget for MacOS, Windows and Linux.",
   "main": "./.webpack/main",
   "scripts": {
