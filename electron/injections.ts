@@ -42,6 +42,8 @@ function CSSInjections(options: CSSOptions): string {
 const JSInjections = {
   focusTextArea: 'document.querySelector("textarea").focus();',
   swapLanguages: 'document.getElementsByClassName("U2dVxe")[0].click();',
+  changeLanguage1: 'document.querySelectorAll("[jsname=\'k0o5Tb\']")[0].click();',
+  changeLanguage2: 'document.querySelectorAll("[jsname=\'SDXlTc\']")[0].click();',
   clearTextArea: `
     document.querySelector("textarea").value = "";
     document.querySelector("textarea").dispatchEvent(new Event("input", { bubbles: true }));

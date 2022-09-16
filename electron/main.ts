@@ -145,7 +145,26 @@ function registerShortcuts() {
   // TODO: make local
   globalShortcut.register('Alt+L', () => {
     if (translateWindow.isVisible()) {
-      translateWindow.webContents.executeJavaScript(JSInjections.clearTextArea + JSInjections.swapLanguages);
+      translateWindow.webContents.executeJavaScript(JSInjections.clearTextArea + JSInjections.swapLanguages)
+        .catch((e) => { console.error(e); });
+    }
+  });
+
+  // Global: change language 1
+  // TODO: make local
+  globalShortcut.register('Alt+N', () => {
+    if (translateWindow.isVisible()) {
+      translateWindow.webContents.executeJavaScript(JSInjections.changeLanguage1)
+        .catch((e) => { console.error(e); });
+    }
+  });
+
+  // Global: change language 2
+  // TODO: make local
+  globalShortcut.register('Alt+M', () => {
+    if (translateWindow.isVisible()) {
+      translateWindow.webContents.executeJavaScript(JSInjections.changeLanguage2)
+        .catch((e) => { console.error(e); });
     }
   });
 
