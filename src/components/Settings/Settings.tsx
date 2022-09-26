@@ -62,7 +62,7 @@ export default function Settings(props: SettingsProps) {
           />
 
           <KeyBinding
-            label="Change languages 1"
+            label="Change language 1"
             defaultLabel="alt / option + N"
             divider
           />
