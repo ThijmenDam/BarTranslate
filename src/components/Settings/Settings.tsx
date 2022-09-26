@@ -51,25 +51,25 @@ export default function Settings(props: SettingsProps) {
 
           <KeyBinding
             label="Toggle app"
-            defaultLabel="alt / option + K"
+            // defaultLabel="alt / option + K"
             divider
           />
 
           <KeyBinding
             label="Switch languages"
-            defaultLabel="alt / option + L"
+            // defaultLabel="alt / option + L"
             divider
           />
 
           <KeyBinding
             label="Change language 1"
-            defaultLabel="alt / option + N"
+            // defaultLabel="alt / option + N"
             divider
           />
 
           <KeyBinding
             label="Change language 2"
-            defaultLabel="alt / option + M"
+            // defaultLabel="alt / option + M"
           />
 
         </SettingsGroupStyle>

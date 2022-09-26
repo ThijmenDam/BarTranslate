@@ -43,7 +43,10 @@
     "react/jsx-no-useless-fragment": 0,
 
     // Allow use of the console
-    "no-console": 1,
+    "no-console": [
+      "warn",
+      { "allow": ["info", "error"] }
+    ],
 
     // Allow for-loops
     "no-restricted-syntax": [

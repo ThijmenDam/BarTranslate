@@ -5,7 +5,6 @@ import {
 import { Menubar, menubar } from 'menubar';
 import path from 'path';
 import { appConfig } from './config';
-import { JSInjections } from './injections';
 import { fetchAppSettingsFromFile, writeAppSettingsToFile } from './settings';
 import { initTranslateWindow } from './translate-window';
 import { AppSettings } from './types';
@@ -129,6 +128,10 @@ function registerListeners() {
   ipcMain.on('sponsor', () => {
     shell.openExternal('https://paypal.me/thijmendam');
   });
+
+  ipcMain.on('swapLanguages', () => {
+
+  });
 }
 
 function registerShortcuts() {
@@ -141,43 +144,16 @@ function registerShortcuts() {
     }
   });
 
-  // Global: switch languages
-  // TODO: make local
-  globalShortcut.register('Alt+L', () => {
-    if (translateWindow.isVisible()) {
-      translateWindow.webContents.executeJavaScript(JSInjections.clearTextArea + JSInjections.swapLanguages)
-        .catch((e) => { console.error(e); });
-    }
-  });
-
-  // Global: change language 1
-  // TODO: make local
-  globalShortcut.register('Alt+N', () => {
-    if (translateWindow.isVisible()) {
-      translateWindow.webContents.executeJavaScript(JSInjections.changeLanguage1)
-        .catch((e) => { console.error(e); });
-    }
-  });
-
-  // Global: change language 2
-  // TODO: make local
-  globalShortcut.register('Alt+M', () => {
-    if (translateWindow.isVisible()) {
-      translateWindow.webContents.executeJavaScript(JSInjections.changeLanguage2)
-        .catch((e) => { console.error(e); });
-    }
-  });
-
   if (!menuBar.window) {
     throw new Error('Could not register input event because MenuBar BrowserWindow is not found!');
   }
 
   // Local: webcontents shortcuts
   menuBar.window.webContents.on('before-input-event', (event, input) => {
-    validateWebContentsInputEvent(event, input, menuBar);
+    validateWebContentsInputEvent(event, input, menuBar, translateWindow);
   });
   translateWindow.webContents.on('before-input-event', (event, input) => {
-    validateWebContentsInputEvent(event, input, menuBar);
+    validateWebContentsInputEvent(event, input, menuBar, translateWindow);
   });
 }
 

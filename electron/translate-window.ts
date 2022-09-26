@@ -39,9 +39,13 @@ export function initTranslateWindow(menuBar: Menubar): BrowserWindow {
   });
 
   translateWindow.on('ready-to-show', () => {
-    translateWindow.webContents.insertCSS(CSSInjections({
-      darkmode: false,
-    }));
+    translateWindow.webContents
+      .insertCSS(CSSInjections({
+        darkmode: false,
+      }))
+      .catch((e) => {
+        console.error(e);
+      });
   });
 
   translateWindow.on('show', () => {
@@ -53,7 +57,11 @@ export function initTranslateWindow(menuBar: Menubar): BrowserWindow {
     }
 
     translateWindow.webContents.focus();
-    translateWindow.webContents.executeJavaScript(JSInjections.focusTextArea);
+    translateWindow.webContents
+      .executeJavaScript(JSInjections.focusTextArea)
+      .catch((e) => {
+        console.error(e);
+      });
   });
 
   translateWindow.on('blur', () => {

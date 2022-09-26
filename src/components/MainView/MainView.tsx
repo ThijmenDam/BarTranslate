@@ -15,6 +15,7 @@ export default function MainView() {
     setShowSettings(!showSettings);
   }
 
+  // Events triggered via 'menuBar.window.webContents.send('ABC');'
   useEffect(() => {
     window.Main.on('showSettings', () => {
       window.Main.showSettings(true);

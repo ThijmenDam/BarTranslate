@@ -1,8 +1,9 @@
+import KeySelect from './KeySelect';
 import { KeyBindingStyle, KeyBindingRow } from './styles';
 
 interface KeyBindingProps {
   label: string
-  defaultLabel: string
+  // defaultLabel: string
   divider?: true
 }
 
@@ -12,7 +13,7 @@ export default function KeyBinding(props: KeyBindingProps): JSX.Element {
 
       <KeyBindingRow>
         <span>{props.label}</span>
-        <span>{props.defaultLabel}</span>
+        <KeySelect />
       </KeyBindingRow>
 
       {props.divider && <hr />}
