@@ -17,10 +17,10 @@ export interface AppConfig {
 export interface AppSettings {
   autoscroll: boolean
   darkmode: boolean
-  // keyBindings: {
-  //   toggleApp: KeyBinding
-  //   switchLanguages: KeyBinding
-  //   changeLanguage1: KeyBinding
-  //   changeLanguage2: KeyBinding
-  // }
+  keyBindings: {
+    toggleApp: KeyBinding
+    switchLanguages: KeyBinding
+    changeLanguage1: KeyBinding
+    changeLanguage2: KeyBinding
+  }
 }
