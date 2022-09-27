@@ -1,19 +1,43 @@
 import settings from 'electron-settings';
 import { AppSettings } from './types';
 
-export async function fetchAppSettingsFromFile(): Promise<AppSettings> {
-  const settingsFromFile = await settings.get('appSettings');
+const defaultSettings: AppSettings = {
+  autoscroll: false,
+  darkmode: false,
+  keyBindings: {
+    toggleApp: {
+      key: null,
+      modifier: null,
+    },
+    switchLanguages: {
+      key: null,
+      modifier: null,
+    },
+    changeLanguage1: {
+      key: null,
+      modifier: null,
+    },
+    changeLanguage2: {
+      key: null,
+      modifier: null,
+    },
+  },
+};
 
-  // Default
-  if (!settingsFromFile) {
-    return { autoscroll: false, darkmode: false };
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function validSettings(appSettings: AppSettings): boolean {
+  // TODO: actual validation
+  return false;
+}
+
+export async function fetchAppSettingsFromFile(): Promise<AppSettings> {
+  const settingsFromFile = await settings.get('appSettings') as AppSettings | null;
+
+  if (settingsFromFile && validSettings(settingsFromFile)) {
+    return settingsFromFile;
   }
 
-  // From file -- TODO: add validation of file settings
-  const autoscroll = await settings.get('appSettings.autoscroll') as boolean;
-  const darkmode = await settings.get('appSettings.darkmode') as boolean;
-
-  return { autoscroll, darkmode };
+  return defaultSettings;
 }
 
 export async function writeAppSettingsToFile(appSettings: AppSettings) {

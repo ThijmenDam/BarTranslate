@@ -7,7 +7,7 @@ import Translate from '../Translate';
 import { MainViewStyle } from './styles';
 
 export default function MainView() {
-  const [appSettings, setAppSettings] = useState<AppSettings>({ autoscroll: false, darkmode: false });
+  const [appSettings, setAppSettings] = useState<AppSettings | null>(null);
   const [showSettings, setShowSettings] = useState<boolean>(false);
 
   function toggleSettings() {

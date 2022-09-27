@@ -3,8 +3,8 @@ type Key = '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface KeyBinding {
-  modifier: Modifier
-  key: Key
+  modifier: Modifier | null
+  key: Key | null
 }
 
 export interface AppConfig {

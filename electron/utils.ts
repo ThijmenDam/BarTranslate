@@ -25,6 +25,7 @@ export function validateWebContentsInputEvent(
   }
 
   // TODO: use keys as configured in AppSettings
+  // TODO: prevent key down for shortcuts
 
   // Swap languages
   if (input.type === 'keyUp' && input.alt && input.code === 'KeyL') {

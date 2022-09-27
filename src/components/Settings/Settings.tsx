@@ -8,7 +8,7 @@ import {
 } from './styles';
 
 interface SettingsProps {
-  appSettings: AppSettings
+  appSettings: AppSettings | null
   setAppSettings: Dispatch<AppSettings>
 }
 
@@ -23,23 +23,26 @@ export default function Settings(props: SettingsProps) {
 
         <SettingsGroupStyle>
 
-          <Toggle
-            setting="darkmode"
-            label="Use system darkmode"
-            checked={false}
-            appSettings={props.appSettings}
-            setAppSettings={props.setAppSettings}
-            disabled
-            divider
-          />
-
-          <Toggle
-            setting="autoscroll"
-            label="Scroll translate view to top when shown"
-            checked={props.appSettings?.autoscroll || false}
-            appSettings={props.appSettings}
-            setAppSettings={props.setAppSettings}
-          />
+          {props.appSettings && (
+          <>
+            <Toggle
+              setting="darkmode"
+              label="Use system darkmode"
+              checked={false}
+              appSettings={props.appSettings}
+              setAppSettings={props.setAppSettings}
+              disabled
+              divider
+            />
+            <Toggle
+              setting="autoscroll"
+              label="Scroll translate view to top when shown"
+              checked={props.appSettings?.autoscroll || false}
+              appSettings={props.appSettings}
+              setAppSettings={props.setAppSettings}
+            />
+          </>
+          )}
 
         </SettingsGroupStyle>
 
