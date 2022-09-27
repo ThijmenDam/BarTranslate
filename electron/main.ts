@@ -23,6 +23,68 @@ const assetsPath = process.env.NODE_ENV === 'production'
   ? path.join(process.resourcesPath, 'assets')
   : path.join(app.getAppPath(), 'assets');
 
+function applyLocalKeyboardShortcuts() {
+  fetchAppSettingsFromFile()
+    .then((settings: AppSettings) => {
+      if (!menuBar.window) {
+        throw new Error('Menubar BrowserWindow not properly initialized!');
+      }
+
+      menuBar.window.webContents.on('before-input-event', (event, input) => {
+        validateWebContentsInputEvent(event, input, menuBar, translateWindow, settings.keyBindings);
+      });
+      translateWindow.webContents.on('before-input-event', (event, input) => {
+        validateWebContentsInputEvent(event, input, menuBar, translateWindow, settings.keyBindings);
+      });
+    });
+}
+
+function registerSettings() {
+  fetchAppSettingsFromFile()
+    .then((settings) => {
+      if (!menuBar.window) {
+        throw new Error('Could not register settings: MenuBar BrowserWindow not found!');
+      }
+
+      currentAppSettings = settings;
+      menuBar.window.webContents.send('setSettings', settings);
+    });
+}
+
+function registerListeners() {
+  /**
+   * This comes from bridge integration, check bridge.ts
+   */
+  ipcMain.on('message', (_, message: string) => {
+    // eslint-disable-next-line no-console
+    console.log(message);
+  });
+
+  ipcMain.on('shutdown', () => {
+    app.quit();
+  });
+
+  ipcMain.on('showSettings', (_, show: boolean) => {
+    if (show) {
+      settingsVisible = true;
+      translateWindow.hide();
+    } else {
+      settingsVisible = false;
+      translateWindow.show();
+    }
+  });
+
+  ipcMain.on('writeSettingsToFile', async (_, appSettings: AppSettings) => {
+    currentAppSettings = appSettings;
+    await writeAppSettingsToFile(appSettings);
+    applyLocalKeyboardShortcuts();
+  });
+
+  ipcMain.on('sponsor', () => {
+    shell.openExternal('https://paypal.me/thijmendam');
+  });
+}
+
 function createMenubarApp() {
   menuBar = menubar({
     icon: path.join(assetsPath, '/BarTranslateIcon.png').toString(),
@@ -86,55 +148,6 @@ function createMenubarApp() {
   });
 }
 
-function registerSettings() {
-  fetchAppSettingsFromFile()
-    .then((settings) => {
-      if (!menuBar.window) {
-        throw new Error('Could not register settings: MenuBar BrowserWindow not found!');
-      }
-
-      currentAppSettings = settings;
-      menuBar.window.webContents.send('setSettings', settings);
-    });
-}
-
-function registerListeners() {
-  /**
-   * This comes from bridge integration, check bridge.ts
-   */
-  ipcMain.on('message', (_, message: string) => {
-    // eslint-disable-next-line no-console
-    console.log(message);
-  });
-
-  ipcMain.on('shutdown', () => {
-    app.quit();
-  });
-
-  ipcMain.on('showSettings', (_, show: boolean) => {
-    if (show) {
-      settingsVisible = true;
-      translateWindow.hide();
-    } else {
-      settingsVisible = false;
-      translateWindow.show();
-    }
-  });
-
-  ipcMain.on('writeSettingsToFile', async (_, appSettings: AppSettings) => {
-    currentAppSettings = appSettings;
-    await writeAppSettingsToFile(appSettings);
-  });
-
-  ipcMain.on('sponsor', () => {
-    shell.openExternal('https://paypal.me/thijmendam');
-  });
-
-  ipcMain.on('swapLanguages', () => {
-
-  });
-}
-
 function registerShortcuts() {
   // Global: show or hide app
   globalShortcut.register('Alt+K', () => {
@@ -149,13 +162,7 @@ function registerShortcuts() {
     throw new Error('Could not register input event because MenuBar BrowserWindow is not found!');
   }
 
-  // Local: webcontents shortcuts
-  menuBar.window.webContents.on('before-input-event', (event, input) => {
-    validateWebContentsInputEvent(event, input, menuBar, translateWindow);
-  });
-  translateWindow.webContents.on('before-input-event', (event, input) => {
-    validateWebContentsInputEvent(event, input, menuBar, translateWindow);
-  });
+  applyLocalKeyboardShortcuts();
 }
 
 app.on('ready', createMenubarApp)
