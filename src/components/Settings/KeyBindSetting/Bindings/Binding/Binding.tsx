@@ -1,5 +1,6 @@
 import { FormEvent } from 'react';
 import { AppSettings, Modifier, Key } from '../../../../../../electron/types';
+import { useSettingsContext } from '../../../Settings';
 import { modifiers, keys } from './keycodes';
 import { BindingStyle } from './styles';
 
@@ -9,19 +10,31 @@ interface BindingProps {
   initialValue: Modifier | Key | null
 }
 
-export default function Binding(props: BindingProps): JSX.Element {
-  const keycodes = props.type === 'key' ? keys : modifiers;
+export default function Binding({ initialValue, setting, type }: BindingProps): JSX.Element {
+  const { settings, setSettings } = useSettingsContext();
+  const keycodes = type === 'key' ? keys : modifiers;
 
+  // Store changed binding in settings
   function onInput(event: FormEvent<HTMLSelectElement>) {
-    // TODO: change setting here
-    // TODO: HIER BEN JE GEBLEVEN
+    const newSettings = { ...settings };
     const settingValue = (event.target as HTMLOptionElement).value;
-    console.log(props.setting, settingValue);
+
+    if (!settingValue) return;
+
+    if (type === 'key') {
+      newSettings.keyBindings[setting][type] = settingValue as Key;
+    }
+
+    if (type === 'modifier') {
+      newSettings.keyBindings[setting][type] = settingValue as Modifier;
+    }
+
+    setSettings({ ...newSettings });
   }
 
   return (
     <BindingStyle>
-      <select value={props.initialValue ? props.initialValue : undefined} onInput={onInput}>
+      <select value={initialValue || undefined} onInput={onInput}>
         <option key={undefined} value={undefined}>NIKS HIER</option>
         {keycodes.map((k) => <option key={k[1]} value={k[1]}>{k[0]}</option>)}
       </select>
