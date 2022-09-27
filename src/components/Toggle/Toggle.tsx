@@ -4,10 +4,12 @@ import { AppSettings } from '../../../electron/types';
 // import { AppSettings } from '../../../electron/types';
 import { ToggleStyle } from './styles';
 
+type AppSettingsBooleans = 'autoscroll' | 'darkmode';
+
 interface ToggleProps {
   label: string
   checked: boolean
-  setting: keyof AppSettings
+  setting: AppSettingsBooleans
   appSettings: AppSettings
   setAppSettings: Dispatch<AppSettings>
   disabled?: boolean
@@ -17,7 +19,7 @@ interface ToggleProps {
 export default function Toggle(props: ToggleProps): JSX.Element {
   const id = `check-${props.setting}`;
 
-  function toggle(setting: keyof AppSettings, value: boolean) {
+  function toggle(setting: AppSettingsBooleans, value: boolean) {
     const localSettings = { ...props.appSettings };
     localSettings[setting] = value;
     props.setAppSettings(localSettings);

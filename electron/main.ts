@@ -5,10 +5,11 @@ import {
 import { Menubar, menubar } from 'menubar';
 import path from 'path';
 import { appConfig } from './config';
+import { validateWebContentsInputEvent } from './keyboard-shortcuts';
 import { fetchAppSettingsFromFile, writeAppSettingsToFile } from './settings';
 import { initTranslateWindow } from './translate-window';
 import { AppSettings } from './types';
-import { isDev, validateWebContentsInputEvent } from './utils';
+import { isDev } from './utils';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;

@@ -1,8 +1,8 @@
-type Modifier = 'alt / option' | 'control' | 'meta'; // alt / control / meta
-type Key = '';
+export type Modifier = 'alt' | 'control' | 'meta';
+export type Key = string; // TODO
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-interface KeyBinding {
+export interface KeyBinding {
   modifier: Modifier | null
   key: Key | null
 }

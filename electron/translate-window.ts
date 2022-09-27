@@ -5,6 +5,26 @@ import { appConfig } from './config';
 import { CSSInjections, JSInjections } from './injections';
 import { isDev } from './utils';
 
+function executeJavaScript(translateWindow: BrowserWindow, code: string) {
+  if (translateWindow.isVisible()) {
+    translateWindow.webContents
+      .executeJavaScript(code)
+      .catch((e) => { console.error(e); });
+  }
+}
+
+export function swapLanguages(translateWindow: BrowserWindow) {
+  executeJavaScript(translateWindow, JSInjections.clearTextArea + JSInjections.swapLanguages);
+}
+
+export function changeLanguage1(translateWindow: BrowserWindow) {
+  executeJavaScript(translateWindow, JSInjections.changeLanguage1);
+}
+
+export function changeLanguage2(translateWindow: BrowserWindow) {
+  executeJavaScript(translateWindow, JSInjections.changeLanguage2);
+}
+
 export function initTranslateWindow(menuBar: Menubar): BrowserWindow {
   if (!menuBar.window) {
     throw new Error('Menubar BrowserWindow not found!');
