@@ -1,96 +1,106 @@
-import { Dispatch } from 'react';
+import { Dispatch, createContext, useContext } from 'react';
 import { AppSettings } from '../../../electron/types';
-import KeyBinding from '../KeyBinding';
+import KeyBindSetting from './KeyBindSetting';
 import Toggle from '../Toggle';
 
 import {
   SettingsStyle, ContainerStyle, SponsorStyle, EmojiStyle, SettingsGroupTitleStyle, SettingsGroupStyle,
 } from './styles';
 
+const SettingsContext = createContext<AppSettings | null>(null);
+const SetSettingsContext = createContext<Dispatch<AppSettings> | null>(null);
+
+export function useSettingsContext() {
+  const settings = useContext(SettingsContext);
+  const setSettings = useContext(SetSettingsContext);
+
+  if (!settings || !setSettings) {
+    throw new Error('Problem loading settings.');
+  }
+  return { settings, setSettings };
+}
+
 interface SettingsProps {
-  appSettings: AppSettings | null
+  appSettings: AppSettings
   setAppSettings: Dispatch<AppSettings>
 }
 
-export default function Settings(props: SettingsProps) {
+export function Settings({ appSettings, setAppSettings }: SettingsProps) {
   return (
-    <SettingsStyle>
-      <ContainerStyle>
+    <SettingsContext.Provider value={appSettings}>
+      <SetSettingsContext.Provider value={setAppSettings}>
 
-        <SettingsGroupTitleStyle>
-          Settings
-        </SettingsGroupTitleStyle>
+        <SettingsStyle>
+          <ContainerStyle>
 
-        <SettingsGroupStyle>
+            <SettingsGroupTitleStyle>
+              Settings
+            </SettingsGroupTitleStyle>
 
-          {props.appSettings && (
-          <>
-            <Toggle
-              setting="darkmode"
-              label="Use system darkmode"
-              checked={false}
-              appSettings={props.appSettings}
-              setAppSettings={props.setAppSettings}
-              disabled
-              divider
-            />
-            <Toggle
-              setting="autoscroll"
-              label="Scroll translate view to top when shown"
-              checked={props.appSettings?.autoscroll || false}
-              appSettings={props.appSettings}
-              setAppSettings={props.setAppSettings}
-            />
-          </>
-          )}
+            <SettingsGroupStyle>
+              {/* TODO: use contextprovider */}
+              <Toggle
+                setting="darkmode"
+                label="Use system darkmode"
+                checked={false}
+                appSettings={appSettings}
+                setAppSettings={setAppSettings}
+                disabled
+                divider
+              />
 
-        </SettingsGroupStyle>
+              {/* TODO: use contextprovider */}
+              <Toggle
+                setting="autoscroll"
+                label="Scroll translate view to top when shown"
+                checked={appSettings?.autoscroll || false}
+                appSettings={appSettings}
+                setAppSettings={setAppSettings}
+              />
+            </SettingsGroupStyle>
 
-        <SettingsGroupTitleStyle>
-          Key Bindings
-        </SettingsGroupTitleStyle>
+            <SettingsGroupTitleStyle>
+              Key Bindings
+            </SettingsGroupTitleStyle>
 
-        <SettingsGroupStyle>
+            <SettingsGroupStyle>
+              <KeyBindSetting
+                label="Toggle app"
+                setting="toggleApp"
+                divider
+              />
 
-          <KeyBinding
-            label="Toggle app"
-            // defaultLabel="alt / option + K"
-            setting="toggleApp"
-            divider
-          />
+              <KeyBindSetting
+                label="Switch languages"
+                setting="switchLanguages"
+                divider
+              />
 
-          <KeyBinding
-            label="Switch languages"
-            // defaultLabel="alt / option + L"
-            setting="switchLanguages"
-            divider
-          />
+              <KeyBindSetting
+                label="Change language 1"
+                setting="changeLanguage1"
+                divider
+              />
 
-          <KeyBinding
-            label="Change language 1"
-            // defaultLabel="alt / option + N"
-            setting="changeLanguage1"
-            divider
-          />
+              <KeyBindSetting
+                label="Change language 2"
+                setting="changeLanguage2"
+              />
+            </SettingsGroupStyle>
 
-          <KeyBinding
-            label="Change language 2"
-            // defaultLabel="alt / option + M"
-            setting="changeLanguage2"
-          />
+          </ContainerStyle>
 
-        </SettingsGroupStyle>
+          <SponsorStyle onClick={() => { window.Main.sponsor(); }}>
+            <button type="button">
+              Please consider buying me a coffee
+            </button>
+            <EmojiStyle>
+              😊
+            </EmojiStyle>
+          </SponsorStyle>
+        </SettingsStyle>
 
-      </ContainerStyle>
-
-      <SponsorStyle onClick={() => { window.Main.sponsor(); }}>
-        <button type="button">
-          Please consider buying me a coffee
-        </button>
-        <EmojiStyle>
-          😊
-        </EmojiStyle>
-      </SponsorStyle>
-    </SettingsStyle>
+      </SetSettingsContext.Provider>
+    </SettingsContext.Provider>
   );
 }

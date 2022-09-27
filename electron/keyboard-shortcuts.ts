@@ -19,7 +19,7 @@ export function validateWebContentsInputEvent(
     throw new Error('Could not validate WebContents input event: TranslateWindow is not defined.');
   }
 
-  // Open settings
+  // open settings
   if ((input.control || input.meta) && input.code === 'Comma') {
     menuBar.window.webContents.send('showSettings');
   }
@@ -29,7 +29,7 @@ export function validateWebContentsInputEvent(
   // console.log(keyBindings.switchLanguages.modifier);
   // console.log(keyBindings.switchLanguages.key);
 
-  // Switch languages
+  // switch languages
   if (
     keyBindings.switchLanguages.modifier
     && keyBindings.switchLanguages.key

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { AppSettings } from '../../../electron/types';
 import Header from '../Header';
-import Settings from '../Settings';
+import { Settings } from '../Settings';
 
 import Translate from '../Translate';
 import { MainViewStyle } from './styles';
@@ -34,14 +34,20 @@ export default function MainView() {
 
   return (
     <MainViewStyle>
+
       <Header
         toggleSettings={() => { toggleSettings(); }}
         showSettings={showSettings}
       />
-      {showSettings
-       && showSettings
-        ? <Settings appSettings={appSettings} setAppSettings={setAppSettings} />
-        : <Translate />}
+
+      {showSettings && appSettings && (
+        <Settings appSettings={appSettings} setAppSettings={setAppSettings} />
+      )}
+
+      {!showSettings && (
+        <Translate />
+      )}
+
     </MainViewStyle>
   );
 }
