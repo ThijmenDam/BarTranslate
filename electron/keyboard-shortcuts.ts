@@ -1,8 +1,10 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Event, Input, BrowserWindow } from 'electron';
 import { Menubar } from 'menubar';
+import { fetchAppSettingsFromFile } from './settings';
 import { changeLanguage1, swapLanguages, changeLanguage2 } from './translate-window';
 import { AppSettings } from './types';
+import { isDev } from './utils';
 
 export function validateWebContentsInputEvent(
   event: Event,
@@ -56,4 +58,30 @@ export function validateWebContentsInputEvent(
     event.preventDefault();
     changeLanguage2(translateWindow);
   }
+}
+
+export function applyGlobalKeyboardShortcuts() {
+
+}
+
+export function applyLocalKeyboardShortcuts(menuBar: Menubar, translateWindow: BrowserWindow) {
+  if (isDev()) {
+    console.info('Configuring local key listeners');
+  }
+
+  fetchAppSettingsFromFile()
+    .then((settings: AppSettings) => {
+      if (!menuBar.window) {
+        throw new Error('Menubar BrowserWindow not properly initialized!');
+      }
+
+      // TODO: remove previous shortcuts!!
+      menuBar.window.webContents.on('before-input-event', (event, input) => {
+        validateWebContentsInputEvent(event, input, menuBar, translateWindow, settings.keyBindings);
+      });
+      // TODO: remove previous shortcuts!!
+      translateWindow.webContents.on('before-input-event', (event, input) => {
+        validateWebContentsInputEvent(event, input, menuBar, translateWindow, settings.keyBindings);
+      });
+    });
 }

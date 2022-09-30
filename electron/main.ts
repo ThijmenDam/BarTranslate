@@ -5,7 +5,7 @@ import {
 import { Menubar, menubar } from 'menubar';
 import path from 'path';
 import { appConfig } from './config';
-import { validateWebContentsInputEvent } from './keyboard-shortcuts';
+import { applyLocalKeyboardShortcuts } from './keyboard-shortcuts';
 import { fetchAppSettingsFromFile, writeAppSettingsToFile } from './settings';
 import { initTranslateWindow } from './translate-window';
 import { AppSettings } from './types';
@@ -22,26 +22,6 @@ let currentAppSettings: AppSettings;
 const assetsPath = process.env.NODE_ENV === 'production'
   ? path.join(process.resourcesPath, 'assets')
   : path.join(app.getAppPath(), 'assets');
-
-function applyLocalKeyboardShortcuts() {
-  if (isDev()) {
-    console.info('Configuring local key listeners');
-  }
-
-  fetchAppSettingsFromFile()
-    .then((settings: AppSettings) => {
-      if (!menuBar.window) {
-        throw new Error('Menubar BrowserWindow not properly initialized!');
-      }
-
-      menuBar.window.webContents.on('before-input-event', (event, input) => {
-        validateWebContentsInputEvent(event, input, menuBar, translateWindow, settings.keyBindings);
-      });
-      translateWindow.webContents.on('before-input-event', (event, input) => {
-        validateWebContentsInputEvent(event, input, menuBar, translateWindow, settings.keyBindings);
-      });
-    });
-}
 
 function registerSettings() {
   fetchAppSettingsFromFile()
@@ -81,7 +61,7 @@ function registerListeners() {
   ipcMain.on('writeSettingsToFile', async (_, appSettings: AppSettings) => {
     currentAppSettings = appSettings;
     await writeAppSettingsToFile(appSettings);
-    applyLocalKeyboardShortcuts();
+    applyLocalKeyboardShortcuts(menuBar, translateWindow);
   });
 
   ipcMain.on('sponsor', () => {
@@ -154,7 +134,7 @@ function createMenubarApp() {
 
 function registerShortcuts() {
   // Global: show or hide app
-  globalShortcut.register('Alt+K', () => {
+  globalShortcut.register('alt+k', () => {
     if (!menuBar.window?.isVisible()) {
       menuBar.showWindow();
     } else {
@@ -166,7 +146,7 @@ function registerShortcuts() {
     throw new Error('Could not register input event because MenuBar BrowserWindow is not found!');
   }
 
-  applyLocalKeyboardShortcuts();
+  applyLocalKeyboardShortcuts(menuBar, translateWindow);
 }
 
 app.on('ready', createMenubarApp)
