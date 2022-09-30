@@ -42,10 +42,6 @@ export const keys = [
   ['f10', 'F10'],
   ['f11', 'F11'],
   ['f12', 'F12'],
-  ['left arrow', 'ArrowLeft'],
-  ['up arrow', 'ArrowUp'],
-  ['right arrow', 'ArrowRight'],
-  ['down arrow', 'ArrowDown'],
   ['semi-colon', 'Semicolon'],
   ['equal sign', 'Equal'],
   ['comma', 'Comma'],
@@ -82,8 +78,8 @@ export const keys = [
 export const modifiers: [string, Modifier][] = [
   ['shift', 'shift'],
   ['ctrl', 'control'],
-  ['alt / option', 'alt'],
-  ['windows / command', 'meta'],
+  ['alt/option', 'alt'],
+  ['windows/command', 'meta'],
 ];
 
 // export const modifiers = [

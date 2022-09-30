@@ -36,7 +36,7 @@ export async function fetchAppSettingsFromFile(): Promise<AppSettings> {
 
   if (isDev()) {
     console.info('Fetching settings from file');
-    console.info(stringifyWithIndent(settingsFromFile));
+    // console.info(stringifyWithIndent(settingsFromFile));
   }
 
   if (settingsFromFile && validSettings(settingsFromFile)) {
