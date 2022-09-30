@@ -1,5 +1,6 @@
 import settings from 'electron-settings';
 import { AppSettings } from './types';
+import { isDev, stringifyWithIndent } from './utils';
 
 const defaultSettings: AppSettings = {
   autoscroll: false,
@@ -33,8 +34,10 @@ function validSettings(appSettings: AppSettings): boolean {
 export async function fetchAppSettingsFromFile(): Promise<AppSettings> {
   const settingsFromFile = await settings.get('appSettings') as AppSettings | null;
 
-  console.log('fetchAppSettingsFromFile');
-  console.log({ settingsFromFile });
+  if (isDev()) {
+    console.info('Fetching settings from file');
+    console.info(stringifyWithIndent(settingsFromFile));
+  }
 
   if (settingsFromFile && validSettings(settingsFromFile)) {
     return settingsFromFile;
@@ -43,8 +46,11 @@ export async function fetchAppSettingsFromFile(): Promise<AppSettings> {
   return defaultSettings;
 }
 
-export async function writeAppSettingsToFile(appSettings: AppSettings) {
-  console.log('writeSettingsToFile');
-  console.log({ appSettings });
-  await settings.set('appSettings', appSettings as any);
+export async function writeAppSettingsToFile(appSettingsToFile: AppSettings) {
+  if (isDev()) {
+    console.info('Writing settings to file');
+    console.info(stringifyWithIndent(appSettingsToFile));
+  }
+
+  await settings.set('appSettings', appSettingsToFile as any);
 }

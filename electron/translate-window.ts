@@ -43,13 +43,13 @@ export function initTranslateWindow(menuBar: Menubar): BrowserWindow {
     x: menuBar.window.getPosition()[0] + appConfig.margin,
     y: menuBar.window.getPosition()[1] + appConfig.headerHeight + appConfig.margin,
     frame: false,
-    resizable: isDev,
+    resizable: isDev(),
     movable: false,
     fullscreenable: false,
     hasShadow: false,
     minimizable: false,
     webPreferences: {
-      devTools: isDev,
+      devTools: isDev(),
     },
     alwaysOnTop: true,
   });
