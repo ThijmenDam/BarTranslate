@@ -1,11 +1,11 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
-  app, BrowserWindow, ipcMain, shell, globalShortcut,
+  app, BrowserWindow, ipcMain, shell,
 } from 'electron';
 import { Menubar, menubar } from 'menubar';
 import path from 'path';
 import { appConfig } from './config';
-import { applyLocalKeyboardShortcuts } from './keyboard-shortcuts';
+import { registerKeyboardShortcuts } from './keyboard-shortcuts';
 import { fetchAppSettingsFromFile, writeAppSettingsToFile } from './settings';
 import { initTranslateWindow } from './translate-window';
 import { AppSettings } from './types';
@@ -61,7 +61,7 @@ function registerListeners() {
   ipcMain.on('writeSettingsToFile', async (_, appSettings: AppSettings) => {
     currentAppSettings = appSettings;
     await writeAppSettingsToFile(appSettings);
-    applyLocalKeyboardShortcuts(menuBar, translateWindow);
+    await registerKeyboardShortcuts(menuBar, translateWindow);
   });
 
   ipcMain.on('sponsor', () => {
@@ -94,7 +94,7 @@ function createMenubarApp() {
     },
   });
 
-  menuBar.on('ready', () => {
+  menuBar.on('ready', async () => {
     setTimeout(() => {
       app.dock.hide();
     }, 1000);
@@ -107,7 +107,7 @@ function createMenubarApp() {
     menuBar.window.setMenu(null);
 
     registerListeners();
-    registerShortcuts();
+    await registerKeyboardShortcuts(menuBar, translateWindow);
     registerSettings();
 
     menuBar.on('show', () => {
@@ -130,23 +130,6 @@ function createMenubarApp() {
       }
     });
   });
-}
-
-function registerShortcuts() {
-  // Global: show or hide app
-  globalShortcut.register('alt+k', () => {
-    if (!menuBar.window?.isVisible()) {
-      menuBar.showWindow();
-    } else {
-      menuBar.hideWindow();
-    }
-  });
-
-  if (!menuBar.window) {
-    throw new Error('Could not register input event because MenuBar BrowserWindow is not found!');
-  }
-
-  applyLocalKeyboardShortcuts(menuBar, translateWindow);
 }
 
 app.on('ready', createMenubarApp)

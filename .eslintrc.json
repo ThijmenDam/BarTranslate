@@ -28,7 +28,7 @@
   "rules": {
 
     // Allow usage of variables before they are defined
-    "@typescript-eslint/no-use-before-define": 0,
+//    "@typescript-eslint/no-use-before-define": 1,
 
     // Set max line length to 120
     "max-len": [2, { "code": 120 }],

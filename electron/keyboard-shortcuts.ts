@@ -1,12 +1,14 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Event, Input, BrowserWindow } from 'electron';
+import {
+  Event, Input, BrowserWindow, globalShortcut,
+} from 'electron';
 import { Menubar } from 'menubar';
 import { fetchAppSettingsFromFile } from './settings';
 import { changeLanguage1, swapLanguages, changeLanguage2 } from './translate-window';
 import { AppSettings } from './types';
-import { isDev } from './utils';
+import { isDev, toggleAppVisibility, validateMenubar } from './utils';
 
-export function validateWebContentsInputEvent(
+function validateWebContentsInputEvent(
   event: Event,
   input: Input,
   menuBar: Menubar,
@@ -60,28 +62,33 @@ export function validateWebContentsInputEvent(
   }
 }
 
-export function applyGlobalKeyboardShortcuts() {
-
+async function registerGlobalKeyboardShortcuts(menuBar: Menubar) {
+  console.info('Registering local key listeners');
+  // TODO: use settings
+  globalShortcut.register('alt+k', () => { toggleAppVisibility(menuBar); });
 }
 
-export function applyLocalKeyboardShortcuts(menuBar: Menubar, translateWindow: BrowserWindow) {
+async function registerLocalKeyboardShortcuts(menubar: Menubar, translateWindow: BrowserWindow) {
   if (isDev()) {
-    console.info('Configuring local key listeners');
+    console.info('Registering local key listeners');
   }
 
-  fetchAppSettingsFromFile()
-    .then((settings: AppSettings) => {
-      if (!menuBar.window) {
-        throw new Error('Menubar BrowserWindow not properly initialized!');
-      }
+  validateMenubar(menubar);
 
-      // TODO: remove previous shortcuts!!
-      menuBar.window.webContents.on('before-input-event', (event, input) => {
-        validateWebContentsInputEvent(event, input, menuBar, translateWindow, settings.keyBindings);
-      });
-      // TODO: remove previous shortcuts!!
-      translateWindow.webContents.on('before-input-event', (event, input) => {
-        validateWebContentsInputEvent(event, input, menuBar, translateWindow, settings.keyBindings);
-      });
-    });
+  const settings = await fetchAppSettingsFromFile();
+
+  function translateWindowListener(event: Event, input: Input) {
+    validateWebContentsInputEvent(event, input, menubar, translateWindow, settings.keyBindings);
+  }
+
+  translateWindow.webContents.removeAllListeners('before-input-event');
+  translateWindow.webContents.on('before-input-event', translateWindowListener);
+
+  // menuBar.window.webContents.removeListener('before-input-event', listener);
+  // menuBar.window.webContents.on('before-input-event', listener);
+}
+
+export async function registerKeyboardShortcuts(menuBar: Menubar, translateWindow: BrowserWindow) {
+  await registerGlobalKeyboardShortcuts(menuBar);
+  await registerLocalKeyboardShortcuts(menuBar, translateWindow);
 }
