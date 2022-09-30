@@ -6,16 +6,27 @@ import { Menubar } from 'menubar';
 import { fetchAppSettingsFromFile } from './settings';
 import { changeLanguage1, swapLanguages, changeLanguage2 } from './translate-window';
 import { AppSettings } from './types';
-import { isDev, toggleAppVisibility, validateMenubar } from './utils';
+import { isDev, toggleAppVisibility, validateMenubarWindow } from './utils';
 
-function validateWebContentsInputEvent(
+function menubarWindowInputHandler(event: Event, input: Input, menubar: Menubar) {
+  if (!menubar.window) {
+    throw new Error('Could not validate WebContents input event: MenuBar is not defined.');
+  }
+
+  // open settings
+  if ((input.control || input.meta) && input.code === 'Comma') {
+    menubar.window.webContents.send('showSettings');
+  }
+}
+
+function translateWindowInputHandler(
   event: Event,
   input: Input,
-  menuBar: Menubar,
+  menubar: Menubar,
   translateWindow: BrowserWindow,
   keyBindings: AppSettings['keyBindings'],
 ) {
-  if (!menuBar.window) {
+  if (!menubar.window) {
     throw new Error('Could not validate WebContents input event: MenuBar is not defined.');
   }
 
@@ -25,7 +36,7 @@ function validateWebContentsInputEvent(
 
   // open settings
   if ((input.control || input.meta) && input.code === 'Comma') {
-    menuBar.window.webContents.send('showSettings');
+    menubar.window.webContents.send('showSettings');
   }
 
   // switch languages
@@ -64,7 +75,8 @@ function validateWebContentsInputEvent(
 
 async function registerGlobalKeyboardShortcuts(menuBar: Menubar) {
   console.info('Registering local key listeners');
-  // TODO: use settings
+  globalShortcut.unregisterAll();
+  // TODO: use shortcut as configured in settings
   globalShortcut.register('alt+k', () => { toggleAppVisibility(menuBar); });
 }
 
@@ -73,19 +85,22 @@ async function registerLocalKeyboardShortcuts(menubar: Menubar, translateWindow:
     console.info('Registering local key listeners');
   }
 
-  validateMenubar(menubar);
-
+  const menubarWindow = validateMenubarWindow(menubar);
   const settings = await fetchAppSettingsFromFile();
 
   function translateWindowListener(event: Event, input: Input) {
-    validateWebContentsInputEvent(event, input, menubar, translateWindow, settings.keyBindings);
+    translateWindowInputHandler(event, input, menubar, translateWindow, settings.keyBindings);
+  }
+
+  function menubarWindowListener(event: Event, input: Input) {
+    menubarWindowInputHandler(event, input, menubar);
   }
 
   translateWindow.webContents.removeAllListeners('before-input-event');
   translateWindow.webContents.on('before-input-event', translateWindowListener);
 
-  // menuBar.window.webContents.removeListener('before-input-event', listener);
-  // menuBar.window.webContents.on('before-input-event', listener);
+  menubarWindow.webContents.removeAllListeners('before-input-event');
+  menubarWindow.webContents.on('before-input-event', menubarWindowListener);
 }
 
 export async function registerKeyboardShortcuts(menuBar: Menubar, translateWindow: BrowserWindow) {

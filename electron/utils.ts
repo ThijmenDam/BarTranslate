@@ -28,8 +28,10 @@ export function toggleAppVisibility(menubar: Menubar) {
   }
 }
 
-export function validateMenubar(menubar: Menubar) {
+export function validateMenubarWindow(menubar: Menubar) {
   if (!menubar.window) {
     throw new Error('Menubar BrowserWindow not properly initialized');
   }
+
+  return menubar.window;
 }
