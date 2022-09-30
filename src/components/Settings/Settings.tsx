@@ -38,24 +38,18 @@ export function Settings({ appSettings, setAppSettings }: SettingsProps) {
             </SettingsGroupTitleStyle>
 
             <SettingsGroupStyle>
-              {/* TODO: use contextprovider */}
               <Toggle
                 setting="darkmode"
                 label="Use system darkmode"
                 checked={false}
-                appSettings={appSettings}
-                setAppSettings={setAppSettings}
                 disabled
                 divider
               />
 
-              {/* TODO: use contextprovider */}
               <Toggle
                 setting="autoscroll"
                 label="Scroll translate view to top when shown"
                 checked={appSettings?.autoscroll || false}
-                appSettings={appSettings}
-                setAppSettings={setAppSettings}
               />
             </SettingsGroupStyle>
 

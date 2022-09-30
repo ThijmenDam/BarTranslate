@@ -27,11 +27,14 @@ const defaultSettings: AppSettings = {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function validSettings(appSettings: AppSettings): boolean {
   // TODO: actual validation
-  return false;
+  return true;
 }
 
 export async function fetchAppSettingsFromFile(): Promise<AppSettings> {
   const settingsFromFile = await settings.get('appSettings') as AppSettings | null;
+
+  console.log('fetchAppSettingsFromFile');
+  console.log({ settingsFromFile });
 
   if (settingsFromFile && validSettings(settingsFromFile)) {
     return settingsFromFile;
@@ -41,5 +44,7 @@ export async function fetchAppSettingsFromFile(): Promise<AppSettings> {
 }
 
 export async function writeAppSettingsToFile(appSettings: AppSettings) {
+  console.log('writeSettingsToFile');
+  console.log({ appSettings });
   await settings.set('appSettings', appSettings as any);
 }

@@ -23,3 +23,5 @@ export interface AppSettings {
     changeLanguage2: KeyBinding
   }
 }
+
+export type AppSettingsBooleans = 'autoscroll' | 'darkmode';

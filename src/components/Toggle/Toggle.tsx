@@ -1,28 +1,23 @@
-// import { Dispatch } from 'react';
-import { Dispatch } from 'react';
-import { AppSettings } from '../../../electron/types';
-// import { AppSettings } from '../../../electron/types';
+import { AppSettingsBooleans } from '../../../electron/types';
+import { useSettingsContext } from '../Settings/Settings';
 import { ToggleStyle } from './styles';
-
-type AppSettingsBooleans = 'autoscroll' | 'darkmode';
 
 interface ToggleProps {
   label: string
   checked: boolean
   setting: AppSettingsBooleans
-  appSettings: AppSettings
-  setAppSettings: Dispatch<AppSettings>
   disabled?: boolean
   divider?: true
 }
 
 export default function Toggle(props: ToggleProps): JSX.Element {
   const id = `check-${props.setting}`;
+  const { settings, setSettings } = useSettingsContext();
 
   function toggle(setting: AppSettingsBooleans, value: boolean) {
-    const localSettings = { ...props.appSettings };
+    const localSettings = { ...settings };
     localSettings[setting] = value;
-    props.setAppSettings(localSettings);
+    setSettings(localSettings);
   }
 
   return (
