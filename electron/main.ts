@@ -24,6 +24,10 @@ const assetsPath = process.env.NODE_ENV === 'production'
   : path.join(app.getAppPath(), 'assets');
 
 function applyLocalKeyboardShortcuts() {
+  if (isDev()) {
+    console.info('Configuring local key listeners');
+  }
+
   fetchAppSettingsFromFile()
     .then((settings: AppSettings) => {
       if (!menuBar.window) {

@@ -35,7 +35,11 @@ export default function Binding({ initialValue, setting, type }: BindingProps): 
   return (
     <BindingStyle>
       <select value={initialValue || undefined} onInput={onInput}>
-        <option key={undefined} value={undefined}>NIKS HIER</option>
+
+        <option key={undefined} value={undefined}>
+          { `No ${type === 'key' ? 'Key' : 'Modifier'}`}
+        </option>
+
         {keycodes.map((k) => <option key={k[1]} value={k[1]}>{k[0]}</option>)}
       </select>
     </BindingStyle>
