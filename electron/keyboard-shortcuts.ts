@@ -24,11 +24,6 @@ export function validateWebContentsInputEvent(
     menuBar.window.webContents.send('showSettings');
   }
 
-  // TODO: use keys as configured in AppSettings
-  // console.log(input);
-  // console.log(keyBindings.switchLanguages.modifier);
-  // console.log(keyBindings.switchLanguages.key);
-
   // switch languages
   if (
     keyBindings.switchLanguages.modifier

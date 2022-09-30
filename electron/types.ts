@@ -1,4 +1,4 @@
-export type Modifier = 'alt' | 'control' | 'meta';
+export type Modifier = 'alt' | 'control' | 'meta' | 'shift';
 export type Key = string; // TODO
 
 export interface KeyBinding {
