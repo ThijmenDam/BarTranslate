@@ -52,7 +52,6 @@ export function initTranslateWindow(menuBar: Menubar): BrowserWindow {
       devTools: isDev(),
     },
     alwaysOnTop: true,
-    roundedCorners: false,
   });
 
   translateWindow.loadURL('https://translate.google.com/').catch((e) => {
