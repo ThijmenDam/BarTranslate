@@ -65,7 +65,9 @@ function registerListeners() {
   });
 
   ipcMain.on('sponsor', () => {
-    shell.openExternal('https://paypal.me/thijmendam');
+    shell.openExternal('https://paypal.me/thijmendam').catch((e) => {
+      console.error(e);
+    });
   });
 }
 

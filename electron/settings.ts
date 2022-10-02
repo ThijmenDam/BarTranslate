@@ -1,6 +1,6 @@
 import settings from 'electron-settings';
 import { AppSettings } from './types';
-import { isDev, stringifyWithIndent } from './utils';
+import { isDev } from './utils';
 
 const defaultSettings: AppSettings = {
   autoscroll: false,
@@ -25,9 +25,16 @@ const defaultSettings: AppSettings = {
   },
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// TODO: better validation
 function validSettings(appSettings: AppSettings): boolean {
-  // TODO: actual validation
+  const properties = ['autoscroll', 'darkmode', 'keyBindings'];
+
+  for (const prop of properties) {
+    if (!(prop in appSettings)) {
+      return false;
+    }
+  }
+
   return true;
 }
 
@@ -49,7 +56,7 @@ export async function fetchAppSettingsFromFile(): Promise<AppSettings> {
 export async function writeAppSettingsToFile(appSettingsToFile: AppSettings) {
   if (isDev()) {
     console.info('Writing settings to file');
-    console.info(stringifyWithIndent(appSettingsToFile));
+    // console.info(stringifyWithIndent(appSettingsToFile));
   }
 
   await settings.set('appSettings', appSettingsToFile as any);

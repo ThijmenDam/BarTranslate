@@ -85,14 +85,23 @@ async function registerLocalKeyboardShortcuts(menubar: Menubar, translateWindow:
 
 async function registerGlobalKeyboardShortcuts(menuBar: Menubar, settings: AppSettings) {
   console.info('Registering local key listeners');
-  globalShortcut.unregisterAll();
 
-  // TODO: not all conversions are included yet
   function convertToAccelerator(code: string) {
     return code
       .replace('Key', '')
       .replace('Digit', '')
-      .replace('Numpad', 'num');
+      .replace('Numpad', 'num')
+      .replace('Semicolon', ';')
+      .replace('Equal', '=')
+      .replace('Comma', ',')
+      .replace('Minus', '-')
+      .replace('Period', '.')
+      .replace('Slash', '/')
+      .replace('Backquote', '`')
+      .replace('BracketLeft', '[')
+      .replace('Backslash', '\\')
+      .replace('BracketRight', ']')
+      .replace('Quote', '\'');
   }
 
   const { modifier, key } = settings.keyBindings.toggleApp;
@@ -101,8 +110,10 @@ async function registerGlobalKeyboardShortcuts(menuBar: Menubar, settings: AppSe
     return;
   }
 
-  const accelerator = `${convertToAccelerator(modifier)}+${convertToAccelerator(key)}`;
-  globalShortcut.register(accelerator, () => { toggleAppVisibility(menuBar); });
+  const accelerator = convertToAccelerator(`${modifier}+${key}`);
+
+  globalShortcut.unregisterAll();
+  await globalShortcut.register(accelerator, () => { toggleAppVisibility(menuBar); });
 }
 
 export async function registerKeyboardShortcuts(menuBar: Menubar, translateWindow: BrowserWindow) {
