@@ -81,14 +81,3 @@ export const modifiers: [string, Modifier][] = [
   ['alt/option', 'alt'],
   ['windows/command', 'meta'],
 ];
-
-// export const modifiers = [
-//   ['shift (left)', 'ShiftLeft '],
-//   ['shift (right)', 'ShiftRight '],
-//   ['ctrl (left)', 'ControlLeft '],
-//   ['ctrl (right)', 'ControlRight '],
-//   ['alt / option (left)', 'AltLeft '],
-//   ['alt / option (right)', 'AltRight '],
-//   ['windows / command (left)', 'MetaLeft '],
-//   ['windows / command (right)', 'MetaRight '],
-// ];

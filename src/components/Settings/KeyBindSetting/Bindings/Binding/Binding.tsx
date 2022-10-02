@@ -34,7 +34,7 @@ export default function Binding({ initialValue, setting, type }: BindingProps): 
 
   return (
     <BindingStyle>
-      <select value={initialValue || undefined} onInput={onInput}>
+      <select value={initialValue || undefined} onInput={onInput} className={type}>
 
         <option key={undefined} value={undefined}>
           { `No ${type === 'key' ? 'Key' : 'Modifier'}`}
