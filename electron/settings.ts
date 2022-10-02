@@ -1,21 +1,63 @@
 import settings from 'electron-settings';
 import { AppSettings } from './types';
+import { isDev } from './utils';
 
-export async function fetchAppSettingsFromFile(): Promise<AppSettings> {
-  const settingsFromFile = await settings.get('appSettings');
+const defaultSettings: AppSettings = {
+  autoscroll: false,
+  darkmode: false,
+  keyBindings: {
+    toggleApp: {
+      key: null,
+      modifier: null,
+    },
+    switchLanguages: {
+      key: null,
+      modifier: null,
+    },
+    changeLanguage1: {
+      key: null,
+      modifier: null,
+    },
+    changeLanguage2: {
+      key: null,
+      modifier: null,
+    },
+  },
+};
 
-  // Default
-  if (!settingsFromFile) {
-    return { autoscroll: false, darkmode: false };
+// TODO: better validation
+function validSettings(appSettings: AppSettings): boolean {
+  const properties = ['autoscroll', 'darkmode', 'keyBindings'];
+
+  for (const prop of properties) {
+    if (!(prop in appSettings)) {
+      return false;
+    }
   }
 
-  // From file -- TODO: add validation of file settings
-  const autoscroll = await settings.get('appSettings.autoscroll') as boolean;
-  const darkmode = await settings.get('appSettings.darkmode') as boolean;
-
-  return { autoscroll, darkmode };
+  return true;
 }
 
-export async function writeAppSettingsToFile(appSettings: AppSettings) {
-  await settings.set('appSettings', appSettings as any);
+export async function fetchAppSettingsFromFile(): Promise<AppSettings> {
+  const settingsFromFile = await settings.get('appSettings') as AppSettings | null;
+
+  if (isDev()) {
+    console.info('Fetching settings from file');
+    // console.info(stringifyWithIndent(settingsFromFile));
+  }
+
+  if (settingsFromFile && validSettings(settingsFromFile)) {
+    return settingsFromFile;
+  }
+
+  return defaultSettings;
+}
+
+export async function writeAppSettingsToFile(appSettingsToFile: AppSettings) {
+  if (isDev()) {
+    console.info('Writing settings to file');
+    // console.info(stringifyWithIndent(appSettingsToFile));
+  }
+
+  await settings.set('appSettings', appSettingsToFile as any);
 }

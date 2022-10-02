@@ -1,16 +1,37 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Event, Input } from 'electron';
 import { Menubar } from 'menubar';
 
-export const isDev = process.env.NODE_ENV === 'development';
+export function isDev() {
+  const { NODE_ENV } = process.env;
 
-export function validateWebContentsInputEvent(event: Event, input: Input, menuBar: Menubar) {
-  if (!menuBar.window) {
-    throw new Error('Could not validate WebContents input event: MenuBar is not defined.');
+  if (NODE_ENV !== 'production' && NODE_ENV !== 'development') {
+    throw new Error(`Invalid NODE_ENV: ${NODE_ENV}`);
   }
 
-  // TODO: make configurable via settings
-  if ((input.control || input.meta) && input.key === ',') {
-    menuBar.window.webContents.send('showSettings');
+  return NODE_ENV === 'development';
+}
+
+export function stringifyWithIndent(object: any) {
+  return JSON.stringify(object, null, 2);
+}
+
+export function log(object: any) {
+  if (isDev()) {
+    console.info(object);
   }
+}
+
+export function toggleAppVisibility(menubar: Menubar) {
+  if (!menubar.window?.isVisible()) {
+    menubar.showWindow();
+  } else {
+    menubar.hideWindow();
+  }
+}
+
+export function validateMenubarWindow(menubar: Menubar) {
+  if (!menubar.window) {
+    throw new Error('Menubar BrowserWindow not properly initialized');
+  }
+
+  return menubar.window;
 }
