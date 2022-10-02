@@ -1,15 +1,15 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
-  app, BrowserWindow, ipcMain, shell, globalShortcut,
+  app, BrowserWindow, ipcMain, shell,
 } from 'electron';
 import { Menubar, menubar } from 'menubar';
 import path from 'path';
 import { appConfig } from './config';
-import { JSInjections } from './injections';
+import { registerKeyboardShortcuts } from './keyboard-shortcuts';
 import { fetchAppSettingsFromFile, writeAppSettingsToFile } from './settings';
 import { initTranslateWindow } from './translate-window';
 import { AppSettings } from './types';
-import { isDev, validateWebContentsInputEvent } from './utils';
+import { isDev } from './utils';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -22,69 +22,6 @@ let currentAppSettings: AppSettings;
 const assetsPath = process.env.NODE_ENV === 'production'
   ? path.join(process.resourcesPath, 'assets')
   : path.join(app.getAppPath(), 'assets');
-
-function createMenubarApp() {
-  menuBar = menubar({
-    icon: path.join(assetsPath, '/BarTranslateIcon.png').toString(),
-    index: MAIN_WINDOW_WEBPACK_ENTRY,
-    preloadWindow: true,
-    browserWindow: {
-      skipTaskbar: true,
-      show: false,
-      height: appConfig.height,
-      width: appConfig.width,
-      transparent: true,
-      frame: false,
-      resizable: isDev,
-      movable: false,
-      fullscreenable: false,
-      minimizable: false,
-      alwaysOnTop: true,
-      webPreferences: {
-        devTools: isDev,
-        preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-      },
-      hasShadow: true,
-    },
-  });
-
-  menuBar.on('ready', () => {
-    setTimeout(() => {
-      app.dock.hide();
-    }, 1000);
-    translateWindow = initTranslateWindow(menuBar);
-
-    if (!menuBar.window) {
-      throw new Error('Menubar BrowserWindow not properly initialized!');
-    }
-
-    menuBar.window.setMenu(null);
-
-    registerListeners();
-    registerShortcuts();
-    registerSettings();
-
-    menuBar.on('show', () => {
-      if (!translateWindow.isVisible() && !settingsVisible) {
-        if (currentAppSettings.autoscroll) {
-          translateWindow.webContents.executeJavaScript('window.scrollTo(0, 0)');
-        }
-
-        // TODO: check if dark mode is enabled, and insert CSS accordingly
-        // translateWindow.webContents.insertCSS(HideRedundantElementsCSS);
-
-        translateWindow.show();
-      }
-    });
-
-    menuBar.on('focus-lost', () => {
-      if (!translateWindow.isFocused()) {
-        translateWindow.hide();
-        menuBar.hideWindow();
-      }
-    });
-  });
-}
 
 function registerSettings() {
   fetchAppSettingsFromFile()
@@ -124,41 +61,76 @@ function registerListeners() {
   ipcMain.on('writeSettingsToFile', async (_, appSettings: AppSettings) => {
     currentAppSettings = appSettings;
     await writeAppSettingsToFile(appSettings);
+    await registerKeyboardShortcuts(menuBar, translateWindow);
   });
 
   ipcMain.on('sponsor', () => {
-    shell.openExternal('https://paypal.me/thijmendam');
+    shell.openExternal('https://paypal.me/thijmendam').catch((e) => {
+      console.error(e);
+    });
   });
 }
 
-function registerShortcuts() {
-  // Global: show or hide app
-  globalShortcut.register('Alt+K', () => {
-    if (!menuBar.window?.isVisible()) {
-      menuBar.showWindow();
-    } else {
-      menuBar.hideWindow();
+function createMenubarApp() {
+  menuBar = menubar({
+    icon: path.join(assetsPath, '/BarTranslateIcon.png').toString(),
+    index: MAIN_WINDOW_WEBPACK_ENTRY,
+    preloadWindow: true,
+    browserWindow: {
+      skipTaskbar: true,
+      show: false,
+      height: appConfig.height,
+      width: appConfig.width,
+      transparent: true,
+      frame: false,
+      resizable: isDev(),
+      movable: false,
+      fullscreenable: false,
+      minimizable: false,
+      alwaysOnTop: true,
+      webPreferences: {
+        devTools: isDev(),
+        preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      },
+      hasShadow: true,
+    },
+  });
+
+  menuBar.on('ready', async () => {
+    setTimeout(() => {
+      app.dock.hide();
+    }, 1000);
+    translateWindow = initTranslateWindow(menuBar);
+
+    if (!menuBar.window) {
+      throw new Error('Menubar BrowserWindow not properly initialized!');
     }
-  });
 
-  // Global: switch languages
-  // TODO: make local
-  globalShortcut.register('Alt+L', () => {
-    if (translateWindow.isVisible()) {
-      translateWindow.webContents.executeJavaScript(JSInjections.clearTextArea + JSInjections.swapLanguages);
-    }
-  });
+    menuBar.window.setMenu(null);
 
-  if (!menuBar.window) {
-    throw new Error('Could not register input event because MenuBar BrowserWindow is not found!');
-  }
+    registerListeners();
+    await registerKeyboardShortcuts(menuBar, translateWindow);
+    registerSettings();
 
-  // Local: webcontents shortcuts
-  menuBar.window.webContents.on('before-input-event', (event, input) => {
-    validateWebContentsInputEvent(event, input, menuBar);
-  });
-  translateWindow.webContents.on('before-input-event', (event, input) => {
-    validateWebContentsInputEvent(event, input, menuBar);
+    menuBar.on('show', () => {
+      if (!translateWindow.isVisible() && !settingsVisible) {
+        if (currentAppSettings.autoscroll) {
+          translateWindow.webContents.executeJavaScript('window.scrollTo(0, 0)');
+        }
+
+        // TODO: check if dark mode is enabled, and insert CSS accordingly
+        // translateWindow.webContents.insertCSS(HideRedundantElementsCSS);
+
+        translateWindow.show();
+      }
+    });
+
+    menuBar.on('focus-lost', () => {
+      if (!translateWindow.isFocused()) {
+        translateWindow.hide();
+        menuBar.hideWindow();
+      }
+    });
   });
 }
 

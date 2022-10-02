@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { AppSettings } from '../../../electron/types';
 import Header from '../Header';
-import Settings from '../Settings';
+import { Settings } from '../Settings';
 
 import Translate from '../Translate';
 import { MainViewStyle } from './styles';
 
 export default function MainView() {
-  const [appSettings, setAppSettings] = useState<AppSettings>({ autoscroll: false, darkmode: false });
+  const [appSettings, setAppSettings] = useState<AppSettings | null>(null);
   const [showSettings, setShowSettings] = useState<boolean>(false);
 
   function toggleSettings() {
@@ -15,6 +15,7 @@ export default function MainView() {
     setShowSettings(!showSettings);
   }
 
+  // Events triggered via 'menuBar.window.webContents.send('ABC');'
   useEffect(() => {
     window.Main.on('showSettings', () => {
       window.Main.showSettings(true);
@@ -28,19 +29,26 @@ export default function MainView() {
 
   useEffect(() => {
     if (!appSettings) return;
+    console.log(appSettings);
     window.Main.setSettings(appSettings);
   }, [appSettings]);
 
   return (
     <MainViewStyle>
+
       <Header
         toggleSettings={() => { toggleSettings(); }}
         showSettings={showSettings}
       />
-      {showSettings
-       && showSettings
-        ? <Settings appSettings={appSettings} setAppSettings={setAppSettings} />
-        : <Translate />}
+
+      {showSettings && appSettings && (
+        <Settings appSettings={appSettings} setAppSettings={setAppSettings} />
+      )}
+
+      {!showSettings && (
+        <Translate />
+      )}
+
     </MainViewStyle>
   );
 }

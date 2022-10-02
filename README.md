@@ -48,14 +48,13 @@ Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discu
 ### Planned
 
 * Automatic dark mode based on system.
-* Customizable hotkey.
-* Support for Naver Papago.
+* Support for more translation providers.
 
 ## Notice for Developers
 
 BarTranslate has recently been rewritten from scratch and made open source.
 The initial app was programmed in Swift, but I have decided to move to Electron/TypeScript/React
-for cross-platform compatibility and reducded development time.
+for cross-platform compatibility and reduced development time.
 
 I develop and test BarTranslate mainly on MacOS, meaning there <ins>may be bugs</ins>
 when the app is built on Windows or Linux. If you notice any problems, feel free to open an issue or pull request.
