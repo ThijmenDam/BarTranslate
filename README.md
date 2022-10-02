@@ -39,8 +39,11 @@ Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discu
 
 * A quick and easily accessible interface for Google Translate.
 * Available for MacOS, Windows and Linux.
-* Hotkey `alt / option + K` to toggle the app.
-* Hotkey `alt / option + L` to switch languages.
+* Configurable hotkeys to:
+    * Toggle the app.
+    * Swap languages.
+    * Select 'from' language.
+    * Select 'to' language.
 
 ### Planned
 
