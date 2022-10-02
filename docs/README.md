@@ -40,8 +40,8 @@ Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discu
 * Configurable hotkeys to:
   * Toggle the app.
   * Swap languages.
-  * Select 'from' language
-  * Select 'to' language
+  * Select 'from' language.
+  * Select 'to' language.
 
 ### Planned
 
