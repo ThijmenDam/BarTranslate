@@ -1,7 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {
-  app, BrowserWindow, ipcMain, shell,
-} from 'electron';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import { Menubar, menubar } from 'menubar';
 import path from 'path';
 import { appConfig } from './config';
@@ -16,23 +14,23 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 let menuBar: Menubar;
 let translateWindow: BrowserWindow;
-let settingsVisible : boolean;
+let settingsVisible: boolean;
 let currentAppSettings: AppSettings;
 
-const assetsPath = process.env.NODE_ENV === 'production'
-  ? path.join(process.resourcesPath, 'assets')
-  : path.join(app.getAppPath(), 'assets');
+const assetsPath =
+  process.env.NODE_ENV === 'production'
+    ? path.join(process.resourcesPath, 'assets')
+    : path.join(app.getAppPath(), 'assets');
 
 function registerSettings() {
-  fetchAppSettingsFromFile()
-    .then((settings) => {
-      if (!menuBar.window) {
-        throw new Error('Could not register settings: MenuBar BrowserWindow not found!');
-      }
+  fetchAppSettingsFromFile().then((settings) => {
+    if (!menuBar.window) {
+      throw new Error('Could not register settings: MenuBar BrowserWindow not found!');
+    }
 
-      currentAppSettings = settings;
-      menuBar.window.webContents.send('setSettings', settings);
-    });
+    currentAppSettings = settings;
+    menuBar.window.webContents.send('setSettings', settings);
+  });
 }
 
 function registerListeners() {
@@ -134,7 +132,8 @@ function createMenubarApp() {
   });
 }
 
-app.on('ready', createMenubarApp)
+app
+  .on('ready', createMenubarApp)
   .whenReady()
   // eslint-disable-next-line no-console
   .catch((e) => console.error(e));

@@ -7,9 +7,9 @@ import { isDev } from './utils';
 
 function executeJavaScript(translateWindow: BrowserWindow, code: string) {
   if (translateWindow.isVisible()) {
-    translateWindow.webContents
-      .executeJavaScript(code)
-      .catch((e) => { console.error(e); });
+    translateWindow.webContents.executeJavaScript(code).catch((e) => {
+      console.error(e);
+    });
   }
 }
 
@@ -60,9 +60,11 @@ export function initTranslateWindow(menuBar: Menubar): BrowserWindow {
 
   translateWindow.on('ready-to-show', () => {
     translateWindow.webContents
-      .insertCSS(CSSInjections({
-        darkmode: false,
-      }))
+      .insertCSS(
+        CSSInjections({
+          darkmode: false,
+        }),
+      )
       .catch((e) => {
         console.error(e);
       });
@@ -77,11 +79,9 @@ export function initTranslateWindow(menuBar: Menubar): BrowserWindow {
     }
 
     translateWindow.webContents.focus();
-    translateWindow.webContents
-      .executeJavaScript(JSInjections.focusTextArea)
-      .catch((e) => {
-        console.error(e);
-      });
+    translateWindow.webContents.executeJavaScript(JSInjections.focusTextArea).catch((e) => {
+      console.error(e);
+    });
   });
 
   translateWindow.on('blur', () => {

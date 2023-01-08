@@ -8,28 +8,27 @@ const HideRedundantElementsCSS = css`
   .KIXMEf,                  /* Share button */
   .a8FIud,                  /* Favorite button */
   .nG3XIb,                  /* Rate translation button */
-  nav {                     /* Buttons below translate input */
-    display: none!important;
+  nav {
+    /* Buttons below translate input */
+    display: none !important;
   }
 
   /* Translate view at top */
-  div[jsname="gnoFo"] {
+  div[jsname='gnoFo'] {
     position: absolute;
     width: 100%;
   }
-  
+
   /* Background color of translate view */
   .zQTmif {
-    background: #f1f1f7!important;
+    background: #f1f1f7 !important;
   }
 `;
 
-const DarkModeCSS = css`
-
-`;
+const DarkModeCSS = css``;
 
 interface CSSOptions {
-  darkmode: boolean
+  darkmode: boolean;
 }
 
 function CSSInjections(options: CSSOptions): string {
