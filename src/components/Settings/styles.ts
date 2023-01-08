@@ -18,7 +18,7 @@ export const SettingsGroupStyle = styled.div`
   flex-direction: column;
   gap: 10px;
   margin-bottom: 20px;
-  
+
   hr {
     margin-top: 10px;
     border: none;
@@ -56,11 +56,11 @@ export const SponsorStyle = styled.div`
   align-items: center;
   cursor: pointer;
   gap: 4px;
-  
+
   button {
     font-size: 14px;
     font-weight: 500;
-    
+
     cursor: pointer;
     -webkit-appearance: unset;
     background-color: transparent;

@@ -11,7 +11,8 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "release": "electron-forge publish --arch x64 && electron-forge publish --arch arm64",
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --fix"
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --fix",
+    "prettier": "prettier --write --list-different \"src/**/*.ts\""
   },
   "keywords": [],
   "dependencies": {

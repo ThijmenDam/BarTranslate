@@ -21,7 +21,7 @@ export const TitleStyle = styled.span`
 export const IconStyle = styled.div`
   height: 18px;
   width: 18px;
-  
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,11 +31,11 @@ export const IconsContainerStyle = styled.div`
   display: flex;
   width: 44px;
   justify-content: space-between;
-  
+
   svg {
-    max-height: 14px!important;
+    max-height: 14px !important;
     transition: color ease-in-out 100ms;
-    
+
     &:hover {
       color: #fff;
     }
