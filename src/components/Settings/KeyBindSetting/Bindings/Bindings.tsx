@@ -4,7 +4,7 @@ import Binding from './Binding';
 import { KeySelectStyle } from './styles';
 
 interface KeySelectProps {
-  setting: keyof AppSettings['keyBindings']
+  setting: keyof AppSettings['keyBindings'];
 }
 
 export default function Bindings({ setting }: KeySelectProps): JSX.Element {
@@ -12,18 +12,9 @@ export default function Bindings({ setting }: KeySelectProps): JSX.Element {
 
   return (
     <KeySelectStyle>
+      <Binding type="modifier" setting={setting} initialValue={settings.keyBindings[setting].modifier} />
 
-      <Binding
-        type="modifier"
-        setting={setting}
-        initialValue={settings.keyBindings[setting].modifier}
-      />
-
-      <Binding
-        type="key"
-        setting={setting}
-        initialValue={settings.keyBindings[setting].key}
-      />
+      <Binding type="key" setting={setting} initialValue={settings.keyBindings[setting].key} />
     </KeySelectStyle>
   );
 }

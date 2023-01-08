@@ -3,11 +3,11 @@ import { useSettingsContext } from '../Settings/Settings';
 import { ToggleStyle } from './styles';
 
 interface ToggleProps {
-  label: string
-  checked: boolean
-  setting: AppSettingsBooleans
-  disabled?: boolean
-  divider?: true
+  label: string;
+  checked: boolean;
+  setting: AppSettingsBooleans;
+  disabled?: boolean;
+  divider?: true;
 }
 
 export default function Toggle(props: ToggleProps): JSX.Element {
@@ -22,7 +22,6 @@ export default function Toggle(props: ToggleProps): JSX.Element {
 
   return (
     <ToggleStyle>
-
       <input
         type="checkbox"
         id={id}
@@ -34,12 +33,9 @@ export default function Toggle(props: ToggleProps): JSX.Element {
         }}
       />
 
-      <label htmlFor={id}>
-        {props.label}
-      </label>
+      <label htmlFor={id}>{props.label}</label>
 
       {props.divider && <hr />}
-
     </ToggleStyle>
   );
 }

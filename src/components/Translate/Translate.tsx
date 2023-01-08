@@ -5,7 +5,5 @@ import { TranslateStyle } from './styles';
  * TODO: loading animation
  */
 export default function Translate() {
-  return (
-    <TranslateStyle />
-  );
+  return <TranslateStyle />;
 }

@@ -5,9 +5,9 @@ import { modifiers, keys } from './keycodes';
 import { BindingStyle } from './styles';
 
 interface BindingProps {
-  type: 'key' | 'modifier'
-  setting: keyof AppSettings['keyBindings']
-  initialValue: Modifier | Key | null
+  type: 'key' | 'modifier';
+  setting: keyof AppSettings['keyBindings'];
+  initialValue: Modifier | Key | null;
 }
 
 export default function Binding({ initialValue, setting, type }: BindingProps): JSX.Element {
@@ -35,12 +35,15 @@ export default function Binding({ initialValue, setting, type }: BindingProps): 
   return (
     <BindingStyle>
       <select value={initialValue || undefined} onInput={onInput} className={type}>
-
         <option key={undefined} value={undefined}>
-          { `No ${type === 'key' ? 'Key' : 'Modifier'}`}
+          {`No ${type === 'key' ? 'Key' : 'Modifier'}`}
         </option>
 
-        {keycodes.map((k) => <option key={k[1]} value={k[1]}>{k[0]}</option>)}
+        {keycodes.map((k) => (
+          <option key={k[1]} value={k[1]}>
+            {k[0]}
+          </option>
+        ))}
       </select>
     </BindingStyle>
   );

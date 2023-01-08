@@ -35,20 +35,16 @@ export default function MainView() {
 
   return (
     <MainViewStyle>
-
       <Header
-        toggleSettings={() => { toggleSettings(); }}
+        toggleSettings={() => {
+          toggleSettings();
+        }}
         showSettings={showSettings}
       />
 
-      {showSettings && appSettings && (
-        <Settings appSettings={appSettings} setAppSettings={setAppSettings} />
-      )}
+      {showSettings && appSettings && <Settings appSettings={appSettings} setAppSettings={setAppSettings} />}
 
-      {!showSettings && (
-        <Translate />
-      )}
-
+      {!showSettings && <Translate />}
     </MainViewStyle>
   );
 }
