@@ -7,7 +7,7 @@ interface HeaderProps {
   showSettings: boolean;
 }
 
-export default function Header(props: HeaderProps) {
+export function Header({ showSettings, toggleSettings }: HeaderProps) {
   return (
     <HeaderStyle>
       <TitleStyle>BarTranslate</TitleStyle>
@@ -20,8 +20,8 @@ export default function Header(props: HeaderProps) {
         >
           <FontAwesomeIcon icon={faPowerOff} />
         </IconStyle>
-        <IconStyle onClick={props.toggleSettings}>
-          <FontAwesomeIcon icon={props.showSettings ? faAnglesLeft : faCog} />
+        <IconStyle onClick={toggleSettings}>
+          <FontAwesomeIcon icon={showSettings ? faAnglesLeft : faCog} />
         </IconStyle>
       </IconsContainerStyle>
     </HeaderStyle>

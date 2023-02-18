@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { AppSettings } from '../../../electron/types';
-import Header from '../Header';
+import { Header } from '../Header';
 import { Settings } from '../Settings';
 
-import Translate from '../Translate';
+import { Translate } from '../Translate';
 import { MainViewStyle } from './styles';
 
-export default function MainView() {
+export function MainView() {
   const [appSettings, setAppSettings] = useState<AppSettings | null>(null);
   const [showSettings, setShowSettings] = useState<boolean>(false);
 

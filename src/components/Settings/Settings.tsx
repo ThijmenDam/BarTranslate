@@ -1,7 +1,7 @@
 import { Dispatch, createContext, useContext } from 'react';
 import { AppSettings } from '../../../electron/types';
-import KeyBindSetting from './KeyBindSetting';
-import Toggle from '../Toggle';
+import { KeyBindSetting } from './KeyBindSetting';
+import { Toggle } from '../Toggle';
 
 import {
   SettingsStyle,

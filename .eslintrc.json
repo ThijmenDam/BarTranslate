@@ -26,56 +26,29 @@
     "react",
     "@typescript-eslint"
   ],
+  "ignorePatterns": ["out", "assets", "webpack", "node_modules", "public", "docs"],
   "rules": {
 
-    // Allow usage of variables before they are defined
-//    "@typescript-eslint/no-use-before-define": 1,
+    "max-len": [2, { "code": 120, "ignoreUrls": true }],
+    "no-console": [1, {"allow": ["error", "info", "debug"]}],
+    "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"],
+    "import/prefer-default-export": 0,
+    "@typescript-eslint/no-explicit-any": 2,
 
-    // Set max line length to 120
-    "max-len": [2, { "code": 120 }],
-
-    // Allow function components to be defined as 'function myComponent() { ... }'
+    // Function components should be defined with the function keyword
     "react/function-component-definition": [2, { "namedComponents": "function-declaration" }],
 
     // No need to specify a default value for a property that is not required
     "react/require-default-props": 0,
 
-    // Allow fragments with conditional content, e.g. <> { myCond && <div></div> } </>
-    "react/jsx-no-useless-fragment": 0,
-
-    // Allow use of the console
-    "no-console": [
-      "warn",
-      { "allow": ["info", "error"] }
-    ],
-
-    // Allow for-loops
-    "no-restricted-syntax": [
-      "error", "LabeledStatement", "WithStatement"
-    ],
-
-    // Allow 'export const foo = ...' even if it is the only export of the file
-    "import/prefer-default-export": 0,
+    // React in scope is not required since React 17
+    "react/jsx-uses-react": 0,
+    "react/react-in-jsx-scope": 0,
 
     // Allow labels to exist independently
     "jsx-a11y/label-has-associated-control": 0,
 
-    // Necessary for Redux Reducers
-    "@typescript-eslint/default-param-last": 0,
-
-    // Allow inline JSX expressions
-    "react/jsx-one-expression-per-line": 0,
-
-    // Allow switch statements without default case
-    "default-case": 0,
-
-    // React mandatory in scope is redundant
-    "react/react-in-jsx-scope": 0,
-
-    // Allow "export { default } from './MyComponent'" in index.tsx files for React components
-    "no-restricted-exports": 0,
-
-    // For components you don't want destructuring
-    "react/destructuring-assignment": 0
+    // Useful in our frontend context
+    "react/jsx-props-no-spreading": 0
   }
 }

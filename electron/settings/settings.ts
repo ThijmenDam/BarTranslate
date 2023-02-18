@@ -25,5 +25,7 @@ export async function writeAppSettingsToFile(appSettingsToFile: AppSettings) {
     // console.info(stringifyWithIndent(appSettingsToFile));
   }
 
+  // 'electron-settings' does not export types for proper casting?
+  // eslint-disable-next-line
   await settings.set('appSettings', appSettingsToFile as any);
 }

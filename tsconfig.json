@@ -5,18 +5,26 @@
     "module": "commonjs",
     "lib": [
       "dom",
-      "es2015",
-      "es2016",
-      "es2017"
+      "ES6"
     ],
     "allowJs": true,
     "jsx": "react-jsx",
     "sourceMap": true,
-    "outDir": "./dist",
     "strict": true ,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
   },
   "exclude": [
     "node_modules"
+  ],
+  "include": [
+    "electron",
+    "src"
   ]
 }

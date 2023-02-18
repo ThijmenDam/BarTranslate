@@ -1,5 +1,5 @@
 import { AppSettings } from '../../../../electron/types';
-import Bindings from './Bindings';
+import { Bindings } from './Bindings';
 import { KeyBindingStyle, KeyBindingRow } from './styles';
 
 interface KeyBindingProps {
@@ -8,7 +8,7 @@ interface KeyBindingProps {
   setting: keyof AppSettings['keyBindings'];
 }
 
-export default function KeyBindSetting({ divider, label, setting }: KeyBindingProps): JSX.Element {
+export function KeyBindSetting({ divider, label, setting }: KeyBindingProps): JSX.Element {
   return (
     <KeyBindingStyle>
       <KeyBindingRow>

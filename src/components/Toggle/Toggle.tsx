@@ -10,8 +10,8 @@ interface ToggleProps {
   divider?: true;
 }
 
-export default function Toggle(props: ToggleProps): JSX.Element {
-  const id = `check-${props.setting}`;
+export function Toggle({ checked, disabled, divider, label, setting }: ToggleProps): JSX.Element {
+  const id = `check-${setting}`;
   const { settings, setSettings } = useSettingsContext();
 
   function toggle(setting: AppSettingsBooleans, value: boolean) {
@@ -26,16 +26,16 @@ export default function Toggle(props: ToggleProps): JSX.Element {
         type="checkbox"
         id={id}
         className="toggle"
-        disabled={props.disabled}
-        checked={props.checked}
+        disabled={disabled}
+        checked={checked}
         onChange={(event) => {
-          toggle(props.setting, event.target.checked);
+          toggle(setting, event.target.checked);
         }}
       />
 
-      <label htmlFor={id}>{props.label}</label>
+      <label htmlFor={id}>{label}</label>
 
-      {props.divider && <hr />}
+      {divider && <hr />}
     </ToggleStyle>
   );
 }

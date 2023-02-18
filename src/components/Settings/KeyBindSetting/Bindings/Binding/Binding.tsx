@@ -10,7 +10,7 @@ interface BindingProps {
   initialValue: Modifier | Key | null;
 }
 
-export default function Binding({ initialValue, setting, type }: BindingProps): JSX.Element {
+export function Binding({ initialValue, setting, type }: BindingProps): JSX.Element {
   const { settings, setSettings } = useSettingsContext();
   const keycodes = type === 'key' ? keys : modifiers;
 
