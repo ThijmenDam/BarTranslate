@@ -10,11 +10,11 @@ export function isDev() {
   return NODE_ENV === 'development';
 }
 
-export function stringifyWithIndent(object: any) {
+export function stringifyWithIndent(object: JSON) {
   return JSON.stringify(object, null, 2);
 }
 
-export function log(object: any) {
+export function log(object: unknown) {
   if (isDev()) {
     console.info(object);
   }

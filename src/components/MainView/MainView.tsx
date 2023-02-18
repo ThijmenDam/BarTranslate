@@ -29,7 +29,6 @@ export function MainView() {
 
   useEffect(() => {
     if (!appSettings) return;
-    console.log(appSettings);
     window.Main.setSettings(appSettings);
   }, [appSettings]);
 

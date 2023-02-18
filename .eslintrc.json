@@ -46,9 +46,6 @@
     "react/react-in-jsx-scope": 0,
 
     // Allow labels to exist independently
-    "jsx-a11y/label-has-associated-control": 0,
-
-    // Useful in our frontend context
-    "react/jsx-props-no-spreading": 0
+    "jsx-a11y/label-has-associated-control": 0
   }
 }

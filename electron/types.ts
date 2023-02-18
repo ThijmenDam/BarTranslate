@@ -25,4 +25,4 @@ export interface AppSettings {
   };
 }
 
-export type AppSettingsBooleans = 'autoscroll' | 'darkmode';
+export type BooleanAppSetting = 'autoscroll' | 'darkmode';

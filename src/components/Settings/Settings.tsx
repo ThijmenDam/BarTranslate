@@ -1,4 +1,5 @@
-import { Dispatch, createContext, useContext } from 'react';
+import { Dispatch } from 'react';
+import { SettingsContext, SetSettingsContext } from './context';
 import { AppSettings } from '../../../electron/types';
 import { KeyBindSetting } from './KeyBindSetting';
 import { Toggle } from '../Toggle';
@@ -11,19 +12,6 @@ import {
   SettingsGroupTitleStyle,
   SettingsGroupStyle,
 } from './styles';
-
-const SettingsContext = createContext<AppSettings | null>(null);
-const SetSettingsContext = createContext<Dispatch<AppSettings> | null>(null);
-
-export function useSettingsContext() {
-  const settings = useContext(SettingsContext);
-  const setSettings = useContext(SetSettingsContext);
-
-  if (!settings || !setSettings) {
-    throw new Error('Problem loading settings.');
-  }
-  return { settings, setSettings };
-}
 
 interface SettingsProps {
   appSettings: AppSettings;

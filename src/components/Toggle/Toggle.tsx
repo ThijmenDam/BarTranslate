@@ -1,11 +1,11 @@
-import { AppSettingsBooleans } from '../../../electron/types';
-import { useSettingsContext } from '../Settings/Settings';
+import { BooleanAppSetting } from '../../../electron/types';
+import { useSettingsContext } from '../Settings/context';
 import { ToggleStyle } from './styles';
 
 interface ToggleProps {
   label: string;
   checked: boolean;
-  setting: AppSettingsBooleans;
+  setting: BooleanAppSetting;
   disabled?: boolean;
   divider?: true;
 }
@@ -14,9 +14,9 @@ export function Toggle({ checked, disabled, divider, label, setting }: TogglePro
   const id = `check-${setting}`;
   const { settings, setSettings } = useSettingsContext();
 
-  function toggle(setting: AppSettingsBooleans, value: boolean) {
+  function toggle(key: BooleanAppSetting, value: boolean) {
     const localSettings = { ...settings };
-    localSettings[setting] = value;
+    localSettings[key] = value;
     setSettings(localSettings);
   }
 
