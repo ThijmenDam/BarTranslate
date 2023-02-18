@@ -23,8 +23,6 @@ const assetsPath =
     : path.join(app.getAppPath(), 'assets');
 
 function passSettingsToRenderer() {
-  console.log('passed settings to renderer');
-
   fetchAppSettingsFromFile().then((settings) => {
     if (!menuBar.window) {
       throw new Error('Could not register settings: MenuBar BrowserWindow not found!');
