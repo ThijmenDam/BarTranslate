@@ -27,6 +27,10 @@ export const api = {
     ipcRenderer.send('writeSettingsToFile', settings);
   },
 
+  requestSettings: () => {
+    ipcRenderer.send('requestSettings');
+  },
+
   sponsor: () => {
     ipcRenderer.send('sponsor');
   },
@@ -34,7 +38,9 @@ export const api = {
   /**
    * Provide an easier way to listen to events
    */
+
   on: (channel: string, callback: Function) => {
+    ipcRenderer.removeAllListeners(channel);
     ipcRenderer.on(channel, (_, data) => callback(data));
   },
 };

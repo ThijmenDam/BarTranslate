@@ -22,7 +22,9 @@ const assetsPath =
     ? path.join(process.resourcesPath, 'assets')
     : path.join(app.getAppPath(), 'assets');
 
-function registerSettings() {
+function passSettingsToRenderer() {
+  console.log('passed settings to renderer');
+
   fetchAppSettingsFromFile().then((settings) => {
     if (!menuBar.window) {
       throw new Error('Could not register settings: MenuBar BrowserWindow not found!');
@@ -61,6 +63,8 @@ function registerListeners() {
     await writeAppSettingsToFile(appSettings);
     await registerKeyboardShortcuts(menuBar, translateWindow);
   });
+
+  ipcMain.on('requestSettings', passSettingsToRenderer);
 
   ipcMain.on('sponsor', () => {
     shell.openExternal('https://paypal.me/thijmendam').catch((e) => {
@@ -108,7 +112,6 @@ function createMenubarApp() {
 
     registerListeners();
     await registerKeyboardShortcuts(menuBar, translateWindow);
-    registerSettings();
 
     menuBar.on('show', () => {
       if (!translateWindow.isVisible() && !settingsVisible) {

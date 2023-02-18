@@ -1,8 +1,8 @@
 import { Dispatch } from 'react';
-import { SettingsContext, SetSettingsContext } from './context';
 import { AppSettings } from '../../../electron/types';
-import { KeyBindSetting } from './KeyBindSetting';
 import { Toggle } from '../Toggle';
+import { SettingsContext, SetSettingsContext } from './context';
+import { KeyBindSetting } from './KeyBindSetting';
 
 import {
   SettingsStyle,

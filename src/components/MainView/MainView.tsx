@@ -6,9 +6,20 @@ import { Settings } from '../Settings';
 import { Translate } from '../Translate';
 import { MainViewStyle } from './styles';
 
+let initialized = false;
+
 export function MainView() {
   const [appSettings, setAppSettings] = useState<AppSettings | null>(null);
   const [showSettings, setShowSettings] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!initialized && !appSettings) {
+      initialized = true;
+      console.debug('Requested Settings');
+
+      window.Main.requestSettings();
+    }
+  }, [appSettings]);
 
   function toggleSettings() {
     window.Main.showSettings(!showSettings);
@@ -16,6 +27,7 @@ export function MainView() {
   }
 
   // Events triggered via 'menuBar.window.webContents.send('ABC');'
+  // TODO: kan het zijn dat het event tweemaal wordt afgevoerd?
   useEffect(() => {
     window.Main.on('showSettings', () => {
       window.Main.showSettings(true);
@@ -26,11 +38,6 @@ export function MainView() {
       setAppSettings(settingsFromMain);
     });
   }, []);
-
-  useEffect(() => {
-    if (!appSettings) return;
-    window.Main.setSettings(appSettings);
-  }, [appSettings]);
 
   return (
     <MainViewStyle>

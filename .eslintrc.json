@@ -28,7 +28,6 @@
   ],
   "ignorePatterns": ["out", "assets", "webpack", "node_modules", "public", "docs"],
   "rules": {
-
     "max-len": [2, { "code": 120, "ignoreUrls": true }],
     "no-console": [1, {"allow": ["error", "info", "debug"]}],
     "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"],
