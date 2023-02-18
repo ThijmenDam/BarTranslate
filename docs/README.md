@@ -62,4 +62,4 @@ know](https://github.com/ThijmenDam/BarTranslate/discussions)!
 
 
 ## Support the author
-Like my work? [Consider buying me a coffee!](https://www.paypal.me/thijmendam)
+Like my work? [Consider buying me a coffee!](https://github.com/sponsors/ThijmenDam)

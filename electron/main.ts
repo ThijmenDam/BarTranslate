@@ -65,7 +65,7 @@ function registerListeners() {
   ipcMain.on('requestSettings', passSettingsToRenderer);
 
   ipcMain.on('sponsor', () => {
-    shell.openExternal('https://paypal.me/thijmendam').catch((e) => {
+    shell.openExternal('https://github.com/sponsors/ThijmenDam').catch((e) => {
       console.error(e);
     });
   });

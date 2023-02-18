@@ -3,15 +3,9 @@ import { AppSettings } from '../../../electron/types';
 import { Toggle } from '../Toggle';
 import { SettingsContext, SetSettingsContext } from './context';
 import { KeyBindSetting } from './KeyBindSetting';
+import { SponsorBanner } from './SponsorBanner';
 
-import {
-  SettingsStyle,
-  ContainerStyle,
-  SponsorStyle,
-  EmojiStyle,
-  SettingsGroupTitleStyle,
-  SettingsGroupStyle,
-} from './styles';
+import { SettingsStyle, ContainerStyle, SettingsGroupTitleStyle, SettingsGroupStyle } from './styles';
 
 interface SettingsProps {
   appSettings: AppSettings;
@@ -24,8 +18,9 @@ export function Settings({ appSettings, setAppSettings }: SettingsProps) {
       <SetSettingsContext.Provider value={setAppSettings}>
         <SettingsStyle>
           <ContainerStyle>
-            <SettingsGroupTitleStyle>Settings</SettingsGroupTitleStyle>
+            <SponsorBanner />
 
+            <SettingsGroupTitleStyle>General</SettingsGroupTitleStyle>
             <SettingsGroupStyle>
               <Toggle setting="darkmode" label="Use system darkmode" checked={false} disabled divider />
 
@@ -35,6 +30,9 @@ export function Settings({ appSettings, setAppSettings }: SettingsProps) {
                 checked={appSettings?.autoscroll || false}
               />
             </SettingsGroupStyle>
+
+            <SettingsGroupTitleStyle>Translation Provider</SettingsGroupTitleStyle>
+            <SettingsGroupStyle>Provider 123</SettingsGroupStyle>
 
             <SettingsGroupTitleStyle>Key Bindings</SettingsGroupTitleStyle>
 
@@ -48,15 +46,6 @@ export function Settings({ appSettings, setAppSettings }: SettingsProps) {
               <KeyBindSetting label="Change language 2" setting="changeLanguage2" />
             </SettingsGroupStyle>
           </ContainerStyle>
-
-          <SponsorStyle
-            onClick={() => {
-              window.Main.sponsor();
-            }}
-          >
-            <button type="button">Please consider buying me a coffee</button>
-            <EmojiStyle>😊</EmojiStyle>
-          </SponsorStyle>
         </SettingsStyle>
       </SetSettingsContext.Provider>
     </SettingsContext.Provider>
