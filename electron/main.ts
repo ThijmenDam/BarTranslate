@@ -59,7 +59,7 @@ function registerListeners() {
   ipcMain.on('writeSettingsToFile', async (_, appSettings: AppSettings) => {
     currentAppSettings = appSettings;
     await writeAppSettingsToFile(appSettings);
-    await registerKeyboardShortcuts(menuBar, translateWindow);
+    await registerKeyboardShortcuts(appSettings, menuBar, translateWindow);
   });
 
   ipcMain.on('requestSettings', passSettingsToRenderer);
@@ -97,10 +97,12 @@ function createMenubarApp() {
   });
 
   menuBar.on('ready', async () => {
+    const settings = await fetchAppSettingsFromFile();
+
     setTimeout(() => {
       app.dock.hide();
     }, 1000);
-    translateWindow = initTranslateWindow(menuBar);
+    translateWindow = initTranslateWindow(settings.provider, menuBar);
 
     if (!menuBar.window) {
       throw new Error('Menubar BrowserWindow not properly initialized!');
@@ -109,7 +111,7 @@ function createMenubarApp() {
     menuBar.window.setMenu(null);
 
     registerListeners();
-    await registerKeyboardShortcuts(menuBar, translateWindow);
+    await registerKeyboardShortcuts(settings, menuBar, translateWindow);
 
     menuBar.on('show', () => {
       if (!translateWindow.isVisible() && !settingsVisible) {

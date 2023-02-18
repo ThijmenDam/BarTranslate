@@ -13,8 +13,10 @@ export interface AppConfig {
   headerHeight: number;
 }
 
+export type Provider = 'Google' | 'DeepL';
+
 export interface AppSettings {
-  provider: 'Google' | 'DeepL';
+  provider: Provider;
   autoscroll: boolean;
   darkmode: boolean;
   keyBindings: {

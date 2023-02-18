@@ -3,6 +3,7 @@ import { BrowserWindow } from 'electron';
 import { Menubar } from 'menubar';
 import { appConfig } from './config';
 import { CSSInjections, JSInjections } from './injections';
+import { AppSettings } from './types';
 import { isDev } from './utils';
 
 function executeJavaScript(translateWindow: BrowserWindow, code: string) {
@@ -13,19 +14,19 @@ function executeJavaScript(translateWindow: BrowserWindow, code: string) {
   }
 }
 
-export function swapLanguages(translateWindow: BrowserWindow) {
-  executeJavaScript(translateWindow, JSInjections.clearTextArea + JSInjections.swapLanguages);
+export function swapLanguages(provider: AppSettings['provider'], translateWindow: BrowserWindow) {
+  executeJavaScript(translateWindow, JSInjections[provider].clearTextArea + JSInjections[provider].swapLanguages);
 }
 
-export function changeLanguage1(translateWindow: BrowserWindow) {
-  executeJavaScript(translateWindow, JSInjections.changeLanguage1);
+export function changeLanguage1(provider: AppSettings['provider'], translateWindow: BrowserWindow) {
+  executeJavaScript(translateWindow, JSInjections[provider].changeLanguage1);
 }
 
-export function changeLanguage2(translateWindow: BrowserWindow) {
-  executeJavaScript(translateWindow, JSInjections.changeLanguage2);
+export function changeLanguage2(provider: AppSettings['provider'], translateWindow: BrowserWindow) {
+  executeJavaScript(translateWindow, JSInjections[provider].changeLanguage2);
 }
 
-export function initTranslateWindow(menuBar: Menubar): BrowserWindow {
+export function initTranslateWindow(provider: AppSettings['provider'], menuBar: Menubar): BrowserWindow {
   if (!menuBar.window) {
     throw new Error('Menubar BrowserWindow not found!');
   }
@@ -79,7 +80,7 @@ export function initTranslateWindow(menuBar: Menubar): BrowserWindow {
     }
 
     translateWindow.webContents.focus();
-    translateWindow.webContents.executeJavaScript(JSInjections.focusTextArea).catch((e) => {
+    translateWindow.webContents.executeJavaScript(JSInjections[provider].focusTextArea).catch((e) => {
       console.error(e);
     });
   });

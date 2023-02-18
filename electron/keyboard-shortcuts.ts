@@ -1,7 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Event, Input, BrowserWindow, globalShortcut } from 'electron';
 import { Menubar } from 'menubar';
-import { fetchAppSettingsFromFile } from './settings';
 import { changeLanguage1, swapLanguages, changeLanguage2 } from './translate-window';
 import { AppSettings } from './types';
 import { isDev, toggleAppVisibility, validateMenubarWindow } from './utils';
@@ -18,8 +17,10 @@ function translateWindowInputHandler(
   input: Input,
   menubarWindow: BrowserWindow,
   translateWindow: BrowserWindow,
-  keyBindings: AppSettings['keyBindings'],
+  settings: AppSettings,
 ) {
+  const { keyBindings, provider } = settings;
+
   // open settings
   if ((input.control || input.meta) && input.code === 'Comma') {
     menubarWindow.webContents.send('showSettings');
@@ -33,7 +34,7 @@ function translateWindowInputHandler(
     input.code === keyBindings.switchLanguages.key
   ) {
     event.preventDefault();
-    swapLanguages(translateWindow);
+    swapLanguages(provider, translateWindow);
   }
 
   // change language 1
@@ -44,7 +45,7 @@ function translateWindowInputHandler(
     input.code === keyBindings.changeLanguage1.key
   ) {
     event.preventDefault();
-    changeLanguage1(translateWindow);
+    changeLanguage1(provider, translateWindow);
   }
 
   // change language 2
@@ -55,7 +56,7 @@ function translateWindowInputHandler(
     input.code === keyBindings.changeLanguage2.key
   ) {
     event.preventDefault();
-    changeLanguage2(translateWindow);
+    changeLanguage2(provider, translateWindow);
   }
 }
 
@@ -67,7 +68,7 @@ function registerLocalKeyboardShortcuts(menubar: Menubar, translateWindow: Brows
   const menubarWindow = validateMenubarWindow(menubar);
 
   function translateWindowInputListener(event: Event, input: Input) {
-    translateWindowInputHandler(event, input, menubarWindow, translateWindow, settings.keyBindings);
+    translateWindowInputHandler(event, input, menubarWindow, translateWindow, settings);
   }
 
   function menubarWindowInputListener(event: Event, input: Input) {
@@ -116,9 +117,11 @@ function registerGlobalKeyboardShortcuts(menuBar: Menubar, settings: AppSettings
   });
 }
 
-export async function registerKeyboardShortcuts(menuBar: Menubar, translateWindow: BrowserWindow) {
-  const settings = await fetchAppSettingsFromFile();
-
+export async function registerKeyboardShortcuts(
+  settings: AppSettings,
+  menuBar: Menubar,
+  translateWindow: BrowserWindow,
+) {
   registerGlobalKeyboardShortcuts(menuBar, settings);
   registerLocalKeyboardShortcuts(menuBar, translateWindow, settings);
 }

@@ -1,11 +1,11 @@
-import { BooleanAppSetting, AppSettings } from '../../../electron/types';
+import { BooleanAppSetting, AppSettings, Provider } from '../../../electron/types';
 import { useSettingsContext } from '../Settings/context';
 import { ToggleStyle } from './styles';
 
 interface ToggleProps {
   label: string;
   checked: boolean;
-  setting: BooleanAppSetting | AppSettings['provider'];
+  setting: BooleanAppSetting | Provider;
   disabled?: boolean;
   divider?: true;
 }
