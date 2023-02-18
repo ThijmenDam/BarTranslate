@@ -8,7 +8,7 @@ export async function fetchAppSettingsFromFile(): Promise<AppSettings> {
   const settingsFromFile = (await settings.get('appSettings')) as AppSettings | null;
 
   if (isDev()) {
-    console.info('Fetching settings from file');
+    console.debug('Fetching settings from file');
     // console.info(stringifyWithIndent(settingsFromFile));
   }
 

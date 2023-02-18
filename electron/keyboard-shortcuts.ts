@@ -59,9 +59,9 @@ function translateWindowInputHandler(
   }
 }
 
-async function registerLocalKeyboardShortcuts(menubar: Menubar, translateWindow: BrowserWindow, settings: AppSettings) {
+function registerLocalKeyboardShortcuts(menubar: Menubar, translateWindow: BrowserWindow, settings: AppSettings) {
   if (isDev()) {
-    console.info('Registering local key listeners');
+    console.debug('Registering local key listeners');
   }
 
   const menubarWindow = validateMenubarWindow(menubar);
@@ -81,8 +81,8 @@ async function registerLocalKeyboardShortcuts(menubar: Menubar, translateWindow:
   menubarWindow.webContents.on('before-input-event', menubarWindowInputListener);
 }
 
-async function registerGlobalKeyboardShortcuts(menuBar: Menubar, settings: AppSettings) {
-  console.info('Registering local key listeners');
+function registerGlobalKeyboardShortcuts(menuBar: Menubar, settings: AppSettings) {
+  console.debug('Registering global key listeners');
 
   function convertToAccelerator(code: string) {
     return code
@@ -111,7 +111,7 @@ async function registerGlobalKeyboardShortcuts(menuBar: Menubar, settings: AppSe
   const accelerator = convertToAccelerator(`${modifier}+${key}`);
 
   globalShortcut.unregisterAll();
-  await globalShortcut.register(accelerator, () => {
+  globalShortcut.register(accelerator, () => {
     toggleAppVisibility(menuBar);
   });
 }
@@ -119,6 +119,6 @@ async function registerGlobalKeyboardShortcuts(menuBar: Menubar, settings: AppSe
 export async function registerKeyboardShortcuts(menuBar: Menubar, translateWindow: BrowserWindow) {
   const settings = await fetchAppSettingsFromFile();
 
-  await registerGlobalKeyboardShortcuts(menuBar, settings);
-  await registerLocalKeyboardShortcuts(menuBar, translateWindow, settings);
+  registerGlobalKeyboardShortcuts(menuBar, settings);
+  registerLocalKeyboardShortcuts(menuBar, translateWindow, settings);
 }
