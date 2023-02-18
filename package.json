@@ -7,7 +7,7 @@
   "description": "A handy menu bar translator widget for macOS, Windows and Linux.",
   "main": "./.webpack/main",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "electron-forge start -- --remote-debugging-port=9229",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "release": "electron-forge publish --arch x64 && electron-forge publish --arch arm64",
