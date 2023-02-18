@@ -1,6 +1,6 @@
 import { FormEvent } from 'react';
 import { AppSettings, Modifier, Key } from '../../../../../../electron/types';
-import { useSettingsContext } from '../../../Settings';
+import { useSettingsContext } from '../../../context';
 import { modifiers, keys } from './keycodes';
 import { BindingStyle } from './styles';
 

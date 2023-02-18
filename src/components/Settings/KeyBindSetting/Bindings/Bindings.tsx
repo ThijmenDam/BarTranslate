@@ -1,5 +1,5 @@
 import { AppSettings } from '../../../../../electron/types';
-import { useSettingsContext } from '../../Settings';
+import { useSettingsContext } from '../../context';
 import { Binding } from './Binding';
 import { KeySelectStyle } from './styles';
 
