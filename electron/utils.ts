@@ -22,7 +22,9 @@ export function debug(object: unknown) {
 
 export function toggleAppVisibility(menubar: Menubar) {
   if (!menubar.window?.isVisible()) {
-    menubar.showWindow();
+    menubar.showWindow().catch((e) => {
+      throw e;
+    });
   } else {
     menubar.hideWindow();
   }

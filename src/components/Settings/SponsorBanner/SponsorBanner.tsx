@@ -1,8 +1,7 @@
 import { EmojiStyle } from '../styles';
 import { SponsorBannerStyle } from './styles';
-import { SponsorBannerProps } from './types';
 
-export function SponsorBanner({}: SponsorBannerProps) {
+export function SponsorBanner() {
   return (
     <SponsorBannerStyle
       onClick={() => {

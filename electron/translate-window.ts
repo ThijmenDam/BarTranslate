@@ -12,6 +12,7 @@ function baseURL(provider: Provider) {
       return 'https://translate.google.com/';
     case 'DeepL':
       return 'https://www.deepl.com/translator';
+    // return 'https://www.deepl.com/translator-mobile';
     default:
       throw new Error(`Provider '${provider}' is invalid.`);
   }
