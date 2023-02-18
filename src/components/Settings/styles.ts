@@ -26,6 +26,11 @@ export const SettingsGroupStyle = styled.div`
     width: calc(100% + 16px);
     background-color: #ededed;
   }
+
+  span {
+    font-size: 14px;
+    user-select: none;
+  }
 `;
 
 export const SettingsStyle = styled.div`

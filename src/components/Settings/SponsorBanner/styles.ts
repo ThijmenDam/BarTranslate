@@ -6,8 +6,9 @@ export const SponsorBannerStyle = styled.div`
   margin-bottom: 16px;
   width: 100%;
   border-radius: 10px;
-  //background-color: #c96198;
-  background-color: #847fec;
+  background-color: #5c94f5;
+  //background-color: #2e294e;
+  //background-color: #847fec;
   height: 50px;
   display: flex;
   justify-content: center;
