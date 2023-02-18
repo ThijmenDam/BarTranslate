@@ -14,9 +14,9 @@ export function stringifyWithIndent(object: JSON) {
   return JSON.stringify(object, null, 2);
 }
 
-export function log(object: unknown) {
+export function debug(object: unknown) {
   if (isDev()) {
-    console.info(object);
+    console.debug(object);
   }
 }
 
