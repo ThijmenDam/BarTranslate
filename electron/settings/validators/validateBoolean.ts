@@ -7,7 +7,7 @@ export function validateBoolean(
 ): AppSettings {
   const settings = { ...appSettings };
 
-  if (!(property in appSettings) || !(settings[property] === true || settings[property] === false)) {
+  if (!(property in appSettings) || !(settings[property] || !settings[property])) {
     settings[property] = defaultSettings[property];
   }
 

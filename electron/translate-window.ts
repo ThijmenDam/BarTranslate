@@ -3,8 +3,19 @@ import { BrowserWindow } from 'electron';
 import { Menubar } from 'menubar';
 import { appConfig } from './config';
 import { CSSInjections, JSInjections } from './injections';
-import { AppSettings } from './types';
+import { AppSettings, Provider } from './types';
 import { isDev } from './utils';
+
+function baseURL(provider: Provider) {
+  switch (provider) {
+    case 'Google':
+      return 'https://translate.google.com/';
+    case 'DeepL':
+      return 'https://www.deepl.com/translator';
+    default:
+      throw new Error(`Provider '${provider}' is invalid.`);
+  }
+}
 
 function executeJavaScript(translateWindow: BrowserWindow, code: string) {
   if (translateWindow.isVisible()) {
@@ -26,7 +37,9 @@ export function changeLanguage2(provider: AppSettings['provider'], translateWind
   executeJavaScript(translateWindow, JSInjections[provider].changeLanguage2);
 }
 
-export function initTranslateWindow(provider: AppSettings['provider'], menuBar: Menubar): BrowserWindow {
+export function initTranslateWindow(settings: AppSettings, menuBar: Menubar): BrowserWindow {
+  const { provider } = settings;
+
   if (!menuBar.window) {
     throw new Error('Menubar BrowserWindow not found!');
   }
@@ -55,20 +68,14 @@ export function initTranslateWindow(provider: AppSettings['provider'], menuBar: 
     alwaysOnTop: true,
   });
 
-  translateWindow.loadURL('https://translate.google.com/').catch((e) => {
+  translateWindow.loadURL(baseURL(provider)).catch((e) => {
     throw e; // TODO
   });
 
   translateWindow.on('ready-to-show', () => {
-    translateWindow.webContents
-      .insertCSS(
-        CSSInjections({
-          darkmode: false,
-        }),
-      )
-      .catch((e) => {
-        console.error(e);
-      });
+    translateWindow.webContents.insertCSS(CSSInjections(settings)).catch((e) => {
+      console.error(e);
+    });
   });
 
   translateWindow.on('show', () => {

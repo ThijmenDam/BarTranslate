@@ -18,11 +18,11 @@ export function Toggle({ checked, disabled, divider, label, setting }: TogglePro
     const localSettings = { ...settings };
 
     if (key === 'Google') {
-      localSettings.provider = 'Google';
+      localSettings.provider = value ? 'Google' : 'DeepL';
     }
 
     if (key === 'DeepL') {
-      localSettings.provider = 'DeepL';
+      localSettings.provider = value ? 'DeepL' : 'Google';
     }
 
     if (key === 'autoscroll' || key === 'darkmode') {

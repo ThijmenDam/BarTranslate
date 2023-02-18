@@ -32,7 +32,7 @@ export function MainView() {
     });
 
     window.Main.on('setSettings', (settingsFromMain: AppSettings) => {
-      setAppSettings(settingsFromMain);
+      setAppSettings({ ...settingsFromMain });
     });
   }, []);
 

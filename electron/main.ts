@@ -28,7 +28,9 @@ function passSettingsToRenderer() {
       throw new Error('Could not register settings: MenuBar BrowserWindow not found!');
     }
 
+    // TODO: should probably be a destructuring
     currentAppSettings = settings;
+
     menuBar.window.webContents.send('setSettings', settings);
   });
 }
@@ -102,7 +104,8 @@ function createMenubarApp() {
     setTimeout(() => {
       app.dock.hide();
     }, 1000);
-    translateWindow = initTranslateWindow(settings.provider, menuBar);
+
+    translateWindow = initTranslateWindow(settings, menuBar);
 
     if (!menuBar.window) {
       throw new Error('Menubar BrowserWindow not properly initialized!');

@@ -16,6 +16,9 @@ export async function fetchAppSettingsFromFile(): Promise<AppSettings> {
     return defaultSettings;
   }
 
+  // TODO: REMOVE FORCE OF DEEPL
+  settingsFromFile.provider = 'DeepL';
+
   return validateSettings(settingsFromFile);
 }
 
