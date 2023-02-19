@@ -15,6 +15,7 @@ export const CSSDeepL = css`
   .dl_visible_handheld_only,
   .dl_footerV2_container,
   .lmt__glossary_button,
+  .lmt__language_container_sec,
   .lmt__formalitySwitch {
     display: none !important;
   }
