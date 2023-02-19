@@ -11,26 +11,26 @@ interface BindingProps {
 }
 
 export function Binding({ initialValue, setting, type }: BindingProps): JSX.Element {
-  const { settings, storeSettings } = useSettingsContext();
+  const { settings, setSettings } = useSettingsContext();
   const keycodes = type === 'key' ? keys : modifiers;
 
   // Store changed binding in settings
   function onInput(event: FormEvent<HTMLSelectElement>) {
-    const newSettings = { ...settings };
+    const localSettings = { ...settings };
     const settingValue = (event.target as HTMLOptionElement).value;
 
     if (!settingValue) return;
 
     if (type === 'key') {
-      newSettings.keyBindings[setting][type] = settingValue as Key;
+      localSettings.keyBindings[setting][type] = settingValue as Key;
     }
 
     if (type === 'modifier') {
-      newSettings.keyBindings[setting][type] = settingValue as Modifier;
+      localSettings.keyBindings[setting][type] = settingValue as Modifier;
     }
 
-    // TODO: write to file
-    storeSettings({ ...newSettings });
+    window.Main.writeSettingsToFile({ ...localSettings });
+    setSettings({ ...localSettings });
   }
 
   return (

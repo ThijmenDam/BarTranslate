@@ -12,7 +12,7 @@ interface ToggleProps {
 
 export function Toggle({ checked, disabled, divider, label, setting }: ToggleProps): JSX.Element {
   const id = `check-${setting}`;
-  const { settings, storeSettings } = useSettingsContext();
+  const { settings, setSettings } = useSettingsContext();
 
   function toggle(key: BooleanAppSetting | AppSettings['provider'], value: boolean) {
     const localSettings = { ...settings };
@@ -31,8 +31,8 @@ export function Toggle({ checked, disabled, divider, label, setting }: TogglePro
       localSettings[key] = value;
     }
 
-    // TODO: write to file
-    storeSettings({ ...localSettings });
+    window.Main.writeSettingsToFile({ ...localSettings });
+    setSettings({ ...localSettings });
   }
 
   return (

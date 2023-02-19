@@ -14,22 +14,28 @@ export const api = {
   },
 
   showSettings: (show: boolean) => {
+    debug(`[ipcRenderer] showSettings ${show}`);
     ipcRenderer.send('showSettings', show);
   },
 
   writeSettingsToFile: (settings: AppSettings) => {
+    debug(`[ipcRenderer] writeSettingsToFile`);
+    debug({ settings });
     ipcRenderer.send('writeSettingsToFile', settings);
   },
 
   requestSettings: () => {
+    debug(`[ipcRenderer] requestSettings`);
     ipcRenderer.send('requestSettings');
   },
 
   sponsor: () => {
+    debug(`[ipcRenderer] sponsor`);
     ipcRenderer.send('sponsor');
   },
 
   providerChanged: (provider: Provider) => {
+    debug(`[ipcRenderer] providerChanged ${provider}`);
     ipcRenderer.send('providerChanged', provider);
   },
 
@@ -39,10 +45,7 @@ export const api = {
 
   on: (channel: string, callback: Function) => {
     ipcRenderer.removeAllListeners(channel);
-    ipcRenderer.on(channel, (_, data) => {
-      debug(`[ipcRenderer] ${channel}`);
-      callback(data);
-    });
+    ipcRenderer.on(channel, (_, data) => callback(data));
   },
 };
 

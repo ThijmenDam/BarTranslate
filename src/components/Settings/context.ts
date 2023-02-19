@@ -1,4 +1,4 @@
-import { createContext, Dispatch, useContext, useCallback } from 'react';
+import { createContext, Dispatch, useContext } from 'react';
 import { AppSettings } from '../../../electron/types';
 
 const SettingsContext = createContext<AppSettings | null>(null);
@@ -8,22 +8,11 @@ function useSettingsContext() {
   const settings = useContext(SettingsContext);
   const setSettings = useContext(SetSettingsContext);
 
-  const storeSettings = useCallback(
-    (settingsToStore: AppSettings) => {
-      if (!setSettings) return;
-
-      // TODO: write to file
-      console.info('should write to file ');
-      setSettings({ ...settingsToStore });
-    },
-    [setSettings],
-  );
-
   if (!settings || !setSettings) {
     throw new Error('Problem loading settings.');
   }
 
-  return { settings, storeSettings };
+  return { settings, setSettings };
 }
 
 export { SettingsContext, SetSettingsContext, useSettingsContext };
