@@ -10,11 +10,11 @@ const JSInjections = {
     `,
   },
   DeepL: {
-    focusTextArea: 'console.log(1);',
-    swapLanguages: 'console.log(2);',
-    changeLanguage1: 'console.log(3);',
-    changeLanguage2: 'console.log(4);',
-    clearTextArea: `console.log(5);`,
+    focusTextArea: 'document.querySelector(".lmt__textarea_container").focus();',
+    swapLanguages: 'document.querySelector(".lmt__language_container_switch").click();',
+    changeLanguage1: 'document.querySelector(\'button[dl-test="translator-source-lang-btn"]\').click();',
+    changeLanguage2: 'document.querySelector(\'button[dl-test="translator-target-lang-btn"]\').click();',
+    clearTextArea: `document.querySelector('button[dl-test="translator-source-clear-button"]').click();`,
   },
 };
 
