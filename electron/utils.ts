@@ -16,7 +16,7 @@ export function stringifyWithIndent(object: JSON) {
 
 export function debug(object: unknown) {
   if (isDev()) {
-    console.debug(object);
+    console.info(object);
   }
 }
 

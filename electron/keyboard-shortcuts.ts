@@ -3,7 +3,7 @@ import { Event, Input, BrowserWindow, globalShortcut } from 'electron';
 import { Menubar } from 'menubar';
 import { changeLanguage1, swapLanguages, changeLanguage2 } from './translate-window';
 import { AppSettings } from './types';
-import { isDev, toggleAppVisibility, validateMenubarWindow } from './utils';
+import { toggleAppVisibility, validateMenubarWindow, debug } from './utils';
 
 function menubarWindowInputHandler(event: Event, input: Input, menubarWindow: BrowserWindow) {
   // open settings
@@ -61,9 +61,7 @@ function translateWindowInputHandler(
 }
 
 function registerLocalKeyboardShortcuts(menubar: Menubar, translateWindow: BrowserWindow, settings: AppSettings) {
-  if (isDev()) {
-    console.debug('Registering local key listeners');
-  }
+  debug('Registering local key listeners');
 
   const menubarWindow = validateMenubarWindow(menubar);
 
@@ -83,7 +81,7 @@ function registerLocalKeyboardShortcuts(menubar: Menubar, translateWindow: Brows
 }
 
 function registerGlobalKeyboardShortcuts(menuBar: Menubar, settings: AppSettings) {
-  console.debug('Registering global key listeners');
+  debug('Registering global key listeners');
 
   function convertToAccelerator(code: string) {
     return code

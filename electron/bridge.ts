@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { contextBridge, ipcRenderer } from 'electron';
-import { AppSettings } from './types';
+import { AppSettings, Provider } from './types';
 import { debug } from './utils';
 
 export const api = {
@@ -8,10 +8,6 @@ export const api = {
    * Frontend interface to interact with the main process.
    * The functions below can be accessed using `window.Main.myFunction`
    */
-
-  sendMessage: (message: string) => {
-    ipcRenderer.send('message', message);
-  },
 
   shutDown: () => {
     ipcRenderer.send('shutdown');
@@ -21,7 +17,7 @@ export const api = {
     ipcRenderer.send('showSettings', show);
   },
 
-  setSettings: (settings: AppSettings) => {
+  writeSettingsToFile: (settings: AppSettings) => {
     ipcRenderer.send('writeSettingsToFile', settings);
   },
 
@@ -31,6 +27,10 @@ export const api = {
 
   sponsor: () => {
     ipcRenderer.send('sponsor');
+  },
+
+  providerChanged: (provider: Provider) => {
+    ipcRenderer.send('providerChanged', provider);
   },
 
   /**

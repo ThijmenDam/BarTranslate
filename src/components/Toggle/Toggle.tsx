@@ -12,24 +12,27 @@ interface ToggleProps {
 
 export function Toggle({ checked, disabled, divider, label, setting }: ToggleProps): JSX.Element {
   const id = `check-${setting}`;
-  const { settings, setSettings } = useSettingsContext();
+  const { settings, storeSettings } = useSettingsContext();
 
   function toggle(key: BooleanAppSetting | AppSettings['provider'], value: boolean) {
     const localSettings = { ...settings };
 
-    if (key === 'Google') {
-      localSettings.provider = value ? 'Google' : 'DeepL';
+    if (key === 'Google' && value) {
+      window.Main.providerChanged('Google');
+      localSettings.provider = 'Google';
     }
 
-    if (key === 'DeepL') {
-      localSettings.provider = value ? 'DeepL' : 'Google';
+    if (key === 'DeepL' && value) {
+      window.Main.providerChanged('DeepL');
+      localSettings.provider = 'DeepL';
     }
 
     if (key === 'autoscroll' || key === 'darkmode') {
       localSettings[key] = value;
     }
 
-    setSettings(localSettings);
+    // TODO: write to file
+    storeSettings({ ...localSettings });
   }
 
   return (

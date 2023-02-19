@@ -1,32 +1,25 @@
 import settings from 'electron-settings';
 import { AppSettings } from '../types';
-import { isDev } from '../utils';
-import { validateSettings } from './validators/validateSettings';
+import { debug } from '../utils';
 import { defaultSettings } from './default';
+import { validateSettings } from './validators/validateSettings';
 
 export async function fetchAppSettingsFromFile(): Promise<AppSettings> {
   const settingsFromFile = (await settings.get('appSettings')) as AppSettings | null;
 
-  if (isDev()) {
-    console.debug('Fetching settings from file');
-    // console.info(stringifyWithIndent(settingsFromFile));
-  }
-
   if (!settingsFromFile) {
+    debug('Found no settings file, returning default settings.');
     return defaultSettings;
   }
 
-  // TODO: REMOVE FORCE OF DEEPL
-  settingsFromFile.provider = 'DeepL';
+  debug({ settingsFromFile });
 
   return validateSettings(settingsFromFile);
 }
 
 export async function writeAppSettingsToFile(appSettingsToFile: AppSettings) {
-  if (isDev()) {
-    console.info('Writing settings to file');
-    // console.info(stringifyWithIndent(appSettingsToFile));
-  }
+  debug('Writing settings to file.');
+  debug({ appSettingsToFile });
 
   // 'electron-settings' does not export types for proper casting?
   // eslint-disable-next-line

@@ -11,7 +11,7 @@ interface BindingProps {
 }
 
 export function Binding({ initialValue, setting, type }: BindingProps): JSX.Element {
-  const { settings, setSettings } = useSettingsContext();
+  const { settings, storeSettings } = useSettingsContext();
   const keycodes = type === 'key' ? keys : modifiers;
 
   // Store changed binding in settings
@@ -29,7 +29,8 @@ export function Binding({ initialValue, setting, type }: BindingProps): JSX.Elem
       newSettings.keyBindings[setting][type] = settingValue as Modifier;
     }
 
-    setSettings({ ...newSettings });
+    // TODO: write to file
+    storeSettings({ ...newSettings });
   }
 
   return (

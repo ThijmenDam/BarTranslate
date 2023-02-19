@@ -31,7 +31,7 @@ export function MainView() {
       setShowSettings(true);
     });
 
-    window.Main.on('setSettings', (settingsFromMain: AppSettings) => {
+    window.Main.on('passSettingsToRenderer', (settingsFromMain: AppSettings) => {
       setAppSettings({ ...settingsFromMain });
     });
   }, []);

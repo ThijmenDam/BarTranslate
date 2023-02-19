@@ -6,8 +6,8 @@ import { appConfig } from './config';
 import { registerKeyboardShortcuts } from './keyboard-shortcuts';
 import { fetchAppSettingsFromFile, writeAppSettingsToFile } from './settings';
 import { initTranslateWindow } from './translate-window';
-import { AppSettings } from './types';
-import { isDev } from './utils';
+import { AppSettings, Provider } from './types';
+import { isDev, debug } from './utils';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -30,7 +30,7 @@ function passSettingsToRenderer() {
 
     currentAppSettings = settings;
 
-    menuBar.window.webContents.send('setSettings', settings);
+    menuBar.window.webContents.send('passSettingsToRenderer', settings);
   });
 }
 
@@ -48,6 +48,7 @@ function registerListeners() {
   });
 
   ipcMain.on('showSettings', (_, show: boolean) => {
+    debug(`[ipcMain] showSettings ${show}`);
     if (show) {
       settingsVisible = true;
       translateWindow.hide();
@@ -58,17 +59,27 @@ function registerListeners() {
   });
 
   ipcMain.on('writeSettingsToFile', async (_, appSettings: AppSettings) => {
+    debug('[ipcMain] writeSettingsToFile');
     currentAppSettings = appSettings;
     await writeAppSettingsToFile(appSettings);
     await registerKeyboardShortcuts(appSettings, menuBar, translateWindow);
   });
 
-  ipcMain.on('requestSettings', passSettingsToRenderer);
+  ipcMain.on('requestSettings', () => {
+    debug('[ipcMain] requestSettings');
+    passSettingsToRenderer();
+  });
 
   ipcMain.on('sponsor', () => {
+    debug('[ipcMain] sponsor');
     shell.openExternal('https://github.com/sponsors/ThijmenDam').catch((e) => {
       console.error(e);
     });
+  });
+
+  ipcMain.on('providerChanged', (_, provider: Provider) => {
+    debug(`[ipcMain] providerChanged ${provider}`);
+    // TODO: reload + inject
   });
 }
 

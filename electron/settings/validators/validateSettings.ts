@@ -1,4 +1,5 @@
 import { AppSettings } from '../../types';
+import { debug } from '../../utils';
 import { validateBoolean } from './validateBoolean';
 import { validateKeybindings } from './validateKeybindings';
 import { validateProvider } from './validateProvider';
@@ -7,13 +8,17 @@ import { validateProvider } from './validateProvider';
  * Check if the application settings are properly configured. If not, resolve the issues.
  */
 export function validateSettings(appSettings: AppSettings): AppSettings {
-  let settings: AppSettings = { ...appSettings };
+  debug('Validating settings');
 
-  settings = validateBoolean(settings, 'darkmode');
-  settings = validateBoolean(settings, 'autoscroll');
+  let validatedSettings: AppSettings = { ...appSettings };
 
-  settings = validateProvider(settings);
-  settings = validateKeybindings(settings);
+  validatedSettings = validateBoolean(validatedSettings, 'darkmode');
+  validatedSettings = validateBoolean(validatedSettings, 'autoscroll');
 
-  return settings;
+  validatedSettings = validateProvider(validatedSettings);
+  validatedSettings = validateKeybindings(validatedSettings);
+
+  debug({ validatedSettings });
+
+  return validatedSettings;
 }
