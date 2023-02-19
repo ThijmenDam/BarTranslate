@@ -1,8 +1,10 @@
 
 # BarTranslate Changelog
 
-NB: version prior to 0.4.1 are not included in this file.
+> Versions prior to 0.5.0 are not included in this file.
 
-## Upcoming Release
-- **Added support for a new translation provider: DeepL** 
+## v0.5.0
+- **Added support for DeepL Translate**.
+- Added a validator for the app's settings. If you accidentally delete the settings file, default settings are now 
+  provided as a fallback.  
 - Resolved a rare bug that prevented the settings panel from loading properly.
