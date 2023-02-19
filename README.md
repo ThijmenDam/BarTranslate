@@ -9,6 +9,8 @@
 Translations are done by presenting a simple (altered) webview of your preferred translation provider in a quick and
 easily accessible interface.
 
+Included support for **Google Translate** and **DeepL Translate**.
+
 ##  Installation
 
 You can either download the executable or build the app from source.
