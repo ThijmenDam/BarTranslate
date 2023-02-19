@@ -1,1 +1,1 @@
-export { default } from './KeyBindSetting';
+export { KeyBindSetting } from './KeyBindSetting';

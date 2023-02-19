@@ -1,1 +1,1 @@
-export { default } from './Binding';
+export { Binding } from './Binding';

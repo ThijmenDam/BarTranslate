@@ -1,12 +1,9 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {
-  Event, Input, BrowserWindow, globalShortcut,
-} from 'electron';
+import { Event, Input, BrowserWindow, globalShortcut } from 'electron';
 import { Menubar } from 'menubar';
-import { fetchAppSettingsFromFile } from './settings';
 import { changeLanguage1, swapLanguages, changeLanguage2 } from './translate-window';
 import { AppSettings } from './types';
-import { isDev, toggleAppVisibility, validateMenubarWindow } from './utils';
+import { toggleAppVisibility, validateMenubarWindow, debug } from './utils';
 
 function menubarWindowInputHandler(event: Event, input: Input, menubarWindow: BrowserWindow) {
   // open settings
@@ -20,8 +17,10 @@ function translateWindowInputHandler(
   input: Input,
   menubarWindow: BrowserWindow,
   translateWindow: BrowserWindow,
-  keyBindings: AppSettings['keyBindings'],
+  settings: AppSettings,
 ) {
+  const { keyBindings, provider } = settings;
+
   // open settings
   if ((input.control || input.meta) && input.code === 'Comma') {
     menubarWindow.webContents.send('showSettings');
@@ -29,47 +28,45 @@ function translateWindowInputHandler(
 
   // switch languages
   if (
-    keyBindings.switchLanguages.modifier
-    && keyBindings.switchLanguages.key
-    && input.modifiers.includes(keyBindings.switchLanguages.modifier)
-    && input.code === keyBindings.switchLanguages.key
+    keyBindings.switchLanguages.modifier &&
+    keyBindings.switchLanguages.key &&
+    input.modifiers.includes(keyBindings.switchLanguages.modifier) &&
+    input.code === keyBindings.switchLanguages.key
   ) {
     event.preventDefault();
-    swapLanguages(translateWindow);
+    swapLanguages(provider, translateWindow);
   }
 
   // change language 1
   if (
-    keyBindings.changeLanguage1.modifier
-    && keyBindings.changeLanguage1.key
-    && input.modifiers.includes(keyBindings.changeLanguage1.modifier)
-    && input.code === keyBindings.changeLanguage1.key
+    keyBindings.changeLanguage1.modifier &&
+    keyBindings.changeLanguage1.key &&
+    input.modifiers.includes(keyBindings.changeLanguage1.modifier) &&
+    input.code === keyBindings.changeLanguage1.key
   ) {
     event.preventDefault();
-    changeLanguage1(translateWindow);
+    changeLanguage1(provider, translateWindow);
   }
 
   // change language 2
   if (
-    keyBindings.changeLanguage2.modifier
-    && keyBindings.changeLanguage2.key
-    && input.modifiers.includes(keyBindings.changeLanguage2.modifier)
-    && input.code === keyBindings.changeLanguage2.key
+    keyBindings.changeLanguage2.modifier &&
+    keyBindings.changeLanguage2.key &&
+    input.modifiers.includes(keyBindings.changeLanguage2.modifier) &&
+    input.code === keyBindings.changeLanguage2.key
   ) {
     event.preventDefault();
-    changeLanguage2(translateWindow);
+    changeLanguage2(provider, translateWindow);
   }
 }
 
-async function registerLocalKeyboardShortcuts(menubar: Menubar, translateWindow: BrowserWindow, settings: AppSettings) {
-  if (isDev()) {
-    console.info('Registering local key listeners');
-  }
+function registerLocalKeyboardShortcuts(menubar: Menubar, translateWindow: BrowserWindow, settings: AppSettings) {
+  debug('Registering local key listeners');
 
   const menubarWindow = validateMenubarWindow(menubar);
 
   function translateWindowInputListener(event: Event, input: Input) {
-    translateWindowInputHandler(event, input, menubarWindow, translateWindow, settings.keyBindings);
+    translateWindowInputHandler(event, input, menubarWindow, translateWindow, settings);
   }
 
   function menubarWindowInputListener(event: Event, input: Input) {
@@ -83,8 +80,8 @@ async function registerLocalKeyboardShortcuts(menubar: Menubar, translateWindow:
   menubarWindow.webContents.on('before-input-event', menubarWindowInputListener);
 }
 
-async function registerGlobalKeyboardShortcuts(menuBar: Menubar, settings: AppSettings) {
-  console.info('Registering local key listeners');
+function registerGlobalKeyboardShortcuts(menuBar: Menubar, settings: AppSettings) {
+  debug('Registering global key listeners');
 
   function convertToAccelerator(code: string) {
     return code
@@ -101,7 +98,7 @@ async function registerGlobalKeyboardShortcuts(menuBar: Menubar, settings: AppSe
       .replace('BracketLeft', '[')
       .replace('Backslash', '\\')
       .replace('BracketRight', ']')
-      .replace('Quote', '\'');
+      .replace('Quote', "'");
   }
 
   const { modifier, key } = settings.keyBindings.toggleApp;
@@ -113,12 +110,16 @@ async function registerGlobalKeyboardShortcuts(menuBar: Menubar, settings: AppSe
   const accelerator = convertToAccelerator(`${modifier}+${key}`);
 
   globalShortcut.unregisterAll();
-  await globalShortcut.register(accelerator, () => { toggleAppVisibility(menuBar); });
+  globalShortcut.register(accelerator, () => {
+    toggleAppVisibility(menuBar);
+  });
 }
 
-export async function registerKeyboardShortcuts(menuBar: Menubar, translateWindow: BrowserWindow) {
-  const settings = await fetchAppSettingsFromFile();
-
-  await registerGlobalKeyboardShortcuts(menuBar, settings);
-  await registerLocalKeyboardShortcuts(menuBar, translateWindow, settings);
+export async function registerKeyboardShortcuts(
+  settings: AppSettings,
+  menuBar: Menubar,
+  translateWindow: BrowserWindow,
+) {
+  registerGlobalKeyboardShortcuts(menuBar, settings);
+  registerLocalKeyboardShortcuts(menuBar, translateWindow, settings);
 }

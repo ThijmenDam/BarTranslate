@@ -1,38 +1,37 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {
-  app, BrowserWindow, ipcMain, shell,
-} from 'electron';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import { Menubar, menubar } from 'menubar';
 import path from 'path';
 import { appConfig } from './config';
 import { registerKeyboardShortcuts } from './keyboard-shortcuts';
 import { fetchAppSettingsFromFile, writeAppSettingsToFile } from './settings';
-import { initTranslateWindow } from './translate-window';
-import { AppSettings } from './types';
-import { isDev } from './utils';
+import { constructTranslateWindow, baseURL, setTranslateWindowListeners } from './translate-window';
+import { AppSettings, Provider } from './types';
+import { isDev, debug } from './utils';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 let menuBar: Menubar;
 let translateWindow: BrowserWindow;
-let settingsVisible : boolean;
+let settingsVisible: boolean;
 let currentAppSettings: AppSettings;
 
-const assetsPath = process.env.NODE_ENV === 'production'
-  ? path.join(process.resourcesPath, 'assets')
-  : path.join(app.getAppPath(), 'assets');
+const assetsPath =
+  process.env.NODE_ENV === 'production'
+    ? path.join(process.resourcesPath, 'assets')
+    : path.join(app.getAppPath(), 'assets');
 
-function registerSettings() {
-  fetchAppSettingsFromFile()
-    .then((settings) => {
-      if (!menuBar.window) {
-        throw new Error('Could not register settings: MenuBar BrowserWindow not found!');
-      }
+function passSettingsToRenderer() {
+  fetchAppSettingsFromFile().then((settings) => {
+    if (!menuBar.window) {
+      throw new Error('Could not register settings: MenuBar BrowserWindow not found!');
+    }
 
-      currentAppSettings = settings;
-      menuBar.window.webContents.send('setSettings', settings);
-    });
+    currentAppSettings = settings;
+
+    menuBar.window.webContents.send('passSettingsToRenderer', settings);
+  });
 }
 
 function registerListeners() {
@@ -49,6 +48,7 @@ function registerListeners() {
   });
 
   ipcMain.on('showSettings', (_, show: boolean) => {
+    debug(`[ipcMain] showSettings ${show}`);
     if (show) {
       settingsVisible = true;
       translateWindow.hide();
@@ -59,15 +59,28 @@ function registerListeners() {
   });
 
   ipcMain.on('writeSettingsToFile', async (_, appSettings: AppSettings) => {
+    debug('[ipcMain] writeSettingsToFile');
     currentAppSettings = appSettings;
     await writeAppSettingsToFile(appSettings);
-    await registerKeyboardShortcuts(menuBar, translateWindow);
+    await registerKeyboardShortcuts(appSettings, menuBar, translateWindow);
+  });
+
+  ipcMain.on('requestSettings', () => {
+    debug('[ipcMain] requestSettings');
+    passSettingsToRenderer();
   });
 
   ipcMain.on('sponsor', () => {
-    shell.openExternal('https://paypal.me/thijmendam').catch((e) => {
+    debug('[ipcMain] sponsor');
+    shell.openExternal('https://github.com/sponsors/ThijmenDam').catch((e) => {
       console.error(e);
     });
+  });
+
+  ipcMain.on('providerChanged', async (_, provider: Provider) => {
+    debug(`[ipcMain] providerChanged ${provider}`);
+    setTranslateWindowListeners(provider, menuBar, translateWindow);
+    await translateWindow.loadURL(baseURL(provider));
   });
 }
 
@@ -97,10 +110,13 @@ function createMenubarApp() {
   });
 
   menuBar.on('ready', async () => {
+    const settings = await fetchAppSettingsFromFile();
+
     setTimeout(() => {
       app.dock.hide();
     }, 1000);
-    translateWindow = initTranslateWindow(menuBar);
+
+    translateWindow = constructTranslateWindow(settings, menuBar);
 
     if (!menuBar.window) {
       throw new Error('Menubar BrowserWindow not properly initialized!');
@@ -109,8 +125,7 @@ function createMenubarApp() {
     menuBar.window.setMenu(null);
 
     registerListeners();
-    await registerKeyboardShortcuts(menuBar, translateWindow);
-    registerSettings();
+    await registerKeyboardShortcuts(settings, menuBar, translateWindow);
 
     menuBar.on('show', () => {
       if (!translateWindow.isVisible() && !settingsVisible) {
@@ -134,7 +149,8 @@ function createMenubarApp() {
   });
 }
 
-app.on('ready', createMenubarApp)
+app
+  .on('ready', createMenubarApp)
   .whenReady()
   // eslint-disable-next-line no-console
   .catch((e) => console.error(e));

@@ -3,29 +3,80 @@ import { BrowserWindow } from 'electron';
 import { Menubar } from 'menubar';
 import { appConfig } from './config';
 import { CSSInjections, JSInjections } from './injections';
+import { AppSettings, Provider } from './types';
 import { isDev } from './utils';
 
-function executeJavaScript(translateWindow: BrowserWindow, code: string) {
-  if (translateWindow.isVisible()) {
-    translateWindow.webContents
-      .executeJavaScript(code)
-      .catch((e) => { console.error(e); });
+let cssInjectionId: string;
+
+export function baseURL(provider: Provider) {
+  switch (provider) {
+    case 'Google':
+      return 'https://translate.google.com/';
+    case 'DeepL':
+      return 'https://www.deepl.com/translator';
+    default:
+      throw new Error(`Provider '${provider}' is invalid.`);
   }
 }
 
-export function swapLanguages(translateWindow: BrowserWindow) {
-  executeJavaScript(translateWindow, JSInjections.clearTextArea + JSInjections.swapLanguages);
+function executeJavaScript(translateWindow: BrowserWindow, code: string) {
+  if (translateWindow.isVisible()) {
+    translateWindow.webContents.executeJavaScript(code).catch((e) => {
+      console.error(e);
+    });
+  }
 }
 
-export function changeLanguage1(translateWindow: BrowserWindow) {
-  executeJavaScript(translateWindow, JSInjections.changeLanguage1);
+export function swapLanguages(provider: AppSettings['provider'], translateWindow: BrowserWindow) {
+  executeJavaScript(translateWindow, JSInjections[provider].swapLanguages);
+
+  // Previous behaviour. Kept as reference.
+  // executeJavaScript(translateWindow, JSInjections[provider].clearTextArea + JSInjections[provider].swapLanguages);
 }
 
-export function changeLanguage2(translateWindow: BrowserWindow) {
-  executeJavaScript(translateWindow, JSInjections.changeLanguage2);
+export function changeLanguage1(provider: AppSettings['provider'], translateWindow: BrowserWindow) {
+  executeJavaScript(translateWindow, JSInjections[provider].changeLanguage1);
 }
 
-export function initTranslateWindow(menuBar: Menubar): BrowserWindow {
+export function changeLanguage2(provider: AppSettings['provider'], translateWindow: BrowserWindow) {
+  executeJavaScript(translateWindow, JSInjections[provider].changeLanguage2);
+}
+
+export function setTranslateWindowListeners(provider: Provider, menuBar: Menubar, translateWindow: BrowserWindow) {
+  translateWindow.removeAllListeners();
+
+  translateWindow.on('ready-to-show', async () => {
+    if (cssInjectionId) {
+      await translateWindow.webContents.removeInsertedCSS(cssInjectionId);
+    }
+
+    cssInjectionId = await translateWindow.webContents.insertCSS(CSSInjections(provider));
+  });
+
+  translateWindow.on('show', () => {
+    if (menuBar.window) {
+      translateWindow.setPosition(
+        menuBar.window.getPosition()[0] + appConfig.margin,
+        menuBar.window.getPosition()[1] + appConfig.headerHeight + appConfig.margin,
+      );
+    }
+
+    translateWindow.webContents.focus();
+    translateWindow.webContents.executeJavaScript(JSInjections[provider].focusTextArea).catch((e) => {
+      console.error(e);
+    });
+  });
+
+  translateWindow.on('blur', () => {
+    if (!menuBar.window) return;
+    if (!menuBar.window.isFocused()) {
+      translateWindow.hide();
+      menuBar.hideWindow();
+    }
+  });
+}
+
+export function constructTranslateWindow(settings: AppSettings, menuBar: Menubar): BrowserWindow {
   if (!menuBar.window) {
     throw new Error('Menubar BrowserWindow not found!');
   }
@@ -54,43 +105,8 @@ export function initTranslateWindow(menuBar: Menubar): BrowserWindow {
     alwaysOnTop: true,
   });
 
-  translateWindow.loadURL('https://translate.google.com/').catch((e) => {
-    throw e; // TODO
-  });
-
-  translateWindow.on('ready-to-show', () => {
-    translateWindow.webContents
-      .insertCSS(CSSInjections({
-        darkmode: false,
-      }))
-      .catch((e) => {
-        console.error(e);
-      });
-  });
-
-  translateWindow.on('show', () => {
-    if (menuBar.window) {
-      translateWindow.setPosition(
-        menuBar.window.getPosition()[0] + appConfig.margin,
-        menuBar.window.getPosition()[1] + appConfig.headerHeight + appConfig.margin,
-      );
-    }
-
-    translateWindow.webContents.focus();
-    translateWindow.webContents
-      .executeJavaScript(JSInjections.focusTextArea)
-      .catch((e) => {
-        console.error(e);
-      });
-  });
-
-  translateWindow.on('blur', () => {
-    if (!menuBar.window) return;
-    if (!menuBar.window.isFocused()) {
-      translateWindow.hide();
-      menuBar.hideWindow();
-    }
-  });
+  setTranslateWindowListeners(settings.provider, menuBar, translateWindow);
+  translateWindow.loadURL(baseURL(settings.provider)).then();
 
   return translateWindow;
 }

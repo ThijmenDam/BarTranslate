@@ -3,15 +3,16 @@
   "productName": "BarTranslate",
   "license": "GPL-3.0",
   "author": "Thijmen Dam <thijmendam@icloud.com>",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "A handy menu bar translator widget for macOS, Windows and Linux.",
   "main": "./.webpack/main",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "electron-forge start -- --remote-debugging-port=9229",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "release": "electron-forge publish --arch x64 && electron-forge publish --arch arm64",
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --fix"
+    "lint": "eslint '{src,electron}/**/*.{ts,tsx}' --fix",
+    "prettier": "prettier --write --list-different \"{src,electron}/**/*.{ts,tsx}\""
   },
   "keywords": [],
   "dependencies": {
@@ -21,6 +22,7 @@
     "@fortawesome/react-fontawesome": "0.2.0",
     "@types/mousetrap": "^1.6.11",
     "electron-settings": "^4.0.2",
+    "eslint-config-prettier": "^8.6.0",
     "menubar": "9.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",

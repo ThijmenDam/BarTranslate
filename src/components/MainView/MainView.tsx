@@ -1,14 +1,23 @@
 import { useState, useEffect } from 'react';
 import { AppSettings } from '../../../electron/types';
-import Header from '../Header';
+import { Header } from '../Header';
 import { Settings } from '../Settings';
 
-import Translate from '../Translate';
+import { Translate } from '../Translate';
 import { MainViewStyle } from './styles';
 
-export default function MainView() {
+let initialized = false;
+
+export function MainView() {
   const [appSettings, setAppSettings] = useState<AppSettings | null>(null);
   const [showSettings, setShowSettings] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!initialized && !appSettings) {
+      initialized = true;
+      window.Main.requestSettings();
+    }
+  }, [appSettings]);
 
   function toggleSettings() {
     window.Main.showSettings(!showSettings);
@@ -22,33 +31,23 @@ export default function MainView() {
       setShowSettings(true);
     });
 
-    window.Main.on('setSettings', (settingsFromMain: AppSettings) => {
-      setAppSettings(settingsFromMain);
+    window.Main.on('passSettingsToRenderer', (settingsFromMain: AppSettings) => {
+      setAppSettings({ ...settingsFromMain });
     });
   }, []);
 
-  useEffect(() => {
-    if (!appSettings) return;
-    console.log(appSettings);
-    window.Main.setSettings(appSettings);
-  }, [appSettings]);
-
   return (
     <MainViewStyle>
-
       <Header
-        toggleSettings={() => { toggleSettings(); }}
+        toggleSettings={() => {
+          toggleSettings();
+        }}
         showSettings={showSettings}
       />
 
-      {showSettings && appSettings && (
-        <Settings appSettings={appSettings} setAppSettings={setAppSettings} />
-      )}
+      {showSettings && appSettings && <Settings appSettings={appSettings} setAppSettings={setAppSettings} />}
 
-      {!showSettings && (
-        <Translate />
-      )}
-
+      {!showSettings && <Translate />}
     </MainViewStyle>
   );
 }

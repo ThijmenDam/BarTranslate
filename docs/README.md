@@ -7,6 +7,8 @@
 Translations are done by presenting a simple (altered) webview of your preferred translation provider in a quick and
 easily accessible interface.
 
+Included support for **Google Translate** and **DeepL Translate**.
+
 ##  Installation
 
 You can either download the executable or build the app from source.
@@ -35,18 +37,20 @@ Available for MacOS, Windows and Linux.
 
 Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discussions)!
 
-* A quick and easily accessible interface for Google Translate.
+* A quick and easily accessible interface for your preferred translation provider:
+  * Google Translate.
+  * DeepL Translate.
 * Available for MacOS, Windows and Linux.
 * Configurable hotkeys to:
   * Toggle the app.
   * Swap languages.
-  * Select 'from' language.
-  * Select 'to' language.
+  * Select source language.
+  * Select target language.
+* Smart autofocus on the source text field when opening the app.
 
 ### Planned
 
-* Automatic dark mode based on system.
-* Support for more translation providers.
+* Dark mode.
 
 ## Notice for Developers
 
@@ -62,4 +66,4 @@ know](https://github.com/ThijmenDam/BarTranslate/discussions)!
 
 
 ## Support the author
-Like my work? [Consider buying me a coffee!](https://www.paypal.me/thijmendam)
+Like my work? [Consider buying me a coffee!](https://github.com/sponsors/ThijmenDam)

@@ -1,1 +1,3 @@
-export { Settings } from './Settings';
+import { Settings } from './Settings';
+
+export { Settings };
