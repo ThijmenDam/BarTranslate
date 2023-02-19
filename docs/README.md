@@ -37,19 +37,20 @@ Available for MacOS, Windows and Linux.
 
 Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discussions)!
 
-* A quick and easily accessible interface for Google Translate.
+* A quick and easily accessible interface for your preferred translation provider:
+  * Google Translate.
+  * DeepL Translate.
 * Available for MacOS, Windows and Linux.
 * Configurable hotkeys to:
   * Toggle the app.
   * Swap languages.
-  * Select 'from' language.
-  * Select 'to' language.
+  * Select source language.
+  * Select target language.
 * Smart autofocus on the source text field when opening the app.
 
 ### Planned
 
-* Automatic dark mode based on system.
-* Support for more translation providers.
+* Dark mode.
 
 ## Notice for Developers
 
