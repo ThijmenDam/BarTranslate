@@ -24,7 +24,7 @@ export const CSSDeepL = css`
   }
 
   .dl_translator_page_container {
-    max-width: calc(100vw);
+    max-width: 100vw;
   }
 
   section.lmt__side_container {
@@ -54,6 +54,7 @@ export const CSSDeepL = css`
   .lmt__language_container {
     border-top-right-radius: 8px !important;
     border-top-left-radius: 8px !important;
+    margin-left: 0 !important;
   }
 
   .lmt__side_container--source {
@@ -65,9 +66,17 @@ export const CSSDeepL = css`
     margin-bottom: 0 !important;
   }
 
-  /* TODO: PROPERLY POSITION SWITCHER */
+  .lmt__language_select__menu {
+    z-index: 9999999999 !important;
+  }
+
+  .lmt__language_select {
+    visibility: visible !important;
+  }
+
   button.lmt__language_container_switch,
   button.lmt__language_container_switch.switched {
-    display: none !important;
+    position: absolute !important;
+    right: 6px;
   }
 `;
