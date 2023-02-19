@@ -42,6 +42,7 @@ Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discu
   * Swap languages.
   * Select 'from' language.
   * Select 'to' language.
+* Smart autofocus on the source text field when opening the app.
 
 ### Planned
 
