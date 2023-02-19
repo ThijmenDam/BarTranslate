@@ -6,7 +6,9 @@ import { CSSInjections, JSInjections } from './injections';
 import { AppSettings, Provider } from './types';
 import { isDev } from './utils';
 
-function baseURL(provider: Provider) {
+let cssInjectionId: string;
+
+export function baseURL(provider: Provider) {
   switch (provider) {
     case 'Google':
       return 'https://translate.google.com/';
@@ -38,9 +40,37 @@ export function changeLanguage2(provider: AppSettings['provider'], translateWind
   executeJavaScript(translateWindow, JSInjections[provider].changeLanguage2);
 }
 
-export function initTranslateWindow(settings: AppSettings, menuBar: Menubar): BrowserWindow {
-  const { provider } = settings;
+export function setTranslateWindowListeners(provider: Provider, menuBar: Menubar, translateWindow: BrowserWindow) {
+  translateWindow.removeAllListeners();
 
+  translateWindow.on('ready-to-show', async () => {
+    cssInjectionId = await translateWindow.webContents.insertCSS(CSSInjections(provider));
+  });
+
+  translateWindow.on('show', () => {
+    if (menuBar.window) {
+      translateWindow.setPosition(
+        menuBar.window.getPosition()[0] + appConfig.margin,
+        menuBar.window.getPosition()[1] + appConfig.headerHeight + appConfig.margin,
+      );
+    }
+
+    translateWindow.webContents.focus();
+    translateWindow.webContents.executeJavaScript(JSInjections[provider].focusTextArea).catch((e) => {
+      console.error(e);
+    });
+  });
+
+  translateWindow.on('blur', () => {
+    if (!menuBar.window) return;
+    if (!menuBar.window.isFocused()) {
+      translateWindow.hide();
+      menuBar.hideWindow();
+    }
+  });
+}
+
+export function constructTranslateWindow(settings: AppSettings, menuBar: Menubar): BrowserWindow {
   if (!menuBar.window) {
     throw new Error('Menubar BrowserWindow not found!');
   }
@@ -69,37 +99,8 @@ export function initTranslateWindow(settings: AppSettings, menuBar: Menubar): Br
     alwaysOnTop: true,
   });
 
-  translateWindow.loadURL(baseURL(provider)).catch((e) => {
-    throw e; // TODO
-  });
-
-  translateWindow.on('ready-to-show', () => {
-    translateWindow.webContents.insertCSS(CSSInjections(settings)).catch((e) => {
-      console.error(e);
-    });
-  });
-
-  translateWindow.on('show', () => {
-    if (menuBar.window) {
-      translateWindow.setPosition(
-        menuBar.window.getPosition()[0] + appConfig.margin,
-        menuBar.window.getPosition()[1] + appConfig.headerHeight + appConfig.margin,
-      );
-    }
-
-    translateWindow.webContents.focus();
-    translateWindow.webContents.executeJavaScript(JSInjections[provider].focusTextArea).catch((e) => {
-      console.error(e);
-    });
-  });
-
-  translateWindow.on('blur', () => {
-    if (!menuBar.window) return;
-    if (!menuBar.window.isFocused()) {
-      translateWindow.hide();
-      menuBar.hideWindow();
-    }
-  });
+  setTranslateWindowListeners(settings.provider, menuBar, translateWindow);
+  translateWindow.loadURL(baseURL(settings.provider)).then();
 
   return translateWindow;
 }

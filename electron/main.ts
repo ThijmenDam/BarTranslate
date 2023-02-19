@@ -5,7 +5,7 @@ import path from 'path';
 import { appConfig } from './config';
 import { registerKeyboardShortcuts } from './keyboard-shortcuts';
 import { fetchAppSettingsFromFile, writeAppSettingsToFile } from './settings';
-import { initTranslateWindow } from './translate-window';
+import { constructTranslateWindow, baseURL, setTranslateWindowListeners } from './translate-window';
 import { AppSettings, Provider } from './types';
 import { isDev, debug } from './utils';
 
@@ -77,9 +77,10 @@ function registerListeners() {
     });
   });
 
-  ipcMain.on('providerChanged', (_, provider: Provider) => {
+  ipcMain.on('providerChanged', async (_, provider: Provider) => {
     debug(`[ipcMain] providerChanged ${provider}`);
-    // TODO: reload + inject
+    setTranslateWindowListeners(provider, menuBar, translateWindow);
+    await translateWindow.loadURL(baseURL(provider));
   });
 }
 
@@ -115,7 +116,7 @@ function createMenubarApp() {
       app.dock.hide();
     }, 1000);
 
-    translateWindow = initTranslateWindow(settings, menuBar);
+    translateWindow = constructTranslateWindow(settings, menuBar);
 
     if (!menuBar.window) {
       throw new Error('Menubar BrowserWindow not properly initialized!');
