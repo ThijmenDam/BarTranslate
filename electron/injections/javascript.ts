@@ -11,9 +11,9 @@ const JSInjections = {
   },
   DeepL: {
     focusTextArea: 'document.querySelector(".lmt__textarea_container").focus();',
-    swapLanguages: 'document.querySelector(".lmt__language_container_switch").click();',
-    changeLanguage1: 'document.querySelector(\'button[dl-test="translator-source-lang-btn"]\').click();',
-    changeLanguage2: 'document.querySelector(\'button[dl-test="translator-target-lang-btn"]\').click();',
+    swapLanguages: `document.querySelector('.lmt__language_container_switch').click();`,
+    changeLanguage1: `document.querySelector('button[dl-test="translator-source-lang-btn"]').click();`,
+    changeLanguage2: `document.querySelector('button[dl-test="translator-target-lang-btn"]').click();`,
     clearTextArea: `document.querySelector('button[dl-test="translator-source-clear-button"]').click();`,
   },
 };

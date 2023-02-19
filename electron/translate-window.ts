@@ -14,7 +14,6 @@ export function baseURL(provider: Provider) {
       return 'https://translate.google.com/';
     case 'DeepL':
       return 'https://www.deepl.com/translator';
-    // return 'https://www.deepl.com/translator-mobile';
     default:
       throw new Error(`Provider '${provider}' is invalid.`);
   }
@@ -29,7 +28,10 @@ function executeJavaScript(translateWindow: BrowserWindow, code: string) {
 }
 
 export function swapLanguages(provider: AppSettings['provider'], translateWindow: BrowserWindow) {
-  executeJavaScript(translateWindow, JSInjections[provider].clearTextArea + JSInjections[provider].swapLanguages);
+  executeJavaScript(translateWindow, JSInjections[provider].swapLanguages);
+
+  // Previous behaviour. Kept as reference.
+  // executeJavaScript(translateWindow, JSInjections[provider].clearTextArea + JSInjections[provider].swapLanguages);
 }
 
 export function changeLanguage1(provider: AppSettings['provider'], translateWindow: BrowserWindow) {
@@ -44,6 +46,10 @@ export function setTranslateWindowListeners(provider: Provider, menuBar: Menubar
   translateWindow.removeAllListeners();
 
   translateWindow.on('ready-to-show', async () => {
+    if (cssInjectionId) {
+      await translateWindow.webContents.removeInsertedCSS(cssInjectionId);
+    }
+
     cssInjectionId = await translateWindow.webContents.insertCSS(CSSInjections(provider));
   });
 
