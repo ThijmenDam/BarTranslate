@@ -1,10 +1,9 @@
-
 # BarTranslate Changelog
 
-> Versions prior to 0.5.0 are not included in this file.
+## v1.0.0
 
-## v0.5.0
-- **Added support for DeepL Translate**.
-- Added a validator for the app's settings. If you accidentally delete the settings file, default settings are now 
-  provided as a fallback.  
-- Resolved a rare bug that prevented the settings panel from loading properly.
+BarTranslate switched from Electron to SwiftUI! In other words, macOS is now natively supported.
+
+## Prior Releases
+
+Because BarTranslate switched from Electron to SwiftUI at version 1.0.0, prior releases are not included in this file.
