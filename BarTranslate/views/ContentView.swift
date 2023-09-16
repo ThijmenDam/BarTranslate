@@ -18,7 +18,6 @@ class ContentViewState: ObservableObject {
 
 struct ContentView: View {
   
-  let tmp = TranslateView()
   @StateObject private var contentViewState = ContentViewState()
   @AppStorage("translationProvider") private var translationProvider: TranslationProvider = .google
   
@@ -33,19 +32,8 @@ struct ContentView: View {
       case .settings:
         SettingsView()
       }
-      
-      // TODO: option 1
-      //      ZStack {
-      //        TranslateView()
-      //          .opacity(contentViewState.currentView == .translate ? 1 : 0)
-      //          .disabled(contentViewState.currentView == .settings)
-      //          .allowsHitTesting(contentViewState.currentView == .translate)
-      //        SettingsView()
-      //          .opacity(contentViewState.currentView == .settings ? 1 : 0)
-      //          .disabled(contentViewState.currentView == .translate)
-      //      }
-      //      .background(Color(NSColor.windowBackgroundColor))
     }
+    .animation(nil, value: UUID())
     .frame(
       minWidth: Constants.AppSize.width,
       minHeight: Constants.AppSize.height,
