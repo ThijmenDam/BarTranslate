@@ -10,11 +10,7 @@ Translations are done by presenting a simple (altered) webview of your preferred
 
 Included support for **Google Translate** and **DeepL Translate**.
 
-## Installation
-
-You can either download the executable or build the app from source.
-
-### Download
+## Download
 
 1. Refer to the [latest releases](https://github.com/ThijmenDam/BarTranslate/releases).
 2. Download BarTranslate.zip.
@@ -27,7 +23,7 @@ You can either download the executable or build the app from source.
 
 Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discussions)!
 
-* A quick and easily accessible interface for your preferred translation provider:
+* A quick and easily accessible menu bar application for your preferred translation provider:
   * Google Translate.
   * DeepL Translate.
 * Configurable hotkeys to toggle the app.
