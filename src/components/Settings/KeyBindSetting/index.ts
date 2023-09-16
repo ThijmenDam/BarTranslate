@@ -1,1 +1,0 @@
-export { KeyBindSetting } from './KeyBindSetting';

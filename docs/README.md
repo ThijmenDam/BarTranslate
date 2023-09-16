@@ -4,12 +4,11 @@
     <img src="assets/images/interface-snapshot.png" alt="BarTranslate interface snapshot" max-height="500"/>
 </p>
 
-Translations are done by presenting a simple (altered) webview of your preferred translation provider in a quick and
-easily accessible interface.
+Translations are done by presenting a simple (altered) webview of your preferred translation provider in a quick and easily accessible interface.
 
 Included support for **Google Translate** and **DeepL Translate**.
 
-##  Installation
+## Installation
 
 You can either download the executable or build the app from source.
 
@@ -64,6 +63,6 @@ when the app is built on Windows or Linux. If you notice any problems, feel free
 If you want to help distribute the executables for Windows or Linux, please [let me
 know](https://github.com/ThijmenDam/BarTranslate/discussions)!
 
-
 ## Support the author
+
 Like my work? [Consider buying me a coffee!](https://github.com/sponsors/ThijmenDam)
