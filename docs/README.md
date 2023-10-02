@@ -32,6 +32,7 @@ Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discu
 - Configurable hotkeys to select/swap languages.
 - Smart autofocus on the source text field when opening the app.
 - Automatically update the app when a new version is released.
+- Configurable hotkey to directly translate clipboard content.
 
 ## Support the author
 
