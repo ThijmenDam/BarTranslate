@@ -14,9 +14,15 @@ struct BarTranslateApp: App {
   @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
   
   var body: some Scene {
-//    WindowGroup {
-//      EmptyView()
-//    }
+    // Rendering a WindowGroup enables macOS default keyboard shortcuts (e.g. copy/paste) on macOS versions <= Monterey.
+    // The WindowGroup serves no other purpose, and is thus automatically closed on startup (see 'applicationDidFinishLaunching').
+    WindowGroup {
+      EmptyView()
+    }.commands {
+      // Although the empty window group is closed on startup, the user could still force it to open using the shortcut '⌘ + N'.
+      // This shouldn't be possible, thus that keyboard shortcut is disabled here.
+      CommandGroup(replacing: CommandGroupPlacement.newItem) {}
+    }
     Settings {
       SettingsView()
     }
@@ -30,7 +36,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   var statusBarItem: NSStatusItem!
   var hotkeyToggleApp: HotKey!
   var hotkeyToggleSettings: HotKey!
-      
+  
   @AppStorage("translationProvider") private var translationProvider: TranslationProvider = DefaultSettings.translationProvider
   @AppStorage("showHideKey") private var showHideKey: String = DefaultSettings.ToggleApp.key.description
   @AppStorage("showHideModifier") private var showHideModifier: String = DefaultSettings.ToggleApp.modifier.description
@@ -67,6 +73,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
   
   func applicationDidFinishLaunching(_ notification: Notification) {
+    
+    // Immediately close the main (empty) app window defined in 'BarTranslateApp'.
+    if let window = NSApplication.shared.windows.first {
+      window.close()
+    }
+    
     let contentView = ContentView()
     
     // Application Bubble
