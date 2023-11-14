@@ -22,8 +22,10 @@ struct TranslateView: View {
 
 struct WebView: NSViewRepresentable {
   @AppStorage("translationProvider") private var translationProvider = DefaultSettings.translationProvider
-
+  
   func makeNSView(context: Context) -> WKWebView {
+    print("MAKE")
+    
     let prefs = WKWebpagePreferences()
     prefs.allowsContentJavaScript = true
     
@@ -31,22 +33,19 @@ struct WebView: NSViewRepresentable {
     config.defaultWebpagePreferences = prefs
     
     let webView = WKWebView(frame: .zero, configuration: config)
+    
+    injectCSS(webView: webView, provider: translationProvider)
+    
+    let providerURLString = translationProvider == .google ? "https://translate.google.com" : "https://www.deepl.com/translator"
+    let providerURL = URL(string: providerURLString)!
+    
+    webView.load(URLRequest(url: providerURL))
+    
     return webView
   }
   
-  func updateNSView(_ nsView: WKWebView, context: Context) {
-        
-    let link = translationProvider == .google ? "https://translate.google.com" : "https://www.deepl.com/translator"
-    
-    guard let myURL = URL(string: link) else {
-      return
-    }
-    
-    let request = URLRequest(url: myURL)
-    
-    nsView.load(request)
-    
-    injectCSS(webView: nsView, provider: translationProvider)
-  }
   
+  func updateNSView(_ nsView: WKWebView, context: Context) {
+    // Only here fur future reference
+  }
 }
