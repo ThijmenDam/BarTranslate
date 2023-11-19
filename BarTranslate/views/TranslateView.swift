@@ -10,10 +10,11 @@ import SwiftUI
 import WebKit
 
 struct TranslateView: View {
+  @ObservedObject var contentViewState: ContentViewState
   
   var body: some View {
     VStack(spacing: 0) {
-      WebView().background(.white)
+      WebView(contentViewState: contentViewState).background(.white)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .background(.white)
@@ -21,11 +22,10 @@ struct TranslateView: View {
 }
 
 struct WebView: NSViewRepresentable {
+  @ObservedObject var contentViewState: ContentViewState
   @AppStorage("translationProvider") private var translationProvider = DefaultSettings.translationProvider
   
   func makeNSView(context: Context) -> WKWebView {
-    print("MAKE")
-    
     let prefs = WKWebpagePreferences()
     prefs.allowsContentJavaScript = true
     
@@ -33,8 +33,6 @@ struct WebView: NSViewRepresentable {
     config.defaultWebpagePreferences = prefs
     
     let webView = WKWebView(frame: .zero, configuration: config)
-    
-    injectCSS(webView: webView, provider: translationProvider)
     
     let providerURLString = translationProvider == .google ? "https://translate.google.com" : "https://www.deepl.com/translator"
     let providerURL = URL(string: providerURLString)!
@@ -46,6 +44,11 @@ struct WebView: NSViewRepresentable {
   
   
   func updateNSView(_ nsView: WKWebView, context: Context) {
-    // Only here fur future reference
+    switch contentViewState.currentView {
+    case .translate:
+      injectCSS(webView: nsView, provider: translationProvider)
+    case .settings:
+      return
+    }
   }
 }

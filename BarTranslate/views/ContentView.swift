@@ -28,7 +28,7 @@ struct ContentView: View {
       
       switch contentViewState.currentView {
       case .translate:
-        TranslateView()
+        TranslateView(contentViewState: contentViewState)
       case .settings:
         SettingsView()
       }
