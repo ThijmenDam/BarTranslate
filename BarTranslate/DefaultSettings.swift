@@ -14,9 +14,17 @@ enum TranslationProvider: String {
   case google, deepl
 }
 
+enum MenuBarIcon: String, CaseIterable, Identifiable {
+  case original = "MenuIcon"
+  case minimal = "MenuIconMinimal"
+  
+  var id: String { self.rawValue }
+}
+
 struct DefaultSettings {
   
   static let translationProvider = TranslationProvider.google
+  static let menuBarIcon = MenuBarIcon.original
   
   struct ToggleApp {
     static let key = Key(string: ";")!
