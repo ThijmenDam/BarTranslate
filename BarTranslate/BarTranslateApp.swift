@@ -40,21 +40,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   @AppStorage("translationProvider") private var translationProvider: TranslationProvider = DefaultSettings.translationProvider
   @AppStorage("showHideKey") private var showHideKey: String = DefaultSettings.ToggleApp.key.description
   @AppStorage("showHideModifier") private var showHideModifier: String = DefaultSettings.ToggleApp.modifier.description
+  @AppStorage("menuBarIcon") private var menuBarIcon: MenuBarIcon = DefaultSettings.menuBarIcon
   
   override init() {
     super.init()
     UserDefaults.standard.addObserver(self, forKeyPath: "showHideKey", options: .new, context: nil)
     UserDefaults.standard.addObserver(self, forKeyPath: "showHideModifier", options: .new, context: nil)
+    UserDefaults.standard.addObserver(self, forKeyPath: "menuBarIcon", options: .new, context: nil)
   }
   
   deinit {
     UserDefaults.standard.removeObserver(self, forKeyPath: "showHideKey")
     UserDefaults.standard.removeObserver(self, forKeyPath: "showHideModifier")
+    UserDefaults.standard.removeObserver(self, forKeyPath: "menuBarIcon")
   }
   
   override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
     if keyPath == "showHideKey" || keyPath == "showHideModifier" {
       setupToggleAppHotkeys()
+    }
+    else if keyPath == "menuBarIcon" {
+      updateMenuBarIcon()
     }
   }
   
@@ -70,6 +76,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.togglePopover(nil)
       }
     )
+  }
+  
+  func updateMenuBarIcon() {
+    if let button = self.statusBarItem.button {
+      button.image = NSImage(named: menuBarIcon.id)
+    }
   }
   
   func applicationDidFinishLaunching(_ notification: Notification) {
@@ -91,7 +103,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Setup status bar item
     self.statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(NSStatusItem.variableLength))
     if let button = self.statusBarItem.button {
-      button.image = NSImage(named: "MenuIcon")
+      button.image = NSImage(named: menuBarIcon.id)
       button.action = #selector(togglePopover(_:))
     }
     
