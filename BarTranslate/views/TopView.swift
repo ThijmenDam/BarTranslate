@@ -13,38 +13,37 @@ struct SettingsButton: View {
   
   @ObservedObject var contentViewState: ContentViewState
   
-  func toggleSettingsView() {
-    switch contentViewState.currentView {
-    case .translate:
-      contentViewState.currentView = .settings
-    case .settings:
-      contentViewState.currentView = .translate
-    }
-  }
-  
   var body: some View {
-    Button() {
-      toggleSettingsView()
+    Menu {
+      Button("Preferences", action: {
+        contentViewState.currentView = .settings
+      })
+      Divider()
+      Button("Quit", action: {
+        exit(0)
+      })
     } label: {
-      Image(systemName: contentViewState.currentView == .translate ? "gearshape" : "arrowshape.turn.up.backward")
+      Image(systemName: "gearshape")
         .font(.system(size: 14.0))
-        .padding(.trailing, 12)
         .foregroundColor(.white)
-    }.buttonStyle(.plain).keyboardShortcut(",")
+    }.buttonStyle(.plain)
   }
 }
 
-struct PowerButton: View {
+struct BackButton: View {
+  
+  @ObservedObject var contentViewState: ContentViewState
+  
   var body: some View {
-    Button() {
-      exit(0)
-    } label: {
-      Image(systemName: "power")
-        .font(.system(size: 14.0, weight: .bold))
+    Button(action: {
+      contentViewState.currentView = .translate
+    }) {
+      Image(systemName: "chevron.left")
+        .font(.system(size: 14.0))
         .foregroundColor(.white)
-    }
-    .buttonStyle(.plain)
-    
+      Text("Translate")
+        .foregroundColor(.white)
+    }.buttonStyle(.plain)
   }
 }
 
@@ -52,14 +51,19 @@ struct TopView: View {
   @ObservedObject var contentViewState: ContentViewState
   
   var body: some View {
-    HStack {
-      Text("BarTranslate")
-        .padding()
-        .foregroundColor(.white)
-      Spacer()
-      HStack {
-        PowerButton()
+    ZStack {
+      if contentViewState.currentView == .translate {
+        Text("BarTranslate")
+          .padding()
+          .frame(maxWidth: .infinity, alignment: .center)
+          .foregroundColor(.white)
         SettingsButton(contentViewState: contentViewState)
+          .frame(maxWidth: .infinity, alignment: .trailing)
+          .padding()
+      } else {
+        BackButton(contentViewState: contentViewState)
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding()
       }
     }
     .frame(minWidth: Constants.AppSize.width)

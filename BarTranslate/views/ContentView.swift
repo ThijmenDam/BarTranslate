@@ -29,11 +29,13 @@ struct ContentView: View {
       switch contentViewState.currentView {
       case .translate:
         TranslateView()
+          .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
       case .settings:
         SettingsView()
+          .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .trailing)))
       }
     }
-    .animation(nil, value: UUID())
+    .animation(.easeInOut(duration: 0.3), value: contentViewState.currentView)
     .frame(
       minWidth: Constants.AppSize.width,
       minHeight: Constants.AppSize.height,
