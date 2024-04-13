@@ -23,10 +23,10 @@ struct SettingsButton: View {
         exit(0)
       })
     } label: {
-      Image(systemName: "gearshape")
-        .font(.system(size: 14.0))
+      Image(systemName: "line.3.horizontal.decrease")
+        .font(.system(size: 18))
         .foregroundColor(.white)
-    }.buttonStyle(.plain)
+    }.buttonStyle(HighlightButtonStyle())
   }
 }
 
@@ -38,12 +38,13 @@ struct BackButton: View {
     Button(action: {
       contentViewState.currentView = .translate
     }) {
-      Image(systemName: "chevron.left")
-        .font(.system(size: 14.0))
-        .foregroundColor(.white)
-      Text("Translate")
-        .foregroundColor(.white)
-    }.buttonStyle(.plain)
+      HStack {
+        Image(systemName: "chevron.left")
+          .foregroundColor(.white)
+        Text("Translate")
+          .foregroundColor(.white)
+      }
+    }.buttonStyle(HighlightButtonStyle())
   }
 }
 
@@ -54,19 +55,39 @@ struct TopView: View {
     ZStack {
       if contentViewState.currentView == .translate {
         Text("BarTranslate")
-          .padding()
           .frame(maxWidth: .infinity, alignment: .center)
           .foregroundColor(.white)
         SettingsButton(contentViewState: contentViewState)
           .frame(maxWidth: .infinity, alignment: .trailing)
-          .padding()
+          .padding(.trailing)
       } else {
         BackButton(contentViewState: contentViewState)
           .frame(maxWidth: .infinity, alignment: .leading)
-          .padding()
+          .padding(.leading)
       }
     }
-    .frame(minWidth: Constants.AppSize.width)
+    .frame(minWidth: Constants.AppSize.width, minHeight: 35)
     .background(Color.blue)
+    Divider()
+  }
+}
+
+/* Button Style for hover and press effect */
+struct HighlightButtonStyle: ButtonStyle {
+  
+  @State private var isHovered = false
+  var color: Color = .primary
+
+  func makeBody(configuration: Configuration) -> some View {
+    let opacity = configuration.isPressed ? 0.2 : (isHovered ? 0.1 : 0.0)
+    
+    configuration.label
+      .padding(5)
+      .background(isHovered || configuration.isPressed ? color.opacity(opacity) : .clear)
+      .cornerRadius(5)
+      .contentShape(Rectangle())
+      .onHover { hover in
+          isHovered = hover
+    }
   }
 }
