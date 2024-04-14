@@ -35,18 +35,6 @@ struct SettingsView: View {
     VStack {
       SponsorButton()
       
-      // Translation Provider
-      Form {
-        Picker("Translation Provider", selection: $translationProvider) {
-          Text("Google").tag(TranslationProvider.google)
-          Text("DeepL").tag(TranslationProvider.deepl)
-          
-        }
-        .pickerStyle(.menu)
-      }.frame(maxWidth: .infinity)
-      
-      Divider().padding(.bottom, 4)
-      
       // Keyboard Shortcuts
       HStack {
         Text("Toggle App")

@@ -12,13 +12,23 @@ import SwiftUI
 struct SettingsButton: View {
   
   @ObservedObject var contentViewState: ContentViewState
+  @AppStorage("translationProvider") private var translationProvider: TranslationProvider = DefaultSettings.translationProvider
   
   var body: some View {
     Menu {
+      Picker("Translator", selection: $translationProvider) {
+        Text("Google").tag(TranslationProvider.google)
+        Text("DeepL").tag(TranslationProvider.deepl)
+      }.pickerStyle(.inline).labelsHidden()
+      
+      Divider()
+      
       Button("Preferences", action: {
         contentViewState.currentView = .settings
       })
+      
       Divider()
+      
       Button("Quit", action: {
         exit(0)
       })
