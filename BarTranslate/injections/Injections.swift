@@ -4,7 +4,9 @@
 //
 //  Created by Thijmen Dam on 28/05/2023.
 //
-//  Reference: https://medium.com/@mahdi.mahjoobi/injection-css-and-javascript-in-wkwebview-eabf58e5c54e
+//  References:
+//  https://medium.com/@mahdi.mahjoobi/injection-css-and-javascript-in-wkwebview-eabf58e5c54e
+//  https://stackoverflow.com/questions/38952420/swift-wait-until-datataskwithrequest-has-finished-to-call-the-return
 
 import Foundation
 import SwiftUI

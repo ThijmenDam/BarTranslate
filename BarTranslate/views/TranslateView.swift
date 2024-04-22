@@ -46,6 +46,6 @@ struct WebView: NSViewRepresentable {
   
   
   func updateNSView(_ nsView: WKWebView, context: Context) {
-    // Only here fur future reference
+    // Only here for future reference
   }
 }
