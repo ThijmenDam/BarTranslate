@@ -28,6 +28,8 @@ struct SettingsView: View {
   @AppStorage("translationProvider") private var translationProvider: TranslationProvider = DefaultSettings.translationProvider
   @AppStorage("showHideKey") private var showHideKey: String = DefaultSettings.ToggleApp.key.description
   @AppStorage("showHideModifier") private var showHideModifier: String = DefaultSettings.ToggleApp.modifier.description
+  @AppStorage("menuBarIcon") private var menuBarIcon: MenuBarIcon = DefaultSettings.menuBarIcon
+
   
   var body: some View {
     VStack {
@@ -64,8 +66,24 @@ struct SettingsView: View {
               Text(key.description).tag(key.description)
             }
           }.labelsHidden()
-          
+            
         }
+      }
+        
+      // Menu Bar Icon Toggle
+      HStack {
+        Text("Menu Bar Icon")
+        Picker("", selection: $menuBarIcon) {
+            ForEach(MenuBarIcon.allCases) { icon in
+                Image(icon.rawValue)
+                    .resizable()
+                    .scaledToFit()
+                    .tag(icon)
+          }
+        }
+        .pickerStyle(.segmented)
+        .frame(width: 100)
+        Spacer()
       }
       
       // Version & Updates

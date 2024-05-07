@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 3300 2200" style="enable-background:new 0 0 3300 2200;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+	.st1{fill:none;stroke:#000000;stroke-width:0.5;}
+	.st2{font-family:'Helvetica-Bold';}
+	.st3{font-size:13px;}
+	.st4{font-family:'Helvetica';}
+	.st5{fill:none;stroke:#00AEEF;stroke-width:0.5;}
+	.st6{fill:#27AAE1;}
+	.st7{fill:none;stroke:#27AAE1;stroke-width:0.5;}
+</style>
+<g id="Notes">
+	<rect id="artboard" class="st0" width="3300" height="2200"/>
+	<line class="st1" x1="263" y1="292" x2="3036" y2="292"/>
+	<text transform="matrix(1 0 0 1 263 322)" class="st2 st3">Weight/Scale Variations</text>
+	<text transform="matrix(1 0 0 1 534.0633 322)" class="st4 st3">Ultralight</text>
+	<text transform="matrix(1 0 0 1 843.7775 322)" class="st4 st3">Thin</text>
+	<text transform="matrix(1 0 0 1 1139.035 322)" class="st4 st3">Light</text>
+	<text transform="matrix(1 0 0 1 1427.0773 322)" class="st4 st3">Regular</text>
+	<text transform="matrix(1 0 0 1 1723.4419 322)" class="st4 st3">Medium</text>
+	<text transform="matrix(1 0 0 1 2016.1719 322)" class="st4 st3">Semibold</text>
+	<text transform="matrix(1 0 0 1 2326.9705 322)" class="st4 st3">Bold</text>
+	<text transform="matrix(1 0 0 1 2618.2659 322)" class="st4 st3">Heavy</text>
+	<text transform="matrix(1 0 0 1 2917.5054 322)" class="st4 st3">Black</text>
+	<line class="st1" x1="263" y1="1903" x2="3036" y2="1903"/>
+	<g transform="matrix(0.2 0 0 0.2 263 1933)">
+		<path d="M46.2,4.2c21.5,0,39.5-17.9,39.5-39.4s-18-39.4-39.5-39.4c-21.5,0-39.4,17.9-39.4,39.4S24.8,4.2,46.2,4.2L46.2,4.2z
+			 M46.2-3.3c-17.7,0-31.9-14.2-31.9-32s14.1-32,31.8-32c17.8,0,32,14.2,32,32S64-3.3,46.2-3.3L46.2-3.3z M28.3-35.3
+			c0,2.1,1.5,3.6,3.8,3.6h10.5V-21c0,2.2,1.5,3.7,3.6,3.7c2.2,0,3.7-1.5,3.7-3.7v-10.6h10.6c2.2,0,3.7-1.5,3.7-3.6
+			c0-2.2-1.5-3.7-3.7-3.7H49.9v-10.5c0-2.2-1.5-3.8-3.7-3.8c-2.1,0-3.6,1.5-3.6,3.8V-39H32C29.8-39,28.3-37.5,28.3-35.3z"/>
+	</g>
+	<g transform="matrix(0.2 0 0 0.2 281.506 1933)">
+		<path d="M58.5,14.6c27.2,0,49.8-22.6,49.8-49.8c0-27.2-22.6-49.8-49.9-49.8c-27.2,0-49.8,22.6-49.8,49.8
+			C8.7-8.1,31.3,14.6,58.5,14.6z M58.5,6.3c-23,0-41.5-18.5-41.5-41.5s18.4-41.5,41.4-41.5S100-58.3,100-35.3S81.6,6.3,58.5,6.3
+			L58.5,6.3z M35.9-35.3c0,2.4,1.7,4,4.2,4h14.4v14.4c0,2.4,1.7,4.2,4.1,4.2c2.4,0,4.2-1.7,4.2-4.2v-14.4H77c2.4,0,4.2-1.6,4.2-4
+			c0-2.4-1.7-4.2-4.2-4.2H62.6v-14.4c0-2.5-1.7-4.2-4.2-4.2c-2.4,0-4.1,1.7-4.1,4.2v14.4H40C37.5-39.4,35.9-37.7,35.9-35.3z"/>
+	</g>
+	<g transform="matrix(0.2 0 0 0.2 304.924 1933)">
+		<path d="M74.9,28.3c34.8,0,63.6-28.8,63.6-63.6c0-34.8-28.9-63.6-63.7-63.6c-34.8,0-63.5,28.8-63.5,63.6
+			C11.3-0.5,40.1,28.3,74.9,28.3L74.9,28.3z M74.9,19.2c-30.2,0-54.4-24.3-54.4-54.5c0-30.2,24.2-54.5,54.4-54.5
+			c30.2,0,54.5,24.3,54.5,54.5C129.3-5.1,105.1,19.2,74.9,19.2L74.9,19.2z M46-35.3c0,2.6,1.9,4.4,4.6,4.4h19.7v19.8
+			c0,2.7,1.9,4.6,4.4,4.6c2.7,0,4.5-1.9,4.5-4.6v-19.8h19.8c2.7,0,4.6-1.8,4.6-4.4c0-2.7-1.9-4.6-4.6-4.6H79.3v-19.7
+			c0-2.7-1.9-4.6-4.5-4.6c-2.6,0-4.4,1.9-4.4,4.6v19.7H50.6C47.9-39.8,46-38,46-35.3z"/>
+	</g>
+	<text transform="matrix(1 0 0 1 263 1953)" class="st2 st3">Design Variations</text>
+	<text transform="matrix(1 0 0 1 263 1971)" class="st4 st3">Symbols are supported in up to nine weights and three scales.</text>
+	<text transform="matrix(1 0 0 1 263 1989)" class="st4 st3">For optimal layout with text and other symbols, vertically align</text>
+	<text transform="matrix(1 0 0 1 263 2007)" class="st4 st3">symbols with the adjacent text.</text>
+	<line class="st5" x1="776" y1="1919" x2="776" y2="1933"/>
+	<g transform="matrix(0.2 0 0 0.2 776 1933)">
+		<path d="M16.6,0.8c2.6,0,3.9-1,4.8-3.7l6.3-17.2h28.8l6.3,17.2c0.9,2.7,2.2,3.7,4.7,3.7c2.6,0,4.2-1.6,4.2-4
+			c0-0.8-0.1-1.6-0.5-2.6l-22.9-61c-1.1-3-3.1-4.5-6.2-4.5c-3,0-5.1,1.5-6.2,4.4L13-5.8c-0.4,1-0.5,1.8-0.5,2.6
+			C12.5-0.7,14,0.8,16.6,0.8z M30-27.6l11.9-32.9h0.2L54-27.6L30-27.6z"/>
+	</g>
+	<line class="st5" x1="792.8" y1="1919" x2="792.8" y2="1933"/>
+	<text transform="matrix(1 0 0 1 776 1953)" class="st2 st3">Margins</text>
+	<text transform="matrix(1 0 0 1 776 1971)" class="st4 st3">Leading and trailing margins on the left and right side of each symbol</text>
+	<text transform="matrix(1 0 0 1 776 1989)" class="st4 st3">can be adjusted by modifying the x-location of the margin guidelines.</text>
+	<text transform="matrix(1 0 0 1 776 2007)" class="st4 st3">Modifications are automatically applied proportionally to all</text>
+	<text transform="matrix(1 0 0 1 776 2025)" class="st4 st3">scales and weights.</text>
+	<g transform="matrix(0.2 0 0 0.2 1289 1933)">
+		<path d="M14.2,9.3l8.5,8.5c4.3,4.3,9.2,4.1,13.9-1.1L90-42.1L85.2-47L32.1,11.4c-1.8,2-3.4,2.5-5.8,0.1l-5.9-5.8
+			c-2.3-2.3-1.8-4,0.2-5.8l57.4-54l-4.9-4.8l-58,54.4C10.3,0.1,9.9,5,14.2,9.3L14.2,9.3z M46.3-81.6c-2.1,2.1-2.2,4.9-1.1,6.9
+			c1.2,1.8,3.5,3,6.7,2.1c7.3-1.7,14.9-2,22.1,2.7L71-62.6c-1.7,4.2-0.8,7.1,1.9,9.8l11.5,11.6c2.4,2.4,4.5,2.5,7.3,2.1l5.3-1
+			l3.3,3.4l-0.2,2.8c-0.2,2.5,0.4,4.4,2.9,6.8l3.8,3.7c2.4,2.4,5.5,2.5,7.8,0.2l14.6-14.6c2.3-2.3,2.2-5.3-0.1-7.7l-3.9-3.8
+			c-2.4-2.4-4.2-3.2-6.6-3l-2.9,0.2l-3.2-3.2l1.2-5.6c0.6-2.8-0.1-5-3.1-8l-11-10.9C82.9-96.5,60.7-96.1,46.3-81.6L46.3-81.6z
+			 M53.8-79.8c12.2-8.9,28.6-7.4,39.7,3.8L105.7-64c1.2,1.2,1.4,2.1,1,3.8l-1.6,7.4l7.5,7.4l4.9-0.3c1.3,0,1.7,0,2.6,1l2.9,2.9
+			l-12.2,12.2l-2.9-2.9c-1-1-1.1-1.4-1.1-2.7l0.3-4.9l-7.5-7.4l-7.6,1.3c-1.6,0.3-2.3,0.2-3.6-1l-10-10c-1.3-1.2-1.4-2-0.6-3.9
+			l4.4-10.4c-7.8-7.3-18-10.4-28.1-7.4C53.4-78.6,53.1-79.2,53.8-79.8L53.8-79.8z"/>
+	</g>
+	<text transform="matrix(1 0 0 1 1289 1953)" class="st2 st3">Exporting</text>
+	<text transform="matrix(1 0 0 1 1289 1971)" class="st4 st3">Symbols should be outlined when exporting to ensure the</text>
+	<text transform="matrix(1 0 0 1 1289 1989)" class="st4 st3">design is preserved when submitting to Xcode.</text>
+	<text id="template-version" transform="matrix(1 0 0 1 2952.4141 1933)" class="st4 st3">Template v.5.0</text>
+	<text transform="matrix(1 0 0 1 2865.4575 1951)" class="st4 st3">Requires Xcode 15 or greater</text>
+	<text id="descriptive-name" transform="matrix(1 0 0 1 2876.3057 1969)" class="st4 st3">Generated from plus.app.fill</text>
+	<text transform="matrix(1 0 0 1 2901.5693 1987)" class="st4 st3">Typeset at 100.0 points</text>
+	<text transform="matrix(1 0 0 1 263 726)" class="st4 st3">Small</text>
+	<text transform="matrix(1 0 0 1 263 1156)" class="st4 st3">Medium</text>
+	<text transform="matrix(1 0 0 1 263 1586)" class="st4 st3">Large</text>
+</g>
+<g id="Guides">
+	<g id="H-reference" transform="matrix(1 0 0 1 339 696)">
+		<path class="st6" d="M1,0h2.6l25.7-67.1H30v-3.3h-1.9L1,0z M11.7-24.5H47l-0.8-2.2H12.4L11.7-24.5z M55.1,0h2.6L30.6-70.5h-1.2
+			v3.3L55.1,0z"/>
+	</g>
+	<line id="Baseline-S" class="st7" x1="263" y1="696" x2="3036" y2="696"/>
+	<line id="Capline-S" class="st7" x1="263" y1="625.5" x2="3036" y2="625.5"/>
+	<g id="H-reference_00000167393700756398280710000006803310878070080684_" transform="matrix(1 0 0 1 339 1126)">
+		<path class="st6" d="M1,0h2.6l25.7-67.1H30v-3.3h-1.9L1,0z M11.7-24.5H47l-0.8-2.2H12.4L11.7-24.5z M55.1,0h2.6L30.6-70.5h-1.2
+			v3.3L55.1,0z"/>
+	</g>
+	<line id="Baseline-M" class="st7" x1="263" y1="1126" x2="3036" y2="1126"/>
+	<line id="Capline-M" class="st7" x1="263" y1="1055.5" x2="3036" y2="1055.5"/>
+	<g id="H-reference_00000030464080481255532850000018249824221373881987_" transform="matrix(1 0 0 1 339 1556)">
+		<path class="st6" d="M1,0h2.6l25.7-67.1H30v-3.3h-1.9L1,0z M11.7-24.5H47l-0.8-2.2H12.4L11.7-24.5z M55.1,0h2.6L30.6-70.5h-1.2
+			v3.3L55.1,0z"/>
+	</g>
+	<line id="Baseline-L" class="st7" x1="263" y1="1556" x2="3036" y2="1556"/>
+	<line id="Capline-L" class="st7" x1="263" y1="1485.5" x2="3036" y2="1485.5"/>
+	<line id="left-margin-Ultralight-S" class="st5" x1="516.8" y1="600.8" x2="516.8" y2="720.1"/>
+	<line id="right-margin-Ultralight-S" class="st5" x1="602.6" y1="600.8" x2="602.6" y2="720.1"/>
+	<line id="left-margin-Regular-S" class="st5" x1="1404.3" y1="600.8" x2="1404.3" y2="720.1"/>
+	<line id="right-margin-Regular-S" class="st5" x1="1495.3" y1="600.8" x2="1495.3" y2="720.1"/>
+	<line id="left-margin-Black-S" class="st5" x1="2886" y1="600.8" x2="2886" y2="720.1"/>
+	<line id="right-margin-Black-S" class="st5" x1="2980.8" y1="600.8" x2="2980.8" y2="720.1"/>
+</g>
+<g id="Symbols">
+	<g id="Black-S" transform="matrix(1 0 0 1 2885.99 696)">
+		<path d="M88.3-65.3l-39.2-0.2l-5.7-17.6c-0.2-0.7-0.9-1.1-1.6-1.1H6.5c-3.8,0-6.9,3.1-6.9,6.9v63.7c0,3.8,3.1,6.9,6.9,6.9l0,0
+			l39.4-0.1l5.3,16.6c0.2,0.7,0.8,1.1,1.5,1.1h35.5c3.7,0,6.7-3,6.7-6.7v-62.9C94.9-62.3,91.9-65.3,88.3-65.3z M88,4H57.9l9.3-10.2
+			c0.4-0.4,0.5-1,0.3-1.6L51.3-58.5L88-58.3V4z"/>
+	</g>
+	<g id="Regular-S" transform="matrix(1 0 0 1 1404.34 696)">
+		<path d="M84.4-63.8L47.3-64L42-80.7c-0.2-0.6-0.8-1.1-1.5-1.1H7c-3.6,0-6.6,2.9-6.6,6.6v60.3c0,3.6,2.9,6.6,6.6,6.6l0,0l37.3-0.1
+			l5,15.7c0.2,0.6,0.8,1.1,1.5,1.1h33.6c3.5,0,6.3-2.8,6.3-6.3v-59.6C90.7-61,87.9-63.8,84.4-63.8z M84.1,1.8H55.7l8.8-9.6
+			c0.4-0.4,0.5-1,0.3-1.5L49.4-57.4l34.7,0.2V1.8z"/>
+	</g>
+	<g id="Ultralight-S" transform="matrix(1 0 0 1 516.792 696)">
+		<path d="M76.9-60.1l-32.5-0.1l-4.7-14.6c-0.2-0.6-0.7-0.9-1.3-0.9H9.2c-3.2,0-5.7,2.6-5.7,5.7v52.8c0,3.2,2.6,5.7,5.7,5.7l0,0
+			l32.6-0.1l4.4,13.8c0.2,0.6,0.7,0.9,1.3,0.9h29.4c3.1,0,5.5-2.5,5.5-5.5v-52.1C82.4-57.6,80-60.1,76.9-60.1z M76.7-2.7H51.8
+			l7.7-8.4c0.3-0.4,0.4-0.9,0.3-1.3L46.3-54.5l30.4,0.1V-2.7z"/>
+	</g>
+</g>
+</svg>
