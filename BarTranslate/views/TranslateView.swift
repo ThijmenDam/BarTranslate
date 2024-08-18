@@ -23,7 +23,17 @@ struct TranslateView: View {
 struct WebView: NSViewRepresentable {
   @AppStorage("translationProvider") private var translationProvider = DefaultSettings.translationProvider
 
-  func makeNSView(context: Context) -> WKWebView {
+  func makeNSView(context: Context) -> NSView {
+    let containerView = NSView()
+    updateNSView(containerView, context: context)
+    return containerView
+  }
+  
+  func updateNSView(_ nsView: NSView, context: Context) {
+    // Remove any existing subviews 
+    nsView.subviews.forEach { $0.removeFromSuperview() }
+    
+    // Create a new WKWebView
     let prefs = WKWebpagePreferences()
     prefs.allowsContentJavaScript = true
     
@@ -32,12 +42,23 @@ struct WebView: NSViewRepresentable {
     
     let webView = WKWebView(frame: .zero, configuration: config)
     webView.isHidden = true   // Initially hides the WebView until content is fully loaded.
-
-    return webView
-  }
-  
-  func updateNSView(_ nsView: WKWebView, context: Context) {
-        
+    
+    // Set up the navigation delegate
+    webView.navigationDelegate = context.coordinator
+    
+    // Add the WebView as a subview of the container NSView
+    webView.translatesAutoresizingMaskIntoConstraints = false
+    nsView.addSubview(webView)
+    
+    // Set constraints to fill the container view
+    NSLayoutConstraint.activate([
+      webView.leadingAnchor.constraint(equalTo: nsView.leadingAnchor),
+      webView.trailingAnchor.constraint(equalTo: nsView.trailingAnchor),
+      webView.topAnchor.constraint(equalTo: nsView.topAnchor),
+      webView.bottomAnchor.constraint(equalTo: nsView.bottomAnchor)
+    ])
+    
+    // Load the correct URL based on the translation provider
     let link = translationProvider == .google ? "https://translate.google.com" : "https://www.deepl.com/translator"
     
     guard let myURL = URL(string: link) else {
@@ -45,12 +66,9 @@ struct WebView: NSViewRepresentable {
     }
     
     let request = URLRequest(url: myURL)
+    webView.load(request)
     
-    // Sets the coordinator as the navigation delegate and loads the request.
-    nsView.navigationDelegate = context.coordinator
-    nsView.load(request)
-    
-    injectCSS(webView: nsView, provider: translationProvider)
+    injectCSS(webView: webView, provider: self.translationProvider)
   }
   
   // Creates a coordinator. This method is automatically called by SwiftUI.
