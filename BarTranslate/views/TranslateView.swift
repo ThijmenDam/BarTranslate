@@ -34,19 +34,21 @@ struct WebView: NSViewRepresentable {
     
     let webView = WKWebView(frame: .zero, configuration: config)
     
-    injectCSS(webView: webView, provider: translationProvider)
-    
-    let providerURLString = translationProvider == .google ? "https://translate.google.com" : "https://www.deepl.com/translator"
-    let providerURL = URL(string: providerURLString)!
-    
-    webView.load(URLRequest(url: providerURL))
+    webView.isHidden = true // the webview will be made visible once all CSS is injected
     
     return webView
   }
   
-  
   func updateNSView(_ nsView: WKWebView, context: Context) {
-    // Only here for future reference
+    let providerURLString = translationProvider == .google ? "https://translate.google.com" : "https://www.deepl.com/translator"
+    let providerURL = URL(string: providerURLString)!
+    let request = URLRequest(url: providerURL)
+    
+    // Sets the coordinator as the navigation delegate and loads the request.
+    nsView.navigationDelegate = context.coordinator
+    nsView.load(request)
+    
+    injectCSS(webView: nsView, provider: translationProvider)
   }
   
   // Creates a coordinator. This method is automatically called by SwiftUI.
