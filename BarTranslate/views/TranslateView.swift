@@ -24,7 +24,6 @@ struct WebView: NSViewRepresentable {
   @AppStorage("translationProvider") private var translationProvider = DefaultSettings.translationProvider
   
   func makeNSView(context: Context) -> WKWebView {
-    print("MAKE")
     
     let prefs = WKWebpagePreferences()
     prefs.allowsContentJavaScript = true
