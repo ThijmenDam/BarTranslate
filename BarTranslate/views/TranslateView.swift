@@ -31,6 +31,8 @@ struct WebView: NSViewRepresentable {
     config.defaultWebpagePreferences = prefs
     
     let webView = WKWebView(frame: .zero, configuration: config)
+    webView.isHidden = true   // Initially hides the WebView until content is fully loaded.
+
     return webView
   }
   
@@ -44,9 +46,31 @@ struct WebView: NSViewRepresentable {
     
     let request = URLRequest(url: myURL)
     
+    // Sets the coordinator as the navigation delegate and loads the request.
+    nsView.navigationDelegate = context.coordinator
     nsView.load(request)
     
     injectCSS(webView: nsView, provider: translationProvider)
+  }
+  
+  // Creates a coordinator. This method is automatically called by SwiftUI.
+  func makeCoordinator() -> WebView.Coordinator {
+    Coordinator(self)
+  }
+  
+  // Coordinator class acting as event handler.
+  class Coordinator: NSObject, WKNavigationDelegate {
+    let parent: WebView
+    
+    init(_ parent: WebView) {
+      self.parent = parent
+    }
+    
+    // Delegate method called when the web view finishes loading.
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+      // Shows view when content is loaded.
+      webView.isHidden = false
+    }
   }
   
 }
