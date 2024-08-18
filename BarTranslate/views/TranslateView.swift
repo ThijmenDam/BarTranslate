@@ -22,8 +22,9 @@ struct TranslateView: View {
 
 struct WebView: NSViewRepresentable {
   @AppStorage("translationProvider") private var translationProvider = DefaultSettings.translationProvider
-
+  
   func makeNSView(context: Context) -> WKWebView {
+    
     let prefs = WKWebpagePreferences()
     prefs.allowsContentJavaScript = true
     
@@ -31,20 +32,16 @@ struct WebView: NSViewRepresentable {
     config.defaultWebpagePreferences = prefs
     
     let webView = WKWebView(frame: .zero, configuration: config)
-    webView.isHidden = true   // Initially hides the WebView until content is fully loaded.
-
+    
+    webView.isHidden = true // the webview will be made visible once all CSS is injected
+    
     return webView
   }
   
   func updateNSView(_ nsView: WKWebView, context: Context) {
-        
-    let link = translationProvider == .google ? "https://translate.google.com" : "https://www.deepl.com/translator"
-    
-    guard let myURL = URL(string: link) else {
-      return
-    }
-    
-    let request = URLRequest(url: myURL)
+    let providerURLString = translationProvider == .google ? "https://translate.google.com" : "https://www.deepl.com/translator"
+    let providerURL = URL(string: providerURLString)!
+    let request = URLRequest(url: providerURL)
     
     // Sets the coordinator as the navigation delegate and loads the request.
     nsView.navigationDelegate = context.coordinator

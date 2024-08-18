@@ -1,12 +1,14 @@
+/* THIS IS FALLBACK CSS. For the latest CSS, refer to https://gist.github.com/ThijmenDam/6d8727f27ff1a1c5397682d866ffae9b */
+
 .pGxpHc,                  /* Page header */
 .VjFXz,                   /* Space behind page header */
-.a88hkc,                  /* "Sent feedback" button */
+.qgyq3b,                  /* "Send feedback" button */
 .FFpbKc,                  /* Microphone input, amount of words */
 .KIXMEf,                  /* Share button */
 .a8FIud,                  /* Favorite button */
 .nG3XIb,                  /* Rate translation button */
 .hgbeOc,                  /* Empty space at top */
-nav {
-  /* Buttons below translate input */
+nav                       /* Buttons below translate input */
+{
   display: none !important;
 }
