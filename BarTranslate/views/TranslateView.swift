@@ -48,4 +48,25 @@ struct WebView: NSViewRepresentable {
   func updateNSView(_ nsView: WKWebView, context: Context) {
     // Only here for future reference
   }
+  
+  // Creates a coordinator. This method is automatically called by SwiftUI.
+  func makeCoordinator() -> WebView.Coordinator {
+    Coordinator(self)
+  }
+  
+  // Coordinator class acting as event handler.
+  class Coordinator: NSObject, WKNavigationDelegate {
+    let parent: WebView
+    
+    init(_ parent: WebView) {
+      self.parent = parent
+    }
+    
+    // Delegate method called when the web view finishes loading.
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+      // Shows view when content is loaded.
+      webView.isHidden = false
+    }
+  }
+  
 }
