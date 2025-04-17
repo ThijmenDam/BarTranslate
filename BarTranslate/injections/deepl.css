@@ -10,10 +10,14 @@ nav a,                                                    /* "Translator" and "W
 .contents,                                                /* Top Buttons (translate text/files) */
 [aria-modal="true"],                                      /* Modal */
 [data-testid="dl-cookieBanner"],                          /* Cookie banner */
-.lmt__glossaryButton                                      /* word list */,
-aside[aria-labelledby="app-ad-banner-heading"],           /* ad */
-aside[aria-labelledby="write-banner-headline"],           /* ad */
-aside[aria-label="Supported languages"]                   /* language overview */
+.lmt__glossaryButton,                                     /* word list */
+aside[aria-label="Supported languages"],                  /* language overview */
+aside[aria-labelledby="app-ad-banner-heading"],           /* ads */
+aside[aria-labelledby="write-banner-headline"],
+aside[data-testid="pro_ad_content"],
+aside[data-testid="app_banner_content"],
+aside[aria-labelledby="career-banner-heading"],
+aside[aria-labelledby="pro-ad-banner-heading"]
 {
   display: none!important;
 }

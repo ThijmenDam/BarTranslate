@@ -39,6 +39,8 @@ private func doInjection(webView: WKWebView, css: String) {
     parent.appendChild(style)})()
   """
   
+  print("Injecting CSS: \n\(css)")
+  
   webView.configuration.userContentController.addUserScript(
     WKUserScript(source: javascript, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
   )
