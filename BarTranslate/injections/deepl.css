@@ -2,21 +2,23 @@
 
 header,
 footer,
-div[data-testid="translator"] > span, /* "DeepL Write" Advert */
-nav a,                                /* "Translator" and "Write" buttons */
-*[role="dialog"],                     /* Any dialog element */
-#gatsby-announcer,                    /* Announcements */
-[target="_blank"],                    /* Hide items that refer to external resources */
-.contents,                            /* Top Buttons (translate text/files) */
-[aria-modal="true"],                  /* Modal */
-[data-testid="dl-cookieBanner"],      /* Cookie banner */
-.lmt__glossaryButton                  /* word list */
+div[data-testid="translator"] > span,                     /* "DeepL Write" Advert */
+nav a,                                                    /* "Translator" and "Write" buttons */
+*[role="dialog"],                                         /* Any dialog element */
+#gatsby-announcer,                                        /* Announcements */
+[target="_blank"],                                        /* Hide items that refer to external resources */
+.contents,                                                /* Top Buttons (translate text/files) */
+[aria-modal="true"],                                      /* Modal */
+[data-testid="dl-cookieBanner"],                          /* Cookie banner */
+.lmt__glossaryButton                                      /* word list */,
+aside[aria-labelledby="app-ad-banner-heading"],           /* ad */
+aside[aria-labelledby="write-banner-headline"],           /* ad */
+aside[aria-label="Supported languages"]                   /* language overview */
 {
   display: none!important;
 }
 
 /* move translation element to top of window */
-
 nav[aria-labelledby="translation-modes-heading"] {
   margin-top: -4.6rem!important;
 }
