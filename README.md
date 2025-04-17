@@ -1,6 +1,6 @@
 # BarTranslate
 
-🚀 A handy menu  translator widget for macOS.
+🚀 A handy (free) menu bar translator widget for macOS.
 
 <p align="center">
     <img src="docs/assets/images/interface-snapshot.png" alt="BarTranslate interface snapshot" max-height="500"/>
