@@ -12,23 +12,19 @@ enum CurrentContentView {
   case settings
 }
 
-class ContentViewState: ObservableObject {
-  @Published var currentView: CurrentContentView = .translate
-}
-
 struct ContentView: View {
   
-  @StateObject private var contentViewState = ContentViewState()
+  @ObservedObject var popoverInfo: BarTranslate
   @AppStorage("translationProvider") private var translationProvider: TranslationProvider = .google
   
   var body: some View {
     VStack(spacing: 0) {
       
-      TopView(contentViewState: contentViewState)
+      TopView(contentViewState: popoverInfo)
       
-      switch contentViewState.currentView {
+      switch popoverInfo.currentView {
       case .translate:
-        TranslateView()
+        TranslateView(popoverInfo: popoverInfo)
       case .settings:
         SettingsView()
       }
@@ -47,19 +43,6 @@ struct ContentView: View {
   }
   
   func goToSettings() {
-    contentViewState.currentView = .settings
+    popoverInfo.currentView = .settings
   }
 }
-
-struct ContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    ContentView()
-      .frame(
-        minWidth: Constants.AppSize.width,
-        maxWidth: Constants.AppSize.width,
-        minHeight: Constants.AppSize.height,
-        maxHeight: Constants.AppSize.height
-      )
-  }
-}
-

@@ -29,7 +29,7 @@ private func encodeStringTo64(fromString: String) -> String? {
   return plainData?.base64EncodedString(options: [])
 }
 
-private func doInjection(webView: WKWebView, css: String) {
+private func inject(webView: WKWebView, css: String) {
   let javascript = """
     javascript:(function() {
     var parent = document.getElementsByTagName('head').item(0);
@@ -39,7 +39,7 @@ private func doInjection(webView: WKWebView, css: String) {
     parent.appendChild(style)})()
   """
   
-  print("Injecting CSS: \n\(css)")
+  print("Injecting CSS")
   
   webView.configuration.userContentController.addUserScript(
     WKUserScript(source: javascript, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
@@ -47,7 +47,7 @@ private func doInjection(webView: WKWebView, css: String) {
 }
 
 private func fallbackCSS(provider: TranslationProvider) -> String {
-  return readFileBy(name: "./\(provider)", type: "css")
+  return readFileBy(name: "./css/\(provider)", type: "css")
 }
 
 // Injects CSS into the translation webview, such that redundant elements are hidden.
@@ -82,7 +82,7 @@ func injectCSS(webView: WKWebView, provider: TranslationProvider) {
   
   let cssToInject = css ?? fallbackCSS(provider: provider)
   
-  doInjection(webView: webView, css: cssToInject)
+  inject(webView: webView, css: cssToInject)
 }
 
 

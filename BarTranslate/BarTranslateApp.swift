@@ -8,6 +8,7 @@
 import Cocoa
 import SwiftUI
 import HotKey
+import WebKit
 
 @main
 struct BarTranslateApp: App {
@@ -29,6 +30,11 @@ struct BarTranslateApp: App {
   }
 }
 
+class BarTranslate: ObservableObject {
+  @Published var currentView: CurrentContentView = .translate
+  var webView: WKWebView?
+}
+
 class AppDelegate: NSObject, NSApplicationDelegate {
   static private(set) var instance: AppDelegate!
   
@@ -37,6 +43,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   var hotkeyToggleApp: HotKey!
   var hotkeyToggleSettings: HotKey!
   
+  var BT: BarTranslate = BarTranslate()
+    
   @AppStorage("translationProvider") private var translationProvider: TranslationProvider = DefaultSettings.translationProvider
   @AppStorage("showHideKey") private var showHideKey: String = DefaultSettings.ToggleApp.key.description
   @AppStorage("showHideModifier") private var showHideModifier: String = DefaultSettings.ToggleApp.modifier.description
@@ -91,7 +99,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       window.close()
     }
     
-    let contentView = ContentView()
+    let contentView = ContentView(popoverInfo: BT)
     
     // Application Bubble
     let popover = NSPopover()
@@ -112,14 +120,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   
   // Show or hide BarTranslate
   @objc func togglePopover(_ sender: AnyObject?) {
+    
     if let button = self.statusBarItem.button {
       if self.popover.isShown {
         self.popover.performClose(sender)
       } else {
         self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+        
+        // Autofocus HTML input
+        if let webView = BT.webView, !webView.isHidden {
+          injectFocusScript(webView: webView, provider: translationProvider)
+        }
       }
     }
   }
-  
 }
 
