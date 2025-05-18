@@ -39,7 +39,10 @@ private func inject(webView: WKWebView, css: String) {
     parent.appendChild(style)})()
   """
   
-  print("Injecting CSS")
+  // DELETE CACHE
+  WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache], modifiedSince: Date(timeIntervalSince1970: 0), completionHandler:{ })
+  
+  print("Injecting CSS: `n\(css)")
   
   webView.configuration.userContentController.addUserScript(
     WKUserScript(source: javascript, injectionTime: .atDocumentEnd, forMainFrameOnly: false)

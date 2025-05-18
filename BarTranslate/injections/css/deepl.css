@@ -12,17 +12,32 @@ nav a,                                                    /* "Translator" and "W
 [data-testid="dl-cookieBanner"],                          /* Cookie banner */
 .lmt__glossaryButton,                                     /* word list */
 aside[aria-label="Supported languages"],                  /* language overview */
+button[data-testid="glossary-options-toggle"],            /* glossary button */
 aside[aria-labelledby="app-ad-banner-heading"],           /* ads */
 aside[aria-labelledby="write-banner-headline"],
 aside[data-testid="pro_ad_content"],
 aside[data-testid="app_banner_content"],
 aside[aria-labelledby="career-banner-heading"],
-aside[aria-labelledby="pro-ad-banner-heading"]
+aside[aria-labelledby="pro-ad-banner-heading"],
+.\[\.is-home_\&\]\:hidden
 {
   display: none!important;
+}
+
+/* align source/target language to center of their respective container (instead of left-align) */
+div[data-layout-id="sourceLanguageToolbar"],
+div[data-layout-id="targetLanguageToolbar"]
+{
+  display: flex!important;
+  justify-content: center!important;
 }
 
 /* move translation element to top of window */
 nav[aria-labelledby="translation-modes-heading"] {
   margin-top: -4.6rem!important;
+}
+
+/* remove redundant bottom padding of window */
+main[data-layout-id="mainSection"] {
+  padding-bottom: 0!important;
 }
