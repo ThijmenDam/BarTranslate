@@ -37,9 +37,10 @@ struct WebView: NSViewRepresentable {
     config.defaultWebpagePreferences = prefs
     
     let webView = WKWebView(frame: .zero, configuration: config)
-    BT.webView = webView
     
     webView.isHidden = true // the webview will be made visible once all CSS is injected
+    
+    BT.webView = webView
         
     return webView
   }
