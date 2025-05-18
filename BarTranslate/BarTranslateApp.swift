@@ -99,7 +99,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       window.close()
     }
     
-    let contentView = ContentView(popoverInfo: BT)
+    let contentView = ContentView(BT: BT)
     
     // Application Bubble
     let popover = NSPopover()

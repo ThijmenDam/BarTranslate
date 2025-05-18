@@ -10,11 +10,11 @@ import SwiftUI
 import WebKit
 
 struct TranslateView: View {
-  @ObservedObject var popoverInfo: BarTranslate
+  @ObservedObject var BT: BarTranslate
   
   var body: some View {
     VStack(spacing: 0) {
-      WebView(popoverInfo: popoverInfo)
+      WebView(BT: BT)
         .background(.white)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -24,7 +24,7 @@ struct TranslateView: View {
 }
 
 struct WebView: NSViewRepresentable {
-  @ObservedObject var popoverInfo: BarTranslate
+  @ObservedObject var BT: BarTranslate
   
   @AppStorage("translationProvider") private var translationProvider = DefaultSettings.translationProvider
   
@@ -37,7 +37,7 @@ struct WebView: NSViewRepresentable {
     config.defaultWebpagePreferences = prefs
     
     let webView = WKWebView(frame: .zero, configuration: config)
-    popoverInfo.webView = webView
+    BT.webView = webView
     
     webView.isHidden = true // the webview will be made visible once all CSS is injected
         
@@ -53,9 +53,9 @@ struct WebView: NSViewRepresentable {
     nsView.navigationDelegate = context.coordinator
     nsView.load(request)
     
-    print(BT.currentView)
-    
-    injectCSS(webView: nsView, provider: translationProvider)
+    if BT.currentView == .translate {
+      injectCSS(webView: nsView, provider: translationProvider)
+    }
   }
   
   // Creates a coordinator. This method is automatically called by SwiftUI.

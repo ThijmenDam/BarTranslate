@@ -14,17 +14,17 @@ enum CurrentContentView {
 
 struct ContentView: View {
   
-  @ObservedObject var popoverInfo: BarTranslate
+  @ObservedObject var BT: BarTranslate
   @AppStorage("translationProvider") private var translationProvider: TranslationProvider = .google
   
   var body: some View {
     VStack(spacing: 0) {
       
-      TopView(contentViewState: popoverInfo)
+      TopView(contentViewState: BT)
       
-      switch popoverInfo.currentView {
+      switch BT.currentView {
       case .translate:
-        TranslateView(popoverInfo: popoverInfo)
+        TranslateView(BT: BT)
       case .settings:
         SettingsView()
       }
@@ -43,6 +43,6 @@ struct ContentView: View {
   }
   
   func goToSettings() {
-    popoverInfo.currentView = .settings
+    BT.currentView = .settings
   }
 }

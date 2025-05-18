@@ -15,7 +15,7 @@ func injectFocusScript(webView: WKWebView, provider: TranslationProvider) {
   case .google:
     script = "document.querySelector('textarea').focus();"
   case .deepl:
-    script = "document.querySelector('textarea.lmt__textarea').focus();"
+    script = "document.querySelector('d-textarea').focus();"
   }
 
   webView.evaluateJavaScript(script) { result, error in
