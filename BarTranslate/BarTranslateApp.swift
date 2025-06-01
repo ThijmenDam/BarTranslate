@@ -33,6 +33,20 @@ struct BarTranslateApp: App {
 class BarTranslate: ObservableObject {
   @Published var currentView: CurrentContentView = .translate
   var webView: WKWebView?
+  
+  func reloadWebView(for provider: TranslationProvider) {
+    guard let webView = webView else { return }
+
+    let providerURLString = provider == .google
+      ? "https://translate.google.com"
+      : "https://www.deepl.com/translator"
+
+    let providerURL = URL(string: providerURLString)!
+    let request = URLRequest(url: providerURL)
+    
+    webView.load(request)
+    injectCSS(webView: webView, provider: provider)
+  }
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate {

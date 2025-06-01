@@ -22,11 +22,15 @@ struct ContentView: View {
       
       TopView(contentViewState: BT)
       
-      switch BT.currentView {
-      case .translate:
+      ZStack {
         TranslateView(BT: BT)
-      case .settings:
+          .zIndex(1)
+          .allowsHitTesting(BT.currentView == .translate)
+          .disabled(BT.currentView != .translate)
         SettingsView()
+          .zIndex(BT.currentView == .translate ? 0 : 2)
+          .allowsHitTesting(BT.currentView == .settings)
+          .disabled(BT.currentView != .settings)
       }
     }
     .animation(nil, value: UUID())
@@ -41,6 +45,8 @@ struct ContentView: View {
         .position(x: Constants.AppSize.width / 2, y: -Constants.AppSize.height / 2 + 10)
     )
   }
+  
+  
   
   func goToSettings() {
     BT.currentView = .settings

@@ -95,6 +95,7 @@ struct SettingsView: View {
     }
     .padding()
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+    .background(Color(NSColor.windowBackgroundColor))
   }
 }
 
