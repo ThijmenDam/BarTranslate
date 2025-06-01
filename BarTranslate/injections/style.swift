@@ -32,25 +32,30 @@ private func encodeStringTo64(fromString: String) -> String? {
 private func inject(webView: WKWebView, css: String) {
   let javascript = """
     javascript:(function() {
-    var parent = document.getElementsByTagName('head').item(0);
-    var style = document.createElement('style');
-    style.type = 'text/css';
-    style.innerHTML = window.atob('\(encodeStringTo64(fromString: css)!)');
-    parent.appendChild(style)})()
+      var existing = document.getElementById('injected-style');
+      if (existing) {
+        existing.remove();
+      }
+  
+      var parent = document.getElementsByTagName('head').item(0);
+      var style = document.createElement('style');
+      style.id = 'injected-style';
+      style.type = 'text/css';
+      style.innerHTML = window.atob('\(encodeStringTo64(fromString: css)!)');
+      parent.appendChild(style)
+    })()
   """
   
   // DELETE CACHE
   WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache], modifiedSince: Date(timeIntervalSince1970: 0), completionHandler:{ })
-  
-  print("Injecting CSS: \n\(css)")
-  
+    
   webView.configuration.userContentController.addUserScript(
     WKUserScript(source: javascript, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
   )
 }
 
 private func fallbackCSS(provider: TranslationProvider) -> String {
-  return readFileBy(name: "./css/\(provider)", type: "css")
+  return readFileBy(name: "\(provider)", type: "css")
 }
 
 // Injects CSS into the translation webview, such that redundant elements are hidden.
@@ -86,6 +91,7 @@ func injectCSS(webView: WKWebView, provider: TranslationProvider) {
   let cssToInject = css ?? fallbackCSS(provider: provider)
   
   inject(webView: webView, css: cssToInject)
+  print("Injected CSS for \(provider)")
 }
 
 

@@ -122,6 +122,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     popover.contentViewController = NSHostingController(rootView: contentView)
     self.popover = popover
     
+    // Do not auto close popover when debugging
+    #if DEBUG
+    popover.behavior = .applicationDefined
+    #endif
+
+    
     // Setup status bar item
     self.statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(NSStatusItem.variableLength))
     if let button = self.statusBarItem.button {
