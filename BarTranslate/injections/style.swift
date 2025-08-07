@@ -29,19 +29,18 @@ private func encodeStringTo64(fromString: String) -> String? {
   return plainData?.base64EncodedString(options: [])
 }
 
-private func inject(webView: WKWebView, css: String) {
+private func inject(webView: WKWebView, css: String, provider: TranslationProvider) {
   let javascript = """
     javascript:(function() {
-      var existing = document.getElementById('injected-style');
-      if (existing) {
-        existing.remove();
-      }
-  
-      var parent = document.getElementsByTagName('head').item(0);
+      var existing = document.getElementById('BarTranslate-css');
+      if (existing) { existing.remove() }
+
       var style = document.createElement('style');
-      style.id = 'injected-style';
+      style.id = 'BarTranslate-css';
       style.type = 'text/css';
       style.innerHTML = window.atob('\(encodeStringTo64(fromString: css)!)');
+    
+      var parent = document.getElementsByTagName('head').item(0);
       parent.appendChild(style)
     })()
   """
@@ -90,7 +89,7 @@ func injectCSS(webView: WKWebView, provider: TranslationProvider) {
   
   let cssToInject = css ?? fallbackCSS(provider: provider)
   
-  inject(webView: webView, css: cssToInject)
+  inject(webView: webView, css: cssToInject, provider: provider)
   print("Injected CSS for \(provider)")
 }
 
