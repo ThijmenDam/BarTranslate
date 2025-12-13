@@ -34,9 +34,11 @@ struct WebView: NSViewRepresentable {
     
     let prefs = WKWebpagePreferences()
     prefs.allowsContentJavaScript = true
+    prefs.preferredContentMode = .mobile
     
     let config = WKWebViewConfiguration()
     config.defaultWebpagePreferences = prefs
+    
     
 #if DEBUG
     config.preferences.setValue(true, forKey: "developerExtrasEnabled")
