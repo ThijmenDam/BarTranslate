@@ -9,14 +9,7 @@ import Foundation
 import WebKit
 
 func injectFocusScript(webView: WKWebView, provider: TranslationProvider) {
-  let script: String
-  
-  switch provider {
-  case .google:
-    script = "document.querySelector('textarea').focus();"
-  case .deepl:
-    script = "document.querySelector('d-textarea').focus();"
-  }
+  let script = "document.querySelector('textarea').focus();"
 
   webView.evaluateJavaScript(script) { result, error in
     if let error = error {

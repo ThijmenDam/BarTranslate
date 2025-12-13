@@ -61,12 +61,10 @@ private func fallbackCSS(provider: TranslationProvider) -> String {
 func injectCSS(webView: WKWebView, provider: TranslationProvider) {
   let sem = DispatchSemaphore.init(value: 0)
   
-  // Links to the CSS that has to be injected for the corresponding translation provider
+  // Links to the CSS that has to be injected for Google translate
   let gistGoogle = "https://gist.github.com/ThijmenDam/6d8727f27ff1a1c5397682d866ffae9b/raw/css-injection-google.css"
-  let gistDeepL = "https://gist.github.com/ThijmenDam/6d8727f27ff1a1c5397682d866ffae9b/raw/css-injection-deepl.css"
   
-  let gistForSelectedProvider = provider == .google ? gistGoogle : gistDeepL
-  let gistURL = URL(string: gistForSelectedProvider)!
+  let gistURL = URL(string: gistGoogle)!
   
   var css: String?
   

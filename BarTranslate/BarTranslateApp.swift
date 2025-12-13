@@ -37,11 +37,7 @@ class BarTranslate: ObservableObject {
   func reloadWebView(for provider: TranslationProvider) {
     guard let webView = webView else { return }
 
-    let providerURLString = provider == .google
-      ? "https://translate.google.com"
-      : "https://www.deepl.com/translator"
-
-    let providerURL = URL(string: providerURLString)!
+    let providerURL = URL(string: "https://translate.google.com")!
     let request = URLRequest(url: providerURL)
     
     webView.load(request)

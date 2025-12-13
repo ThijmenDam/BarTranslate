@@ -11,7 +11,7 @@ import HotKey
 import AppKit
 
 enum TranslationProvider: String {
-  case google, deepl
+  case google
 }
 
 enum MenuBarIcon: String, CaseIterable, Identifiable {

@@ -39,8 +39,6 @@ struct SettingsView: View {
       Form {
         Picker("Translation Provider", selection: $translationProvider) {
           Text("Google").tag(TranslationProvider.google)
-          Text("DeepL").tag(TranslationProvider.deepl)
-          
         }
         .pickerStyle(.menu)
       }.frame(maxWidth: .infinity)
