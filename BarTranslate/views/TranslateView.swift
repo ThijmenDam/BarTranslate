@@ -10,10 +10,16 @@ import SwiftUI
 import WebKit
 
 struct TranslateView: View {
+  @ObservedObject var BT: BarTranslate
+  @AppStorage("translationProvider") private var translationProvider = DefaultSettings.translationProvider
   
   var body: some View {
     VStack(spacing: 0) {
-      WebView().background(.white)
+      WebView(BT: BT, translationProvider: translationProvider)
+        .background(.white)
+        .onChange(of: translationProvider) { newValue in
+          BT.reloadWebView(for: translationProvider)
+        }
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .background(.white)
@@ -21,33 +27,42 @@ struct TranslateView: View {
 }
 
 struct WebView: NSViewRepresentable {
-  @AppStorage("translationProvider") private var translationProvider = DefaultSettings.translationProvider
+  @ObservedObject var BT: BarTranslate
+  let translationProvider: TranslationProvider
   
   func makeNSView(context: Context) -> WKWebView {
     
     let prefs = WKWebpagePreferences()
     prefs.allowsContentJavaScript = true
+    prefs.preferredContentMode = .mobile
     
     let config = WKWebViewConfiguration()
     config.defaultWebpagePreferences = prefs
+    
+    
+#if DEBUG
+    config.preferences.setValue(true, forKey: "developerExtrasEnabled")
+#endif
     
     let webView = WKWebView(frame: .zero, configuration: config)
     
     webView.isHidden = true // the webview will be made visible once all CSS is injected
     
+    BT.webView = webView
+    
     return webView
   }
   
   func updateNSView(_ nsView: WKWebView, context: Context) {
-    let providerURLString = translationProvider == .google ? "https://translate.google.com" : "https://www.deepl.com/translator"
-    let providerURL = URL(string: providerURLString)!
-    let request = URLRequest(url: providerURL)
     
-    // Sets the coordinator as the navigation delegate and loads the request.
+    let coordinator = context.coordinator
+    
+    guard !coordinator.initialPageloadComplete else { return }
+    BT.reloadWebView(for: translationProvider)
+    
+    coordinator.initialPageloadComplete = true
+    
     nsView.navigationDelegate = context.coordinator
-    nsView.load(request)
-    
-    injectCSS(webView: nsView, provider: translationProvider)
   }
   
   // Creates a coordinator. This method is automatically called by SwiftUI.
@@ -58,6 +73,7 @@ struct WebView: NSViewRepresentable {
   // Coordinator class acting as event handler.
   class Coordinator: NSObject, WKNavigationDelegate {
     let parent: WebView
+    var initialPageloadComplete = false
     
     init(_ parent: WebView) {
       self.parent = parent
@@ -69,5 +85,4 @@ struct WebView: NSViewRepresentable {
       webView.isHidden = false
     }
   }
-  
 }

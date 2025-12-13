@@ -12,25 +12,25 @@ enum CurrentContentView {
   case settings
 }
 
-class ContentViewState: ObservableObject {
-  @Published var currentView: CurrentContentView = .translate
-}
-
 struct ContentView: View {
   
-  @StateObject private var contentViewState = ContentViewState()
+  @ObservedObject var BT: BarTranslate
   @AppStorage("translationProvider") private var translationProvider: TranslationProvider = .google
   
   var body: some View {
     VStack(spacing: 0) {
       
-      TopView(contentViewState: contentViewState)
+      TopView(contentViewState: BT)
       
-      switch contentViewState.currentView {
-      case .translate:
-        TranslateView()
-      case .settings:
+      ZStack {
+        TranslateView(BT: BT)
+          .zIndex(1)
+          .allowsHitTesting(BT.currentView == .translate)
+          .disabled(BT.currentView != .translate)
         SettingsView()
+          .zIndex(BT.currentView == .translate ? 0 : 2)
+          .allowsHitTesting(BT.currentView == .settings)
+          .disabled(BT.currentView != .settings)
       }
     }
     .animation(nil, value: UUID())
@@ -46,20 +46,9 @@ struct ContentView: View {
     )
   }
   
+  
+  
   func goToSettings() {
-    contentViewState.currentView = .settings
+    BT.currentView = .settings
   }
 }
-
-struct ContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    ContentView()
-      .frame(
-        minWidth: Constants.AppSize.width,
-        maxWidth: Constants.AppSize.width,
-        minHeight: Constants.AppSize.height,
-        maxHeight: Constants.AppSize.height
-      )
-  }
-}
-

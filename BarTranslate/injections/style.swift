@@ -29,37 +29,42 @@ private func encodeStringTo64(fromString: String) -> String? {
   return plainData?.base64EncodedString(options: [])
 }
 
-private func doInjection(webView: WKWebView, css: String) {
+private func inject(webView: WKWebView, css: String, provider: TranslationProvider) {
   let javascript = """
     javascript:(function() {
-    var parent = document.getElementsByTagName('head').item(0);
-    var style = document.createElement('style');
-    style.type = 'text/css';
-    style.innerHTML = window.atob('\(encodeStringTo64(fromString: css)!)');
-    parent.appendChild(style)})()
+      var existing = document.getElementById('BarTranslate-css');
+      if (existing) { existing.remove() }
+
+      var style = document.createElement('style');
+      style.id = 'BarTranslate-css';
+      style.type = 'text/css';
+      style.innerHTML = window.atob('\(encodeStringTo64(fromString: css)!)');
+    
+      var parent = document.getElementsByTagName('head').item(0);
+      parent.appendChild(style)
+    })()
   """
   
-  print("Injecting CSS: \n\(css)")
-  
+  // DELETE CACHE
+  WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache], modifiedSince: Date(timeIntervalSince1970: 0), completionHandler:{ })
+    
   webView.configuration.userContentController.addUserScript(
     WKUserScript(source: javascript, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
   )
 }
 
 private func fallbackCSS(provider: TranslationProvider) -> String {
-  return readFileBy(name: "./\(provider)", type: "css")
+  return readFileBy(name: "\(provider)", type: "css")
 }
 
 // Injects CSS into the translation webview, such that redundant elements are hidden.
 func injectCSS(webView: WKWebView, provider: TranslationProvider) {
   let sem = DispatchSemaphore.init(value: 0)
   
-  // Links to the CSS that has to be injected for the corresponding translation provider
+  // Links to the CSS that has to be injected for Google translate
   let gistGoogle = "https://gist.github.com/ThijmenDam/6d8727f27ff1a1c5397682d866ffae9b/raw/css-injection-google.css"
-  let gistDeepL = "https://gist.github.com/ThijmenDam/6d8727f27ff1a1c5397682d866ffae9b/raw/css-injection-deepl.css"
   
-  let gistForSelectedProvider = provider == .google ? gistGoogle : gistDeepL
-  let gistURL = URL(string: gistForSelectedProvider)!
+  let gistURL = URL(string: gistGoogle)!
   
   var css: String?
   
@@ -82,7 +87,8 @@ func injectCSS(webView: WKWebView, provider: TranslationProvider) {
   
   let cssToInject = css ?? fallbackCSS(provider: provider)
   
-  doInjection(webView: webView, css: cssToInject)
+  inject(webView: webView, css: cssToInject, provider: provider)
+  print("Injected CSS for \(provider)")
 }
 
 

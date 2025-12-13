@@ -11,7 +11,7 @@ import SwiftUI
 
 struct SettingsButton: View {
   
-  @ObservedObject var contentViewState: ContentViewState
+  @ObservedObject var contentViewState: BarTranslate
   
   func toggleSettingsView() {
     switch contentViewState.currentView {
@@ -49,7 +49,7 @@ struct PowerButton: View {
 }
 
 struct TopView: View {
-  @ObservedObject var contentViewState: ContentViewState
+  @ObservedObject var contentViewState: BarTranslate
   
   var body: some View {
     HStack {

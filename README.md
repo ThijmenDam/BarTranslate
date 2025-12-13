@@ -6,9 +6,7 @@
     <img src="docs/assets/images/interface-snapshot.png" alt="BarTranslate interface snapshot" max-height="500"/>
 </p>
 
-Translations are done by presenting a simple (altered) webview of your preferred translation provider in a quick and easily accessible interface.
-
-Included support for **Google Translate** and **DeepL Translate**.
+Translations are done by presenting a simple (altered) webview of **Google Translate** in a quick and easily accessible interface.
 
 ## Download
 
@@ -23,9 +21,7 @@ Included support for **Google Translate** and **DeepL Translate**.
 
 Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discussions)!
 
-* A quick and easily accessible menu bar application for your preferred translation provider:
-  * Google Translate.
-  * DeepL Translate.
+* Translations are done by presenting a simple (altered) webview of **Google Translate** in a quick and easily accessible interface.
 * Configurable hotkeys to toggle the app.
 
 ### Planned

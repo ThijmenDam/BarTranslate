@@ -39,8 +39,6 @@ struct SettingsView: View {
       Form {
         Picker("Translation Provider", selection: $translationProvider) {
           Text("Google").tag(TranslationProvider.google)
-          Text("DeepL").tag(TranslationProvider.deepl)
-          
         }
         .pickerStyle(.menu)
       }.frame(maxWidth: .infinity)
@@ -95,6 +93,7 @@ struct SettingsView: View {
     }
     .padding()
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+    .background(Color(NSColor.windowBackgroundColor))
   }
 }
 
