@@ -33,7 +33,9 @@ struct SettingsView: View {
   
   var body: some View {
     VStack {
+      #if !APPSTORE
       SponsorButton()
+      #endif
       
       // Translation Provider
       Form {
