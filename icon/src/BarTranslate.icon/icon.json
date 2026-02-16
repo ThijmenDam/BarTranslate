@@ -1,0 +1,38 @@
+{
+  "fill" : {
+    "solid" : "extended-gray:1.00000,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "fill" : {
+            "automatic-gradient" : "extended-srgb:0.00000,0.53333,1.00000,1.00000"
+          },
+          "glass" : true,
+          "hidden" : false,
+          "image-name" : "BarTranslate-2 2.png",
+          "name" : "BarTranslate",
+          "position" : {
+            "scale" : 0.37,
+            "translation-in-points" : [
+              -0.18499999999994543,
+              0.55499999999995
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "squares" : "shared"
+  }
+}
