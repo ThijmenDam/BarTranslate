@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "BarTranslate-iOS-Default-16x16@1x.png",
+      "filename" : "BarTranslate-iOS-ClearLight-16x16@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "BarTranslate-iOS-Default-32x32@1x.png",
+      "filename" : "BarTranslate-iOS-ClearLight-32x32@1x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "BarTranslate-iOS-Default-32x32@2x.png",
+      "filename" : "BarTranslate-iOS-ClearLight-32x32@2x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
