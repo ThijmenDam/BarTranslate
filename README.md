@@ -3,7 +3,8 @@
 🚀 A handy (free) menu bar translator widget for macOS.
 
 <p align="center">
-    <img src="docs/assets/images/interface-snapshot.png" alt="BarTranslate interface snapshot" max-height="500"/>
+    <img src="docs/assets/images/left.png" alt="BarTranslate translation view" width="49%"/>
+    <img src="docs/assets/images/right.png" alt="BarTranslate settings view" width="49%"/>
 </p>
 
 Translations are done by presenting a simple (altered) webview of **Google Translate** in a quick and easily accessible interface.
