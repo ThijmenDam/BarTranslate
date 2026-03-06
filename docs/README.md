@@ -23,13 +23,14 @@ Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discu
 
 - Translations are done by presenting a simple (altered) webview of **Google Translate** in a quick and easily accessible interface.
 - Configurable hotkeys to toggle the app.
+- Smart autofocus on the source text field when opening the app.
 
 ### Planned
 
 - Dark mode for the translation pages.
 - Configurable hotkeys to select/swap languages.
-- Smart autofocus on the source text field when opening the app.
 - Automatically update the app when a new version is released.
+- Configurable hotkey to directly translate clipboard content.
 
 ## Support the author
 
