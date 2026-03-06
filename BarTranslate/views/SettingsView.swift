@@ -33,7 +33,9 @@ struct SettingsView: View {
   
   var body: some View {
     VStack {
+      #if !APPSTORE
       SponsorButton()
+      #endif
       
       // Translation Provider
       Form {
@@ -88,7 +90,9 @@ struct SettingsView: View {
       VStack(spacing: 2) {
         Spacer().frame(maxHeight: .infinity)
         Text("Version: \(Bundle.main.appVersionLong)")
+        #if !APPSTORE
         Link("Check for updates", destination: URL(string: "https://github.com/ThijmenDam/BarTranslate/releases")!)
+        #endif
       }
     }
     .padding()
