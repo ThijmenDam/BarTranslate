@@ -1,8 +1,9 @@
 <link rel="stylesheet" href="assets/css/style.css">
 
 <p align="center">
-    <img src="assets/images/left.png" alt="BarTranslate translation view" width="49%"/>
-    <img src="assets/images/right.png" alt="BarTranslate settings view" width="49%"/>
+    <img src="assets/images/BarTranslate-AppStore-promo-1.png" alt="BarTranslate promotional image 1"/>
+    <br/>
+    <img src="assets/images/BarTranslate-AppStore-promo-2.png" alt="BarTranslate promotional image 2"/>
 </p>
 
 Translations are done by presenting a simple (altered) webview of **Google Translate** in a quick and easily accessible interface.
