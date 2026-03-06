@@ -29,4 +29,4 @@ If this Privacy Policy changes, the updated version will be posted on this page 
 
 ## Contact
 
-If you have any questions about this Privacy Policy, you can reach out at [thijmendam@icloud.com](mailto:thijmendam@icloud.com).
+If you have any questions about this Privacy Policy, you can reach out via [GitHub Discussions](https://github.com/ThijmenDam/BarTranslate/discussions).
