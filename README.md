@@ -10,7 +10,20 @@
 
 Translations are done by presenting a simple (altered) webview of **Google Translate** in a quick and easily accessible interface.
 
-## Download
+## Installation (App Store)
+
+By downloading BarTranslate from the App Store, you support the project with a small fee. In addition, you get:
+
+**Automatic updates**. Always use the latest version.
+
+**Apple notarization**. The App Store version is verified by Apple, so no Gatekeeper warnings or "unidentified developer" prompts. 
+
+<a href="https://apps.apple.com/nl/app/bartranslate/id6759278154">
+    <img src="docs/assets/images/download-on-the-appstore.svg" alt="Download on the Mac App Store" height="48"/>
+</a>
+
+
+## Installation (manual)
 
 1. Refer to the [latest releases](https://github.com/ThijmenDam/BarTranslate/releases).
 2. Download BarTranslate.zip.
@@ -36,4 +49,4 @@ Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discu
 
 ## Support the author
 
-Like my work? [Consider buying me a coffee!](https://github.com/sponsors/ThijmenDam)
+Enjoying BarTranslate? Grab it on the [App Store](https://apps.apple.com/nl/app/bartranslate/id6759278154) to support continued development!
