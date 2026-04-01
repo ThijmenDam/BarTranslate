@@ -14,7 +14,7 @@ Translations are done by presenting a simple (altered) webview of **Google Trans
 
 By downloading BarTranslate from the App Store, you support the project with a small fee. In addition, you get:
 
-**Automatic updates**. Always use the latest version.
+**Automatic updates**. Always run the latest version.
 
 **Apple notarization**. The App Store version is verified by Apple, so no Gatekeeper warnings or "unidentified developer" prompts. 
 
@@ -44,7 +44,6 @@ Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discu
 
 * Dark mode for the translation pages.
 * Configurable hotkeys to select/swap languages.
-* Automatically update the app when a new version is released.
 * Configurable hotkey to directly translate clipboard content.
 
 ## Support the author
