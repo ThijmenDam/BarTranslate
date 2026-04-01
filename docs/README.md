@@ -14,7 +14,7 @@ Translations are done by presenting a simple (altered) webview of **Google Trans
 2. Download BarTranslate.zip.
 3. Unzip the file.
 4. Place BarTranslate.app in your Applications folder.
-5. Run BarTranslate.app.
+5. Run BarTranslate.app.<!--  -->
 6. Happy translating!
 
 ## Features
