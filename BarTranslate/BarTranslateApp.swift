@@ -33,6 +33,19 @@ private struct PanelConfig {
   static let menuBarGap: CGFloat = 5
 }
 
+// MARK: - Keyable Panel
+
+/// Custom NSPanel that can become key window to accept keyboard input
+class KeyablePanel: NSPanel {
+  override var canBecomeKey: Bool {
+    return true
+  }
+  
+  override var canBecomeMain: Bool {
+    return false  // Don't become main window - prevents unwanted focus behavior
+  }
+}
+
 // MARK: - BarTranslate Model
 
 class BarTranslate: ObservableObject {
@@ -135,7 +148,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let contentView = ContentView(BT: BT)
 
     // Application Panel
-    let panel = NSPanel(
+    let panel = KeyablePanel(
       contentRect: NSRect(x: 0, y: 0, width: Constants.AppSize.width, height: Constants.AppSize.height),
       styleMask: [.borderless],
       backing: .buffered,
