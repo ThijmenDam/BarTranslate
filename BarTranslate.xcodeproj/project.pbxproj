@@ -31,7 +31,7 @@
 		4585105A2A69BD0100C21BD0 /* KeysAndModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeysAndModifiers.swift; sourceTree = "<group>"; };
 		45921B262A791991007AAD78 /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
 		45C035312A21263500E304FF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		45D1EF742A20DA2D0029FACD /* BarTranslate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BarTranslate.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		45D1EF742A20DA2D0029FACD /* BarTranslateACO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BarTranslateACO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45D1EF772A20DA2D0029FACD /* BarTranslateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarTranslateApp.swift; sourceTree = "<group>"; };
 		45D1EF792A20DA2D0029FACD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		45D1EF7B2A20DA300029FACD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -76,7 +76,7 @@
 		45D1EF752A20DA2D0029FACD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				45D1EF742A20DA2D0029FACD /* BarTranslate.app */,
+				45D1EF742A20DA2D0029FACD /* BarTranslateACO.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -148,7 +148,7 @@
 				454BD6AF2A384AD20014F9EB /* HotKey */,
 			);
 			productName = BarTranslate;
-			productReference = 45D1EF742A20DA2D0029FACD /* BarTranslate.app */;
+			productReference = 45D1EF742A20DA2D0029FACD /* BarTranslateACO.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -294,7 +294,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = BarTranslate;
+				INFOPLIST_KEY_CFBundleDisplayName = BarTranslateACO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -303,8 +303,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 2.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ThijmenDam.BarTranslate;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.acoliver.BarTranslateACO;
+				PRODUCT_NAME = BarTranslateACO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -442,7 +442,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = BarTranslate;
+				INFOPLIST_KEY_CFBundleDisplayName = BarTranslateACO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -451,8 +451,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 2.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ThijmenDam.BarTranslate;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.acoliver.BarTranslateACO;
+				PRODUCT_NAME = BarTranslateACO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -473,7 +473,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = BarTranslate;
+				INFOPLIST_KEY_CFBundleDisplayName = BarTranslateACO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -482,8 +482,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 2.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ThijmenDam.BarTranslate;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.acoliver.BarTranslateACO;
+				PRODUCT_NAME = BarTranslateACO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
