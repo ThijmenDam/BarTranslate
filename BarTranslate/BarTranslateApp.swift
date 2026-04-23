@@ -135,7 +135,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   func updateMenuBarIcon() {
     if let button = self.statusBarItem.button {
-      button.image = NSImage(named: menuBarIcon.id)
+      let image = NSImage(named: menuBarIcon.id) ?? NSImage(systemSymbolName: "character.book.closed", accessibilityDescription: "BarTranslateACO")
+      image?.isTemplate = true
+      button.image = image
+      button.imagePosition = .imageOnly
     }
   }
 
@@ -154,7 +157,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       backing: .buffered,
       defer: false)
     panel.isFloatingPanel = true
-    panel.level = .floating
+    panel.level = .popUpMenu
     panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
     panel.contentViewController = NSHostingController(rootView: contentView)
     panel.isMovableByWindowBackground = false
@@ -177,11 +180,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     #endif
 
     // Setup status bar item
-    self.statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(NSStatusItem.variableLength))
+    self.statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(NSStatusItem.squareLength))
     if let button = self.statusBarItem.button {
-      button.image = NSImage(named: menuBarIcon.id)
       button.action = #selector(togglePanel(_:))
     }
+    updateMenuBarIcon()
 
     setupToggleAppHotkeys()
 
