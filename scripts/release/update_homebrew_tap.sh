@@ -57,12 +57,13 @@ cat > "${formula_path}" <<RUBY
 class ${formula_class_name} < Formula
   desc "macOS menu bar translation app (ACO fork)"
   homepage "https://github.com/${GITHUB_REPOSITORY}"
-  url "${release_url}"
+  url "${release_url}", using: :nounzip
   version "${version}"
   sha256 "${asset_sha256}"
   license "GPL-3.0-only"
 
   def install
+    system "ditto", "-x", "-k", cached_download, buildpath
     prefix.install "${app_name}.app"
     bin.install_symlink prefix/"${app_name}.app/Contents/MacOS/${app_name}" => "${formula_name}"
   end
@@ -83,6 +84,8 @@ class ${formula_class_name} < Formula
   end
 
   test do
+    assert_predicate prefix/"${app_name}.app", :exist?
+    assert_predicate prefix/"${app_name}.app/Contents/Info.plist", :exist?
     assert_predicate prefix/"${app_name}.app/Contents/MacOS/${app_name}", :exist?
     assert_predicate bin/"${formula_name}", :exist?
   end
