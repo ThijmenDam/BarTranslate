@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		454BD6B02A384AD20014F9EB /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = 454BD6AF2A384AD20014F9EB /* HotKey */; };
 		4568B1E02A23BF900084FD2F /* google.css in Resources */ = {isa = PBXBuildFile; fileRef = 4568B1DF2A23BF900084FD2F /* google.css */; };
+		45A000012F13A00000000001 /* MenuIconStatus.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A000032F13A00000000003 /* MenuIconStatus.png */; };
+		45A000022F13A00000000002 /* MenuIconMinimalStatus.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A000042F13A00000000004 /* MenuIconMinimalStatus.png */; };
 		456FDE492DD9F04600639F6A /* autofocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456FDE482DD9F04600639F6A /* autofocus.swift */; };
 		4585105B2A69BD0100C21BD0 /* KeysAndModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4585105A2A69BD0100C21BD0 /* KeysAndModifiers.swift */; };
 		45921B272A791991007AAD78 /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45921B262A791991007AAD78 /* Bundle.swift */; };
@@ -27,6 +29,8 @@
 
 /* Begin PBXFileReference section */
 		4568B1DF2A23BF900084FD2F /* google.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = google.css; sourceTree = "<group>"; };
+		45A000032F13A00000000003 /* MenuIconStatus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MenuIconStatus.png; sourceTree = "<group>"; };
+		45A000042F13A00000000004 /* MenuIconMinimalStatus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MenuIconMinimalStatus.png; sourceTree = "<group>"; };
 		456FDE482DD9F04600639F6A /* autofocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = autofocus.swift; sourceTree = "<group>"; };
 		4585105A2A69BD0100C21BD0 /* KeysAndModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeysAndModifiers.swift; sourceTree = "<group>"; };
 		45921B262A791991007AAD78 /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
@@ -92,6 +96,8 @@
 				45C035312A21263500E304FF /* Constants.swift */,
 				45E081CB2A68003E00D90780 /* DefaultSettings.swift */,
 				4585105A2A69BD0100C21BD0 /* KeysAndModifiers.swift */,
+				45A000032F13A00000000003 /* MenuIconStatus.png */,
+				45A000042F13A00000000004 /* MenuIconMinimalStatus.png */,
 				45D1EF7B2A20DA300029FACD /* Assets.xcassets */,
 				45D1EF802A20DA300029FACD /* BarTranslate.entitlements */,
 			);
@@ -194,6 +200,8 @@
 			files = (
 				45D1EF7F2A20DA300029FACD /* Preview Assets.xcassets in Resources */,
 				4568B1E02A23BF900084FD2F /* google.css in Resources */,
+				45A000012F13A00000000001 /* MenuIconStatus.png in Resources */,
+				45A000022F13A00000000002 /* MenuIconMinimalStatus.png in Resources */,
 				45D1EF7C2A20DA300029FACD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
