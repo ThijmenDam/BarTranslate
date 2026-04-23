@@ -1,9 +1,9 @@
 # Release process
 
-This fork publishes macOS releases as a Homebrew cask with a fork-specific identity:
+This fork publishes macOS releases as a Homebrew formula with a fork-specific identity:
 
 - Tap repo: `acoliver/homebrew-tap`
-- Cask token: `bartranslate-aco`
+- Formula name: `bartranslate-aco`
 - App name: `BarTranslateACO.app`
 - Bundle identifier: `com.acoliver.BarTranslateACO`
 
@@ -28,7 +28,7 @@ The workflow will:
 4. package `BarTranslateACO.app` as `bartranslate-aco-vX.Y.Z-universal-apple-darwin.zip`,
 5. verify the code signature,
 6. upload the zip and `SHA256SUMS.txt` to the GitHub release, and
-7. update `Casks/bartranslate-aco.rb` in `acoliver/homebrew-tap`.
+7. update `Formula/bartranslate-aco.rb` in `acoliver/homebrew-tap`.
 
 ## Required secret
 
@@ -79,7 +79,7 @@ After a successful release and tap update:
 
 ```sh
 brew tap acoliver/tap
-brew install --cask bartranslate-aco
+brew install bartranslate-aco
 ```
 
-The cask installs `BarTranslateACO.app` and zaps preferences at `~/Library/Preferences/com.acoliver.BarTranslateACO.plist`.
+The formula installs `BarTranslateACO.app` under Homebrew's prefix and provides a `bartranslate-aco` launcher script.

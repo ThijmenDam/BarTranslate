@@ -22,7 +22,7 @@ jobs:
       BARTRANSLATE_APP_NAME: BarTranslateACO
       BARTRANSLATE_BUNDLE_IDENTIFIER: com.acoliver.BarTranslateACO
       HOMEBREW_TAP_REPO: acoliver/homebrew-tap
-      HOMEBREW_CASK_TOKEN: bartranslate-aco
+      HOMEBREW_FORMULA_NAME: bartranslate-aco
     steps:
       - name: Resolve release tag
         id: release_tag
@@ -146,12 +146,12 @@ jobs:
           else
             gh release create "${release_tag}" "${asset_path}" artifacts/release/SHA256SUMS.txt \
               --title "${release_tag}" \
-              --notes "BarTranslateACO ${release_tag} macOS release. Install with Homebrew cask bartranslate-aco from acoliver/homebrew-tap."
+              --notes "BarTranslateACO ${release_tag} macOS release. Install with Homebrew formula bartranslate-aco from acoliver/homebrew-tap."
           fi
 
           gh release view "${release_tag}" --json tagName,url
 
-      - name: Update Homebrew cask
+      - name: Update Homebrew formula
         shell: bash
         env:
           HOMEBREW_TAP_GITHUB_TOKEN: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}

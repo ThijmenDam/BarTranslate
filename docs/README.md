@@ -23,14 +23,14 @@ By downloading BarTranslate from the App Store, you support the project with a s
 
 ## Installation (Homebrew)
 
-This fork is distributed with a fork-specific Homebrew cask so it can coexist with upstream BarTranslate:
+This fork is distributed with a fork-specific Homebrew formula so it can coexist with upstream BarTranslate:
 
 ```sh
 brew tap acoliver/tap
-brew install --cask bartranslate-aco
+brew install bartranslate-aco
 ```
 
-The cask installs `BarTranslateACO.app`.
+The formula installs `BarTranslateACO.app` under Homebrew's prefix and provides a `bartranslate-aco` launcher script.
 
 ## Installation (manual)
 
