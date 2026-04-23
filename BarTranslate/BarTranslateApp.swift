@@ -135,11 +135,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   func updateMenuBarIcon() {
     if let button = self.statusBarItem.button {
-      let image = NSImage(named: menuBarIcon.id) ?? NSImage(systemSymbolName: "character.book.closed", accessibilityDescription: "BarTranslateACO")
-      image?.isTemplate = true
+      let image = menuBarStatusImage(named: menuBarIcon.id)
       button.image = image
-      button.imagePosition = .imageOnly
+      button.imagePosition = image == nil ? .noImage : .imageOnly
+      button.title = image == nil ? "BT" : ""
     }
+  }
+
+  private func menuBarStatusImage(named name: String) -> NSImage? {
+    let resourceName = name == MenuBarIcon.minimal.id ? "MenuIconMinimalStatus" : "MenuIconStatus"
+    if let url = Bundle.main.url(forResource: resourceName, withExtension: "png"),
+       let image = NSImage(contentsOf: url) {
+      image.size = NSSize(width: 18, height: 18)
+      return image
+    }
+
+    if let image = NSImage(named: name) {
+      image.size = NSSize(width: 18, height: 18)
+      image.isTemplate = false
+      return image
+    }
+
+    return nil
   }
 
   func applicationDidFinishLaunching(_ notification: Notification) {
