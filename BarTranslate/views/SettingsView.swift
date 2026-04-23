@@ -97,7 +97,7 @@ struct SettingsView: View {
                     #if !APPSTORE
                     SettingsRow(label: "Updates") {
                         Link("Check for updates",
-                             destination: URL(string: "https://github.com/ThijmenDam/BarTranslate/releases")!)
+                             destination: URL(string: "https://github.com/acoliver/BarTranslate/releases")!)
                         .font(.system(size: 12))
                     }
                     #endif

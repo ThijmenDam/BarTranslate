@@ -1,0 +1,163 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Release tag (vX.Y.Z)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and publish macOS release
+    runs-on: macos-14
+    env:
+      BARTRANSLATE_APP_NAME: BarTranslateACO
+      BARTRANSLATE_BUNDLE_IDENTIFIER: com.acoliver.BarTranslateACO
+      HOMEBREW_TAP_REPO: acoliver/homebrew-tap
+      HOMEBREW_CASK_TOKEN: bartranslate-aco
+    steps:
+      - name: Resolve release tag
+        id: release_tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
+            release_tag="${{ inputs.release_tag }}"
+          else
+            release_tag="${GITHUB_REF_NAME}"
+          fi
+
+          if [[ ! "${release_tag}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Release tag must look like vX.Y.Z (received: ${release_tag})" >&2
+            exit 1
+          fi
+
+          echo "release_tag=${release_tag}" >> "${GITHUB_OUTPUT}"
+
+      - name: Check out release tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.release_tag.outputs.release_tag }}
+
+      - name: Select Xcode
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -d /Applications/Xcode_15.4.app ]]; then
+            sudo xcode-select -s /Applications/Xcode_15.4.app/Contents/Developer
+          fi
+          xcodebuild -version
+
+      - name: Validate Homebrew tap secret
+        shell: bash
+        env:
+          HOMEBREW_TAP_GITHUB_TOKEN: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${HOMEBREW_TAP_GITHUB_TOKEN}" ]]; then
+            echo "HOMEBREW_TAP_GITHUB_TOKEN is required to update acoliver/homebrew-tap" >&2
+            exit 1
+          fi
+
+      - name: Resolve signing mode
+        shell: bash
+        env:
+          APPLE_CERTIFICATE_P12_BASE64: ${{ secrets.APPLE_CERTIFICATE_P12_BASE64 }}
+        run: |
+          set -euo pipefail
+          if [[ -n "${APPLE_CERTIFICATE_P12_BASE64}" ]]; then
+            echo "BARTRANSLATE_SIGNING_MODE=developer-id" >> "${GITHUB_ENV}"
+          else
+            echo "BARTRANSLATE_SIGNING_MODE=ad-hoc" >> "${GITHUB_ENV}"
+          fi
+
+      - name: Import Developer ID certificate
+        if: ${{ env.BARTRANSLATE_SIGNING_MODE == 'developer-id' }}
+        shell: bash
+        env:
+          APPLE_CERTIFICATE_P12_BASE64: ${{ secrets.APPLE_CERTIFICATE_P12_BASE64 }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_KEYCHAIN_PASSWORD: ${{ secrets.APPLE_KEYCHAIN_PASSWORD }}
+        run: |
+          set -euo pipefail
+          for secret_name in APPLE_CERTIFICATE_P12_BASE64 APPLE_CERTIFICATE_PASSWORD APPLE_TEAM_ID APPLE_ID APPLE_APP_SPECIFIC_PASSWORD; do
+            if [[ -z "${!secret_name}" ]]; then
+              echo "${secret_name} is required for Developer ID signing and notarization" >&2
+              exit 1
+            fi
+          done
+
+          if [[ -z "${APPLE_KEYCHAIN_PASSWORD}" ]]; then
+            APPLE_KEYCHAIN_PASSWORD="${GITHUB_RUN_ID}"
+          fi
+
+          keychain_path="${RUNNER_TEMP}/bartranslate-release.keychain-db"
+          certificate_path="${RUNNER_TEMP}/developer-id.p12"
+          echo "${APPLE_CERTIFICATE_P12_BASE64}" | base64 --decode > "${certificate_path}"
+          security create-keychain -p "${APPLE_KEYCHAIN_PASSWORD}" "${keychain_path}"
+          security set-keychain-settings -lut 21600 "${keychain_path}"
+          security unlock-keychain -p "${APPLE_KEYCHAIN_PASSWORD}" "${keychain_path}"
+          security import "${certificate_path}" -P "${APPLE_CERTIFICATE_PASSWORD}" -A -t cert -f pkcs12 -k "${keychain_path}"
+          security list-keychains -d user -s "${keychain_path}" login.keychain-db
+          security set-key-partition-list -S apple-tool:,apple: -s -k "${APPLE_KEYCHAIN_PASSWORD}" "${keychain_path}"
+
+      - name: Build package
+        shell: bash
+        env:
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+        run: |
+          set -euo pipefail
+          scripts/release/package_macos.sh "${{ steps.release_tag.outputs.release_tag }}"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bartranslate-aco-release
+          path: |
+            artifacts/release/*.zip
+            artifacts/release/SHA256SUMS.txt
+            artifacts/release/*.txt
+
+      - name: Create or update GitHub release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          release_tag="${{ steps.release_tag.outputs.release_tag }}"
+          asset_name="$(cat artifacts/release/asset_name.txt)"
+          asset_path="$(cat artifacts/release/asset_path.txt)"
+
+          if gh release view "${release_tag}" >/dev/null 2>&1; then
+            gh release upload "${release_tag}" "${asset_path}" artifacts/release/SHA256SUMS.txt --clobber
+          else
+            gh release create "${release_tag}" "${asset_path}" artifacts/release/SHA256SUMS.txt \
+              --title "${release_tag}" \
+              --notes "BarTranslateACO ${release_tag} macOS release. Install with Homebrew cask bartranslate-aco from acoliver/homebrew-tap."
+          fi
+
+          gh release view "${release_tag}" --json tagName,url
+
+      - name: Update Homebrew cask
+        shell: bash
+        env:
+          HOMEBREW_TAP_GITHUB_TOKEN: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          scripts/release/update_homebrew_tap.sh \
+            "${{ steps.release_tag.outputs.release_tag }}" \
+            "$(cat artifacts/release/asset_name.txt)" \
+            "$(cat artifacts/release/sha256.txt)"

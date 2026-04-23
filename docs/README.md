@@ -21,16 +21,29 @@ By downloading BarTranslate from the App Store, you support the project with a s
 </a>
 
 
+## Installation (Homebrew)
+
+This fork is distributed with a fork-specific Homebrew cask so it can coexist with upstream BarTranslate:
+
+```sh
+brew tap acoliver/tap
+brew install --cask bartranslate-aco
+```
+
+The cask installs `BarTranslateACO.app`.
+
 ## Installation (manual)
 
-1. Refer to the [latest releases](https://github.com/ThijmenDam/BarTranslate/releases).
-2. Download BarTranslate.zip.
+1. Refer to the [latest releases](https://github.com/acoliver/BarTranslate/releases).
+2. Download `bartranslate-aco-vX.Y.Z-universal-apple-darwin.zip`.
 3. Unzip the file.
-4. Place BarTranslate.app in your Applications folder.
-5. Run BarTranslate.app.
+4. Place `BarTranslateACO.app` in your Applications folder.
+5. Run `BarTranslateACO.app`.
 6. Happy translating!
 
-## Features
+Release maintainers should see [release.md](release.md) for signing, notarization, and Homebrew tap secrets.
+
+
 
 Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discussions)!
 
