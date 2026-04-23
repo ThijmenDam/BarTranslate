@@ -30,6 +30,13 @@ struct BarTranslateApp: App {
   }
 }
 
+// MARK: - Panel Configuration
+
+private struct PanelConfig {
+  /// Gap between menu bar icon and panel (in points)
+  static let menuBarGap: CGFloat = 5
+}
+
 class BarTranslate: ObservableObject {
   @Published var currentView: CurrentContentView = .translate
   var webView: WKWebView?
@@ -48,10 +55,9 @@ class BarTranslate: ObservableObject {
 class AppDelegate: NSObject, NSApplicationDelegate {
   static private(set) var instance: AppDelegate!
   
-  var popover: NSPopover!
+  var panel: NSPanel!
   var statusBarItem: NSStatusItem!
   var hotkeyToggleApp: HotKey!
-  var hotkeyToggleSettings: HotKey!
   
   var BT: BarTranslate = BarTranslate()
     
@@ -91,7 +97,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       key: key,
       modifiers: keyToNSEventModifierFlags(key: mod),
       keyDownHandler: {
-        self.togglePopover(nil)
+        self.togglePanel(nil)
       }
     )
   }
@@ -111,44 +117,102 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     let contentView = ContentView(BT: BT)
     
-    // Application Bubble
-    let popover = NSPopover()
-    popover.contentSize = NSSize(width: Constants.AppSize.width, height: Constants.AppSize.height)
-    popover.behavior = .transient
-    popover.contentViewController = NSHostingController(rootView: contentView)
-    self.popover = popover
+    // Application Panel
+    let panel = NSPanel(
+      contentRect: NSRect(x: 0, y: 0, width: Constants.AppSize.width, height: Constants.AppSize.height),
+      styleMask: [.borderless],
+      backing: .buffered,
+      defer: false)
+    panel.isFloatingPanel = true
+    panel.level = .floating
+    panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+    panel.contentViewController = NSHostingController(rootView: contentView)
+    panel.isMovableByWindowBackground = false
+    panel.backgroundColor = .clear
+    panel.hasShadow = true
+    panel.delegate = self
     
-    // Do not auto close popover when debugging
+    // Apply rounded corners to match popover appearance
+    if let contentView = panel.contentView {
+      contentView.wantsLayer = true
+      contentView.layer?.cornerRadius = 12
+      contentView.layer?.masksToBounds = true
+    }
+    
+    self.panel = panel
+    
+    // Do not auto-close panel when debugging
     #if DEBUG
-    popover.behavior = .applicationDefined
+    panel.hidesOnDeactivate = false
     #endif
-
     
     // Setup status bar item
     self.statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(NSStatusItem.variableLength))
     if let button = self.statusBarItem.button {
       button.image = NSImage(named: menuBarIcon.id)
-      button.action = #selector(togglePopover(_:))
+      button.action = #selector(togglePanel(_:))
     }
     
     setupToggleAppHotkeys()
   }
   
-  // Show or hide BarTranslate
-  @objc func togglePopover(_ sender: AnyObject?) {
-    
-    if let button = self.statusBarItem.button {
-      if self.popover.isShown {
-        self.popover.performClose(sender)
-      } else {
-        self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-        
-        // Autofocus HTML input
-        if let webView = BT.webView, !webView.isHidden {
-          injectFocusScript(webView: webView, provider: translationProvider)
-        }
+  // Show or hide BarTranslate panel
+  @objc func togglePanel(_ sender: AnyObject?) {
+    if panel.isVisible {
+      panel.orderOut(sender)
+    } else {
+      positionPanel()
+      panel.makeKeyAndOrderFront(sender)
+      NSApp.activate(ignoringOtherApps: true)
+      
+      // Autofocus HTML input
+      if let webView = BT.webView, !webView.isHidden {
+        injectFocusScript(webView: webView, provider: translationProvider)
       }
     }
   }
+  
+  func positionPanel() {
+    guard let button = statusBarItem.button else { return }
+    guard let window = button.window else { return }
+    
+    // Convert button frame to screen coordinates
+    let buttonFrame = window.convertToScreen(button.convert(button.bounds, to: nil))
+    let panelSize = panel.frame.size
+    
+    // Position panel centered below the menu bar icon
+    var panelX = buttonFrame.midX - (panelSize.width / 2)
+    var panelY = buttonFrame.minY - panelSize.height - PanelConfig.menuBarGap
+    
+    // Ensure panel stays within screen boundaries
+    if let screen = NSScreen.main {
+      let screenFrame = screen.visibleFrame
+      
+      // Clamp horizontal position to stay on screen
+      if panelX < screenFrame.minX {
+        panelX = screenFrame.minX
+      } else if panelX + panelSize.width > screenFrame.maxX {
+        panelX = screenFrame.maxX - panelSize.width
+      }
+      
+      // Ensure panel doesn't go below screen bottom
+      if panelY < screenFrame.minY {
+        panelY = screenFrame.minY
+      }
+    }
+    
+    panel.setFrameOrigin(NSPoint(x: panelX, y: panelY))
+  }
+  
+  func panelDidResignKey(_ notification: Notification) {
+    panel.orderOut(nil)
+  }
 }
 
+extension AppDelegate: NSWindowDelegate {
+  func windowDidResignKey(_ notification: Notification) {
+    if let window = notification.object as? NSPanel, window == panel {
+      panelDidResignKey(notification)
+    }
+  }
+}

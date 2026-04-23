@@ -39,11 +39,7 @@ struct ContentView: View {
       minHeight: Constants.AppSize.height,
       alignment: .topLeading
     )
-    // Color the popover arrow
-    .background(
-      Color.blue
-        .position(x: Constants.AppSize.width / 2, y: -Constants.AppSize.height / 2 + 10)
-    )
+    .background(Color(NSColor.windowBackgroundColor))
   }
   
   
