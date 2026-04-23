@@ -30,6 +30,13 @@ struct BarTranslateApp: App {
   }
 }
 
+// MARK: - Panel Configuration
+
+private struct PanelConfig {
+  /// Gap between menu bar icon and panel (in points)
+  static let menuBarGap: CGFloat = 5
+}
+
 class BarTranslate: ObservableObject {
   @Published var currentView: CurrentContentView = .translate
   var webView: WKWebView?
@@ -51,7 +58,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   var panel: NSPanel!
   var statusBarItem: NSStatusItem!
   var hotkeyToggleApp: HotKey!
-  var hotkeyToggleSettings: HotKey!
   
   var BT: BarTranslate = BarTranslate()
     
@@ -114,7 +120,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Application Panel
     let panel = NSPanel(
       contentRect: NSRect(x: 0, y: 0, width: Constants.AppSize.width, height: Constants.AppSize.height),
-      styleMask: [.titled, .fullSizeContentView],
+      styleMask: [.borderless],
       backing: .buffered,
       defer: false)
     panel.isFloatingPanel = true
@@ -123,14 +129,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     panel.contentViewController = NSHostingController(rootView: contentView)
     panel.isMovableByWindowBackground = false
     panel.backgroundColor = .clear
-    panel.titleVisibility = .hidden
-    panel.titlebarAppearsTransparent = true
-    panel.standardWindowButton(.closeButton)?.isHidden = true
-    panel.standardWindowButton(.miniaturizeButton)?.isHidden = true
-    panel.standardWindowButton(.zoomButton)?.isHidden = true
     panel.hasShadow = true
     panel.delegate = self
+    
+    // Apply rounded corners to match popover appearance
+    if let contentView = panel.contentView {
+      contentView.wantsLayer = true
+      contentView.layer?.cornerRadius = 12
+      contentView.layer?.masksToBounds = true
+    }
+    
     self.panel = panel
+    
+    // Do not auto-close panel when debugging
+    #if DEBUG
+    panel.hidesOnDeactivate = false
+    #endif
     
     // Setup status bar item
     self.statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(NSStatusItem.variableLength))
@@ -167,8 +181,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let panelSize = panel.frame.size
     
     // Position panel centered below the menu bar icon
-    let panelX = buttonFrame.midX - (panelSize.width / 2)
-    let panelY = buttonFrame.minY - panelSize.height - 5  // 5pt gap
+    var panelX = buttonFrame.midX - (panelSize.width / 2)
+    var panelY = buttonFrame.minY - panelSize.height - PanelConfig.menuBarGap
+    
+    // Ensure panel stays within screen boundaries
+    if let screen = NSScreen.main {
+      let screenFrame = screen.visibleFrame
+      
+      // Clamp horizontal position to stay on screen
+      if panelX < screenFrame.minX {
+        panelX = screenFrame.minX
+      } else if panelX + panelSize.width > screenFrame.maxX {
+        panelX = screenFrame.maxX - panelSize.width
+      }
+      
+      // Ensure panel doesn't go below screen bottom
+      if panelY < screenFrame.minY {
+        panelY = screenFrame.minY
+      }
+    }
     
     panel.setFrameOrigin(NSPoint(x: panelX, y: panelY))
   }
