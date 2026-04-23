@@ -130,29 +130,6 @@ struct SettingsView: View {
                     )
                 }
                 #endif
-
-                // Quit
-                Button(action: { exit(0) }) {
-                    HStack(spacing: 6) {
-                        Image(systemName: "power")
-                            .font(.system(size: 11))
-                        Text("Quit BarTranslate")
-                            .font(.system(size: 13))
-                    }
-                    .foregroundColor(Color(NSColor.systemRed))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 10)
-                    .background(
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color(NSColor.systemRed).opacity(0.06))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color(NSColor.systemRed).opacity(0.15), lineWidth: 0.5)
-                            )
-                    )
-                }
-                .buttonStyle(PlainButtonStyle())
             }
             .padding(14)
         }

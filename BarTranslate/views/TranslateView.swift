@@ -20,7 +20,7 @@ struct TranslateView: View {
         ZStack(alignment: .bottomTrailing) {
             // WebView
             WebView(BT: BT, translationProvider: translationProvider)
-                .onChange(of: translationProvider) { _, newValue in
+                .onChange(of: translationProvider) { newValue in
                     BT.reloadWebView(for: newValue)
                 }
 
