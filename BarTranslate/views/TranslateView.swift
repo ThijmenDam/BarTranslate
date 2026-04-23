@@ -227,6 +227,9 @@ struct WebView: NSViewRepresentable {
                     webView.isHidden = false
                     self.parent.BT.isLoading = false
                 }
+
+                applyCSS(webView: webView, provider: self.parent.translationProvider)
+
                 // Inject feature scripts after a short delay to let page settle
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     injectCharCountScript(webView: webView)

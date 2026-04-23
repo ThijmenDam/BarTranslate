@@ -16,7 +16,7 @@ private func readFileBy(name: String, type: String) -> String {
   guard let path = Bundle.main.path(forResource: name, ofType: type) else {
     return "Failed to find path"
   }
-  
+
   do {
     return try String(contentsOfFile: path, encoding: .utf8)
   } catch {
@@ -29,67 +29,103 @@ private func encodeStringTo64(fromString: String) -> String? {
   return plainData?.base64EncodedString(options: [])
 }
 
-private func inject(webView: WKWebView, css: String, provider: TranslationProvider) {
-  let javascript = """
-    javascript:(function() {
-      var existing = document.getElementById('BarTranslate-css');
-      if (existing) { existing.remove() }
-
-      var style = document.createElement('style');
-      style.id = 'BarTranslate-css';
-      style.type = 'text/css';
-      style.innerHTML = window.atob('\(encodeStringTo64(fromString: css)!)');
-    
-      var parent = document.getElementsByTagName('head').item(0);
-      parent.appendChild(style)
-    })()
-  """
-  
-  // DELETE CACHE
-  WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache], modifiedSince: Date(timeIntervalSince1970: 0), completionHandler:{ })
-    
-  webView.configuration.userContentController.addUserScript(
-    WKUserScript(source: javascript, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
-  )
-}
-
 private func fallbackCSS(provider: TranslationProvider) -> String {
   return readFileBy(name: "\(provider)", type: "css")
 }
 
-// Injects CSS into the translation webview, such that redundant elements are hidden.
-func injectCSS(webView: WKWebView, provider: TranslationProvider) {
-  let sem = DispatchSemaphore.init(value: 0)
-  
-  // Links to the CSS that has to be injected for Google translate
-  let gistGoogle = "https://gist.github.com/ThijmenDam/6d8727f27ff1a1c5397682d866ffae9b/raw/css-injection-google.css"
-  
-  let gistURL = URL(string: gistGoogle)!
-  
-  var css: String?
-  
-  // This task fetches the to-be-injected CSS from a GitHub Gist
-  let task = URLSession.shared.dataTask(with: gistURL) { data, response, error in defer { sem.signal() }
+private func darkModeCSS() -> String {
+  return """
+
+/* Dark mode: use color inversion so Google's obfuscated DOM remains functional. */
+html {
+  background-color: #111 !important;
+  filter: invert(90%) hue-rotate(180deg) !important;
+}
+
+body {
+  background-color: #fff !important;
+}
+
+img,
+video,
+svg,
+canvas,
+[role="img"] {
+  filter: invert(100%) hue-rotate(180deg) !important;
+}
+"""
+}
+
+private func cssForInjection(provider: TranslationProvider) -> String {
+  var cssToInject = fallbackCSS(provider: provider)
+  if isSystemDarkMode() {
+    cssToInject += darkModeCSS()
+  }
+  return cssToInject
+}
+
+private func cssInjectionJavaScript(css: String) -> String? {
+  guard let encodedCSS = encodeStringTo64(fromString: css) else { return nil }
+
+  return """
+(function() {
+  var existing = document.getElementById('BarTranslate-css');
+  if (existing) { existing.remove(); }
+
+  var style = document.createElement('style');
+  style.id = 'BarTranslate-css';
+  style.type = 'text/css';
+  style.textContent = window.atob('\(encodedCSS)');
+
+  var parent = document.getElementsByTagName('head').item(0) || document.documentElement;
+  parent.appendChild(style);
+})();
+"""
+}
+
+func isSystemDarkMode() -> Bool {
+  if let match = NSApp.effectiveAppearance.bestMatch(from: [.darkAqua, .aqua]) {
+    return match == .darkAqua
+  }
+
+  return UserDefaults.standard.string(forKey: "AppleInterfaceStyle") == "Dark"
+}
+
+func updateDarkMode(webView: WKWebView, provider: TranslationProvider) {
+  let cssToInject = cssForInjection(provider: provider)
+  guard let javascript = cssInjectionJavaScript(css: cssToInject) else { return }
+
+  webView.evaluateJavaScript(javascript) { _, error in
     if let error = error {
-      print("[WARNING] Failed to retrieve GitHub Gist. Reason: \(error)")
-    } else if let data = data, let response = response as? HTTPURLResponse {
-      if response.statusCode == 200 {
-        print("Successfully fetched GitHub Gist.")
-        css = String(data: data, encoding: .utf8)!
-      } else {
-        print("[WARNING] Failed to retrieve GitHub Gist. Reason: HTTP \(response.statusCode)")
-      }
+      print("Dark mode CSS update failed: \(error)")
     }
   }
-  
-  task.resume() // Perform async task
-  sem.wait()    // Wait until the semaphore has been signaled from other thread, which will be once the async task has completed
-  
-  let cssToInject = css ?? fallbackCSS(provider: provider)
-  
-  inject(webView: webView, css: cssToInject, provider: provider)
+}
+
+// Registers CSS before navigation starts.
+func injectCSS(webView: WKWebView, provider: TranslationProvider) {
+  let cssToInject = cssForInjection(provider: provider)
+  guard let javascript = cssInjectionJavaScript(css: cssToInject) else { return }
+
+  // DELETE CACHE
+  WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache], modifiedSince: Date(timeIntervalSince1970: 0), completionHandler:{ })
+
+  webView.configuration.userContentController.removeAllUserScripts()
+  webView.configuration.userContentController.addUserScript(
+    WKUserScript(source: javascript, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+  )
   print("Injected CSS for \(provider)")
 }
 
+// Applies CSS after navigation completes. This is needed because registering a
+// WKUserScript can miss the current page if navigation has already committed.
+func applyCSS(webView: WKWebView, provider: TranslationProvider) {
+  let cssToInject = cssForInjection(provider: provider)
+  guard let javascript = cssInjectionJavaScript(css: cssToInject) else { return }
 
-
+  webView.evaluateJavaScript(javascript) { _, error in
+    if let error = error {
+      print("CSS injection failed: \(error)")
+    }
+  }
+}

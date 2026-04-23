@@ -13,7 +13,7 @@ import WebKit
 @main
 struct BarTranslateApp: App {
   @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-  
+
   var body: some Scene {
     WindowGroup {
       EmptyView()
@@ -40,7 +40,7 @@ class KeyablePanel: NSPanel {
   override var canBecomeKey: Bool {
     return true
   }
-  
+
   override var canBecomeMain: Bool {
     return false  // Don't become main window - prevents unwanted focus behavior
   }
@@ -76,8 +76,8 @@ class BarTranslate: ObservableObject {
     let providerURL = URL(string: urlString)!
     let request = URLRequest(url: providerURL)
 
-    webView.load(request)
     injectCSS(webView: webView, provider: provider)
+    webView.load(request)
   }
 }
 
@@ -184,6 +184,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     setupToggleAppHotkeys()
+
+    // Listen for system appearance changes (light/dark mode)
+    DistributedNotificationCenter.default.addObserver(
+      self,
+      selector: #selector(systemAppearanceChanged),
+      name: NSNotification.Name("AppleInterfaceThemeChangedNotification"),
+      object: nil
+    )
+  }
+
+  @objc func systemAppearanceChanged(_ notification: Notification) {
+    // Update WebView CSS when macOS switches between light and dark appearance.
+    if let webView = BT.webView {
+      updateDarkMode(webView: webView, provider: translationProvider)
+    }
   }
 
   // Show or hide BarTranslate panel
