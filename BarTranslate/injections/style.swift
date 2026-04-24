@@ -53,6 +53,21 @@ canvas,
 [role="img"] {
   filter: invert(100%) hue-rotate(180deg) !important;
 }
+
+html,
+body,
+* {
+  scrollbar-width: none !important;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+
 """
 }
 
