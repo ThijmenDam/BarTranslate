@@ -27,7 +27,7 @@ struct ContentView: View {
           .allowsHitTesting(BT.currentView == .translate)
           .opacity(BT.currentView == .translate ? 1 : 0)
 
-        SettingsView()
+        SettingsView(BT: BT)
           .zIndex(BT.currentView == .translate ? 0 : 2)
           .allowsHitTesting(BT.currentView == .settings)
           .opacity(BT.currentView == .settings ? 1 : 0)

@@ -12,6 +12,7 @@ import HotKey
 
 struct SettingsView: View {
 
+    @ObservedObject var BT: BarTranslate
     @AppStorage("translationProvider") private var translationProvider: TranslationProvider = DefaultSettings.translationProvider
     @AppStorage("showHideKey") private var showHideKey: String = DefaultSettings.ToggleApp.key.description
     @AppStorage("showHideModifier") private var showHideModifier: String = DefaultSettings.ToggleApp.modifier.description
@@ -33,6 +34,30 @@ struct SettingsView: View {
                         .pickerStyle(.menu)
                         .labelsHidden()
                         .frame(width: 140)
+                    }
+
+                    SettingsRow(label: "Google account") {
+                        HStack(spacing: 8) {
+                            Button("Sign in") {
+                                BT.openGoogleSignIn(provider: translationProvider)
+                                BT.currentView = .translate
+                            }
+                            .font(.system(size: 12))
+
+                            Button("Sign out") {
+                                BT.openGoogleSignOut(provider: translationProvider)
+                                BT.currentView = .translate
+                            }
+                            .font(.system(size: 12))
+                        }
+                    }
+
+                    SettingsRow(label: "Translation history") {
+                        Button("Open history") {
+                            BT.openGoogleTranslateHistory(provider: translationProvider)
+                            BT.currentView = .translate
+                        }
+                        .font(.system(size: 12))
                     }
                 }
 
@@ -212,7 +237,7 @@ struct SettingsRow<Trailing: View>: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
+        SettingsView(BT: BarTranslate())
             .frame(
                 minWidth: Constants.AppSize.width,
                 maxWidth: Constants.AppSize.width,
