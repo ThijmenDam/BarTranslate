@@ -109,6 +109,20 @@ class BarTranslate: ObservableObject {
     }
   }
 
+  func openGoogleSignOut(provider: TranslationProvider) {
+    var components = URLComponents()
+    components.scheme = "https"
+    components.host = "accounts.google.com"
+    components.path = "/Logout"
+    components.queryItems = [
+      URLQueryItem(name: "continue", value: googleTranslateURL().absoluteString)
+    ]
+
+    if let url = components.url {
+      loadURL(url, provider: provider)
+    }
+  }
+
   func openGoogleTranslateHistory(provider: TranslationProvider) {
     guard let url = URL(string: "https://translate.google.com/history") else { return }
     loadURL(url, provider: provider)

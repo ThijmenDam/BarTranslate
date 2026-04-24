@@ -37,11 +37,19 @@ struct SettingsView: View {
                     }
 
                     SettingsRow(label: "Google account") {
-                        Button("Sign in") {
-                            BT.openGoogleSignIn(provider: translationProvider)
-                            BT.currentView = .translate
+                        HStack(spacing: 8) {
+                            Button("Sign in") {
+                                BT.openGoogleSignIn(provider: translationProvider)
+                                BT.currentView = .translate
+                            }
+                            .font(.system(size: 12))
+
+                            Button("Sign out") {
+                                BT.openGoogleSignOut(provider: translationProvider)
+                                BT.currentView = .translate
+                            }
+                            .font(.system(size: 12))
                         }
-                        .font(.system(size: 12))
                     }
 
                     SettingsRow(label: "Translation history") {
