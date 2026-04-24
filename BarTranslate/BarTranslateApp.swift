@@ -254,7 +254,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       backing: .buffered,
       defer: false)
     panel.isFloatingPanel = true
-    panel.level = .popUpMenu
+    panel.level = .normal
     panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
     panel.contentViewController = NSHostingController(rootView: contentView)
     panel.isMovableByWindowBackground = false
