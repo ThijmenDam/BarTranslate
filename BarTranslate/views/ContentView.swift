@@ -3,6 +3,7 @@
 //  BarTranslate
 //
 //  Created by Thijmen Dam on 26/05/2023.
+//  Redesigned UI – refined native macOS style
 //
 
 import SwiftUI
@@ -13,41 +14,34 @@ enum CurrentContentView {
 }
 
 struct ContentView: View {
-  
   @ObservedObject var BT: BarTranslate
   @AppStorage("translationProvider") private var translationProvider: TranslationProvider = .google
-  
+
   var body: some View {
     VStack(spacing: 0) {
-      
       TopView(contentViewState: BT)
-      
+
       ZStack {
         TranslateView(BT: BT)
           .zIndex(1)
           .allowsHitTesting(BT.currentView == .translate)
-          .disabled(BT.currentView != .translate)
-        SettingsView()
+          .opacity(BT.currentView == .translate ? 1 : 0)
+
+        SettingsView(BT: BT)
           .zIndex(BT.currentView == .translate ? 0 : 2)
           .allowsHitTesting(BT.currentView == .settings)
-          .disabled(BT.currentView != .settings)
+          .opacity(BT.currentView == .settings ? 1 : 0)
       }
+      .animation(.easeInOut(duration: 0.15), value: BT.currentView)
     }
-    .animation(nil, value: UUID())
     .frame(
       minWidth: Constants.AppSize.width,
       minHeight: Constants.AppSize.height,
       alignment: .topLeading
     )
-    // Color the popover arrow
-    .background(
-      Color.blue
-        .position(x: Constants.AppSize.width / 2, y: -Constants.AppSize.height / 2 + 10)
-    )
+    .background(Color(NSColor.windowBackgroundColor))
   }
-  
-  
-  
+
   func goToSettings() {
     BT.currentView = .settings
   }
