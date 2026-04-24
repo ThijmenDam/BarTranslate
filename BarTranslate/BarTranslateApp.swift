@@ -21,7 +21,7 @@ struct BarTranslateApp: App {
       CommandGroup(replacing: CommandGroupPlacement.newItem) {}
     }
     Settings {
-      SettingsView()
+      SettingsView(BT: appDelegate.BT)
     }
   }
 }
@@ -67,17 +67,51 @@ class BarTranslate: ObservableObject {
     set { UserDefaults.standard.set(newValue, forKey: "lastTargetLang") }
   }
 
-  func reloadWebView(for provider: TranslationProvider) {
+  private func googleTranslateURL() -> URL {
+    var components = URLComponents()
+    components.scheme = "https"
+    components.host = "translate.google.com"
+    components.path = "/"
+    components.queryItems = [
+      URLQueryItem(name: "sl", value: lastSourceLang),
+      URLQueryItem(name: "tl", value: lastTargetLang),
+      URLQueryItem(name: "op", value: "translate")
+    ]
+
+    return components.url!
+  }
+
+  func loadURL(_ url: URL, provider: TranslationProvider) {
     guard let webView = webView else { return }
 
-    let sl = lastSourceLang
-    let tl = lastTargetLang
-    let urlString = "https://translate.google.com/?sl=\(sl)&tl=\(tl)&op=translate"
-    let providerURL = URL(string: urlString)!
-    let request = URLRequest(url: providerURL)
+    isLoading = true
+    let request = URLRequest(url: url)
 
     injectCSS(webView: webView, provider: provider)
     webView.load(request)
+  }
+
+  func reloadWebView(for provider: TranslationProvider) {
+    loadURL(googleTranslateURL(), provider: provider)
+  }
+
+  func openGoogleSignIn(provider: TranslationProvider) {
+    var components = URLComponents()
+    components.scheme = "https"
+    components.host = "accounts.google.com"
+    components.path = "/ServiceLogin"
+    components.queryItems = [
+      URLQueryItem(name: "continue", value: googleTranslateURL().absoluteString)
+    ]
+
+    if let url = components.url {
+      loadURL(url, provider: provider)
+    }
+  }
+
+  func openGoogleTranslateHistory(provider: TranslationProvider) {
+    guard let url = URL(string: "https://translate.google.com/history") else { return }
+    loadURL(url, provider: provider)
   }
 }
 
