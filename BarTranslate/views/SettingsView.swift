@@ -17,6 +17,8 @@ struct SettingsView: View {
     @AppStorage("showHideModifier") private var showHideModifier: String = DefaultSettings.ToggleApp.modifier.description
     @AppStorage("menuBarIcon") private var menuBarIcon: MenuBarIcon = DefaultSettings.menuBarIcon
     @AppStorage("autoClipboardPaste") private var autoClipboardPaste: Bool = false
+    @State private var launchAtLogin: Bool = false
+    @State private var launchAtLoginMessage: String?
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -85,6 +87,25 @@ struct SettingsView: View {
                         Toggle("", isOn: $autoClipboardPaste)
                             .labelsHidden()
                     }
+
+                    SettingsRow(label: "Launch at login") {
+                        Toggle("", isOn: Binding(
+                            get: { launchAtLogin },
+                            set: { enabled in
+                                let state = LoginItemService.setEnabled(enabled)
+                                launchAtLogin = state.enabled
+                                launchAtLoginMessage = state.message
+                            }
+                        ))
+                        .labelsHidden()
+                    }
+
+                    if let launchAtLoginMessage = launchAtLoginMessage {
+                        Text(launchAtLoginMessage)
+                            .font(.system(size: 11))
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal, 12)
+                    }
                 }
 
                 // About
@@ -135,6 +156,11 @@ struct SettingsView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .background(Color(NSColor.windowBackgroundColor))
+        .onAppear {
+            let state = LoginItemService.currentState()
+            launchAtLogin = state.enabled
+            launchAtLoginMessage = state.message
+        }
     }
 }
 
