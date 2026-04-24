@@ -65,7 +65,11 @@ class ${formula_class_name} < Formula
   def install
     system "ditto", "-x", "-k", cached_download, buildpath
     prefix.install "${app_name}.app"
-    bin.install_symlink prefix/"${app_name}.app/Contents/MacOS/${app_name}" => "${formula_name}"
+    (bin/"${formula_name}").write <<~SH
+      #!/bin/sh
+      exec /usr/bin/open "#{prefix}/${app_name}.app" "\$@"
+    SH
+    chmod 0755, bin/"${formula_name}"
   end
 
   def caveats
@@ -74,7 +78,7 @@ class ${formula_class_name} < Formula
         #{prefix}/#{"${app_name}.app"}
 
       To launch it from Finder, open that app bundle directly. To launch it from
-      a shell, run:
+      a shell through LaunchServices, run:
         ${formula_name}
     EOS
   end
@@ -87,6 +91,7 @@ class ${formula_class_name} < Formula
     assert_predicate prefix/"${app_name}.app", :exist?
     assert_predicate prefix/"${app_name}.app/Contents/Info.plist", :exist?
     assert_predicate prefix/"${app_name}.app/Contents/MacOS/${app_name}", :exist?
+    assert_match "exec /usr/bin/open", (bin/"${formula_name}").read
     assert_predicate bin/"${formula_name}", :exist?
   end
 end

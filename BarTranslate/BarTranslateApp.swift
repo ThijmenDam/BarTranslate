@@ -192,19 +192,51 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   private func menuBarStatusImage(named name: String) -> NSImage? {
     let resourceName = name == MenuBarIcon.minimal.id ? "MenuIconMinimalStatus" : "MenuIconStatus"
-    if let url = Bundle.main.url(forResource: resourceName, withExtension: "png"),
-       let image = NSImage(contentsOf: url) {
-      image.size = NSSize(width: 18, height: 18)
-      return image
+
+    for resourceURL in menuBarResourceDirectories() {
+      let iconURL = resourceURL.appendingPathComponent("\(resourceName).png")
+      if let image = NSImage(contentsOf: iconURL) {
+        return configuredMenuBarImage(image)
+      }
     }
 
     if let image = NSImage(named: name) {
-      image.size = NSSize(width: 18, height: 18)
-      image.isTemplate = false
-      return image
+      return configuredMenuBarImage(image)
     }
 
     return nil
+  }
+
+  private func menuBarResourceDirectories() -> [URL] {
+    var directories: [URL] = []
+
+    if let resourceURL = Bundle.main.resourceURL {
+      directories.append(resourceURL)
+    }
+
+    let executableURLs = [
+      Bundle.main.executableURL,
+      CommandLine.arguments.first.map { URL(fileURLWithPath: $0) }
+    ].compactMap { $0 }
+
+    for executableURL in executableURLs {
+      let resolvedURL = executableURL.resolvingSymlinksInPath()
+      let contentsURL = resolvedURL
+        .deletingLastPathComponent()
+        .deletingLastPathComponent()
+      let resourceURL = contentsURL.appendingPathComponent("Resources")
+      if !directories.contains(resourceURL) {
+        directories.append(resourceURL)
+      }
+    }
+
+    return directories
+  }
+
+  private func configuredMenuBarImage(_ image: NSImage) -> NSImage {
+    image.size = NSSize(width: 18, height: 18)
+    image.isTemplate = false
+    return image
   }
 
   func applicationDidFinishLaunching(_ notification: Notification) {
