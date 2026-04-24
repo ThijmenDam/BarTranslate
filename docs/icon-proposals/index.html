@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BarTranslateACO Menu Bar Icon Proposals</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+      background: #f3f4f6;
+      color: #172033;
+    }
+
+    body {
+      margin: 0;
+      padding: 32px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      letter-spacing: -0.03em;
+    }
+
+    .intro {
+      margin: 0 0 28px;
+      max-width: 860px;
+      color: #5b6475;
+      line-height: 1.5;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(260px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(23, 32, 51, 0.1);
+      border-radius: 18px;
+      box-shadow: 0 16px 50px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+    }
+
+    .card h2 {
+      margin: 0;
+      padding: 16px 16px 0;
+      font-size: 15px;
+      letter-spacing: -0.01em;
+    }
+
+    .card p {
+      margin: 6px 16px 16px;
+      color: #6b7280;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .swatch {
+      min-height: 170px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .swatch.light {
+      background: linear-gradient(#f8fafc, #e5e7eb);
+    }
+
+    .swatch.dark {
+      background: linear-gradient(#1f2937, #020617);
+      color: #f8fafc;
+    }
+
+    .label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.72;
+    }
+
+    .menubar {
+      width: 112px;
+      height: 30px;
+      border-radius: 9px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.34), 0 10px 22px rgba(15,23,42,0.12);
+    }
+
+    .light .menubar {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(15, 23, 42, 0.12);
+    }
+
+    .dark .menubar {
+      background: rgba(3, 7, 18, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    svg {
+      overflow: visible;
+    }
+
+    .notes {
+      margin-top: 28px;
+      padding: 18px 20px;
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid rgba(23, 32, 51, 0.1);
+      color: #4b5563;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 920px) {
+      body { padding: 20px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <h1>BarTranslateACO menu bar icon proposals</h1>
+  <p class="intro">Nine paired concepts for light and dark menu bars. Each pair uses the same silhouette with colors adjusted per appearance. These are intentionally simple at 16–22 px because the final asset must read clearly in the macOS menu bar.</p>
+
+  <main class="grid">
+    <section class="card">
+      <h2>1. ACO speech mark</h2>
+      <p>Compact chat bubble with an A monogram and translation arrow.</p>
+      <div class="pair">
+        <div class="swatch light"><div class="label">Light</div><div class="menubar"><svg class="icon" viewBox="0 0 32 32"><path fill="#2563eb" d="M5 7.5C5 4.5 7.5 2 10.5 2h11C24.5 2 27 4.5 27 7.5v8c0 3-2.5 5.5-5.5 5.5H17l-6.2 6.2c-.9.9-2.3.3-2.3-.9V21A5.5 5.5 0 0 1 5 15.5v-8Z"/><path fill="#fff" d="M12.2 16.7h2l.7-2h4.2l.7 2h2L18 7.5h-2l-3.8 9.2Zm3.3-3.7 1.5-3.8 1.5 3.8h-3Zm3.8 7 3.7-3.1-3.7-3.1v2h-4.1v2.2h4.1v2Z"/></svg></div></div>
+        <div class="swatch dark"><div class="label">Dark</div><div class="menubar"><svg class="icon" viewBox="0 0 32 32"><path fill="#60a5fa" d="M5 7.5C5 4.5 7.5 2 10.5 2h11C24.5 2 27 4.5 27 7.5v8c0 3-2.5 5.5-5.5 5.5H17l-6.2 6.2c-.9.9-2.3.3-2.3-.9V21A5.5 5.5 0 0 1 5 15.5v-8Z"/><path fill="#08111f" d="M12.2 16.7h2l.7-2h4.2l.7 2h2L18 7.5h-2l-3.8 9.2Zm3.3-3.7 1.5-3.8 1.5 3.8h-3Zm3.8 7 3.7-3.1-3.7-3.1v2h-4.1v2.2h4.1v2Z"/></svg></div></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. Translate tiles</h2>
+      <p>Two overlapping rounded language cards with a diagonal exchange arrow.</p>
+      <div class="pair">
+        <div class="swatch light"><div class="label">Light</div><div class="menubar"><svg class="icon" viewBox="0 0 32 32"><rect x="3" y="6" width="16" height="16" rx="4" fill="#1d4ed8"/><rect x="13" y="10" width="16" height="16" rx="4" fill="#38bdf8"/><path d="M8 17h6M11 11v6M9 13h5" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M18 18h6m-3-3v6" stroke="#082f49" stroke-width="2" stroke-linecap="round"/></svg></div></div>
+        <div class="swatch dark"><div class="label">Dark</div><div class="menubar"><svg class="icon" viewBox="0 0 32 32"><rect x="3" y="6" width="16" height="16" rx="4" fill="#93c5fd"/><rect x="13" y="10" width="16" height="16" rx="4" fill="#22d3ee"/><path d="M8 17h6M11 11v6M9 13h5" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/><path d="M18 18h6m-3-3v6" stroke="#042f2e" stroke-width="2" stroke-linecap="round"/></svg></div></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. Globe bubble</h2>
+      <p>Internationalization first: globe lines inside a speech bubble.</p>
+      <div class="pair">
+        <div class="swatch light"><div class="label">Light</div><div class="menubar"><svg class="icon" viewBox="0 0 32 32"><path fill="#0f766e" d="M4 15C4 8.9 8.9 4 15 4s11 4.9 11 11-4.9 11-11 11c-1.2 0-2.3-.2-3.4-.5L6 28l1.3-5.2A11 11 0 0 1 4 15Z"/><path d="M8 15h14M15 7c2 2.2 3 4.8 3 8s-1 5.8-3 8M15 7c-2 2.2-3 4.8-3 8s1 5.8 3 8M9.5 10.5h11M9.5 19.5h11" stroke="#fff" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></div></div>
+        <div class="swatch dark"><div class="label">Dark</div><div class="menubar"><svg class="icon" viewBox="0 0 32 32"><path fill="#5eead4" d="M4 15C4 8.9 8.9 4 15 4s11 4.9 11 11-4.9 11-11 11c-1.2 0-2.3-.2-3.4-.5L6 28l1.3-5.2A11 11 0 0 1 4 15Z"/><path d="M8 15h14M15 7c2 2.2 3 4.8 3 8s-1 5.8-3 8M15 7c-2 2.2-3 4.8-3 8s1 5.8 3 8M9.5 10.5h11M9.5 19.5h11" stroke="#042f2e" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></div></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4. Menu pill</h2>
+      <p>A native macOS-style status pill with the BT acronym and arrow.</p>
+      <div class="pair">
+        <div class="swatch light"><div class="label">Light</div><div class="menubar"><svg class="icon" viewBox="0 0 32 32"><rect x="2" y="7" width="28" height="18" rx="9" fill="#111827"/><text x="8" y="20" fill="#fff" font-size="10" font-family="-apple-system, sans-serif" font-weight="800">BT</text><path d="M22 13l4 3-4 3" stroke="#93c5fd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div></div>
+        <div class="swatch dark"><div class="label">Dark</div><div class="menubar"><svg class="icon" viewBox="0 0 32 32"><rect x="2" y="7" width="28" height="18" rx="9" fill="#e5e7eb"/><text x="8" y="20" fill="#111827" font-size="10" font-family="-apple-system, sans-serif" font-weight="800">BT</text><path d="M22 13l4 3-4 3" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>5. Character swap</h2>
+      <p>Latin A and kana-inspired glyph connected by a bidirectional motion line.</p>
+      <div class="pair">
+        <div class="swatch light"><div class="label">Light</div><div class="menubar"><svg class="icon" viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="#7c3aed"/><path d="M8.5 21 12 10h2l3.5 11h-2.2l-.7-2.4h-3.2l-.7 2.4H8.5Zm3.4-4h2.2L13 13.2 11.9 17Z" fill="#fff"/><path d="M19 10h6M22 10v11M19 15h6M20 21c3-1.5 4.5-3.5 5-6" stroke="#fef3c7" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></div></div>
+        <div class="swatch dark"><div class="label">Dark</div><div class="menubar"><svg class="icon" viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="#c4b5fd"/><path d="M8.5 21 12 10h2l3.5 11h-2.2l-.7-2.4h-3.2l-.7 2.4H8.5Zm3.4-4h2.2L13 13.2 11.9 17Z" fill="#271447"/><path d="M19 10h6M22 10v11M19 15h6M20 21c3-1.5 4.5-3.5 5-6" stroke="#581c87" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></div></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>6. ACO compass</h2>
+      <p>A direction/translation compass using ACO blue and cyan accents.</p>
+      <div class="pair">
+        <div class="swatch light"><div class="label">Light</div><div class="menubar"><svg class="icon" viewBox="0 0 32 32"><path d="M16 3 28 16 16 29 4 16 16 3Z" fill="#0891b2"/><path d="m12 20 8-16-2 11 5 1-8 12 2-8h-5Z" fill="#ecfeff"/></svg></div></div>
+        <div class="swatch dark"><div class="label">Dark</div><div class="menubar"><svg class="icon" viewBox="0 0 32 32"><path d="M16 3 28 16 16 29 4 16 16 3Z" fill="#67e8f9"/><path d="m12 20 8-16-2 11 5 1-8 12 2-8h-5Z" fill="#083344"/></svg></div></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>7. Minimal arrows</h2>
+      <p>Lowest visual weight: just exchange arrows and a dot language marker.</p>
+      <div class="pair">
+        <div class="swatch light"><div class="label">Light</div><div class="menubar"><svg class="icon" viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke="#334155" stroke-width="3"/><path d="M10 13h11l-3-3M22 19H11l3 3" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="24" cy="8" r="3" fill="#38bdf8"/></svg></div></div>
+        <div class="swatch dark"><div class="label">Dark</div><div class="menubar"><svg class="icon" viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke="#e2e8f0" stroke-width="3"/><path d="M10 13h11l-3-3M22 19H11l3 3" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="24" cy="8" r="3" fill="#22d3ee"/></svg></div></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>8. Folded page</h2>
+      <p>Document/page metaphor for translated text, with a small language corner.</p>
+      <div class="pair">
+        <div class="swatch light"><div class="label">Light</div><div class="menubar"><svg class="icon" viewBox="0 0 32 32"><path d="M8 3h10l6 6v20H8V3Z" fill="#f59e0b"/><path d="M18 3v7h7" fill="#fde68a"/><path d="M12 15h8M12 20h6" stroke="#451a03" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="22" r="5" fill="#2563eb"/><path d="M19 22h6M22 19v6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg></div></div>
+        <div class="swatch dark"><div class="label">Dark</div><div class="menubar"><svg class="icon" viewBox="0 0 32 32"><path d="M8 3h10l6 6v20H8V3Z" fill="#fbbf24"/><path d="M18 3v7h7" fill="#fef3c7"/><path d="M12 15h8M12 20h6" stroke="#451a03" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="22" r="5" fill="#93c5fd"/><path d="M19 22h6M22 19v6" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round"/></svg></div></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>9. ACO spark</h2>
+      <p>Distinct from upstream: an A-shaped spark over two translation chevrons.</p>
+      <div class="pair">
+        <div class="swatch light"><div class="label">Light</div><div class="menubar"><svg class="icon" viewBox="0 0 32 32"><path d="M16 2 20 12 30 16 20 20 16 30 12 20 2 16 12 12 16 2Z" fill="#db2777"/><path d="m10 20 4-8 4 8M12 17h4M19 12l4 4-4 4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div></div>
+        <div class="swatch dark"><div class="label">Dark</div><div class="menubar"><svg class="icon" viewBox="0 0 32 32"><path d="M16 2 20 12 30 16 20 20 16 30 12 20 2 16 12 12 16 2Z" fill="#f9a8d4"/><path d="m10 20 4-8 4 8M12 17h4M19 12l4 4-4 4" stroke="#500724" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div></div>
+      </div>
+    </section>
+  </main>
+
+  <section class="notes">
+    <strong>Next step after selection:</strong> convert the chosen pair into real raster assets at 16, 32, and 64 px, replace the upstream MenuIcon/MenuIconMinimal assets, update MenuIconStatus/MenuIconMinimalStatus for the Homebrew-packaged app, and remove inherited upstream icon files that are no longer used.
+  </section>
+</body>
+</html>
