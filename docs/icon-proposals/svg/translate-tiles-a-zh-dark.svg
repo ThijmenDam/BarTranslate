@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-labelledby="title desc">
+  <title id="title">BarTranslateACO dark menu bar icon proposal</title>
+  <desc id="desc">Two overlapping grey translation tiles with black Chinese and A glyphs for dark mode.</desc>
+  <rect x="3" y="5" width="16" height="16" rx="4" fill="#8f949b"/>
+  <text x="11" y="17" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, Noto Sans CJK SC, sans-serif" font-size="10" font-weight="800" fill="#111111">文</text>
+  <rect x="13" y="11" width="16" height="16" rx="4" fill="#c7cbd1"/>
+  <text x="21" y="23" text-anchor="middle" font-family="Avenir Next, SF Pro Display, Helvetica Neue, sans-serif" font-size="13" font-weight="900" fill="#111111">A</text>
+</svg>

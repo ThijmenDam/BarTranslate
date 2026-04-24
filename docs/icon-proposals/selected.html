@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BarTranslateACO Selected Icon Direction</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+      background: #f3f4f6;
+      color: #172033;
+    }
+
+    body {
+      margin: 0;
+      padding: 32px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      letter-spacing: -0.03em;
+    }
+
+    .intro {
+      margin: 0 0 28px;
+      max-width: 880px;
+      color: #5b6475;
+      line-height: 1.5;
+    }
+
+    .stage {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(280px, 1fr));
+      gap: 22px;
+      max-width: 980px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(23, 32, 51, 0.1);
+      border-radius: 22px;
+      box-shadow: 0 16px 50px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+    }
+
+    .card h2 {
+      margin: 0;
+      padding: 18px 18px 0;
+      font-size: 17px;
+      letter-spacing: -0.02em;
+    }
+
+    .card p {
+      margin: 6px 18px 18px;
+      color: #6b7280;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .swatch {
+      min-height: 300px;
+      padding: 22px;
+      display: grid;
+      gap: 22px;
+      place-items: center;
+      border-top: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .swatch.light {
+      background: linear-gradient(#f8fafc, #e5e7eb);
+    }
+
+    .swatch.dark {
+      background: linear-gradient(#1f2937, #020617);
+      color: #f8fafc;
+    }
+
+    .menubar {
+      width: 240px;
+      height: 34px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.34), 0 10px 22px rgba(15,23,42,0.12);
+    }
+
+    .light .menubar {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(15, 23, 42, 0.12);
+    }
+
+    .dark .menubar {
+      background: rgba(3, 7, 18, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .icon-row {
+      display: flex;
+      align-items: end;
+      gap: 24px;
+    }
+
+    .sample {
+      display: grid;
+      gap: 8px;
+      justify-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .dark .sample {
+      color: #cbd5e1;
+    }
+
+    .icon-16 { width: 16px; height: 16px; }
+    .icon-22 { width: 22px; height: 22px; }
+    .icon-32 { width: 32px; height: 32px; }
+    .icon-96 { width: 96px; height: 96px; }
+
+    .asset-links {
+      max-width: 980px;
+      margin-top: 22px;
+      padding: 18px 20px;
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid rgba(23, 32, 51, 0.1);
+      color: #4b5563;
+      line-height: 1.5;
+    }
+
+    code {
+      background: #eef2ff;
+      color: #1e3a8a;
+      padding: 2px 5px;
+      border-radius: 5px;
+    }
+
+    @media (max-width: 760px) {
+      body { padding: 20px; }
+      .stage { grid-template-columns: 1fr; }
+      .menubar { width: 200px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Selected direction: Translate tiles with 文 + A</h1>
+  <p class="intro">This keeps proposal #2’s overlapping translation tiles, puts the Chinese character 文 on the rear/background tile, puts A on the foreground tile, and switches the dark-mode artwork to black-on-grey instead of blue.</p>
+
+  <main class="stage">
+    <section class="card">
+      <h2>Light mode vector</h2>
+      <p>Blue rear tile, cyan foreground tile, white 文 in back, dark A in front.</p>
+      <div class="swatch light">
+        <div class="menubar"><img class="icon-22" src="svg/translate-tiles-a-zh-light.svg" alt="Light mode BarTranslateACO icon"></div>
+        <div class="icon-row">
+          <div class="sample"><img class="icon-16" src="svg/translate-tiles-a-zh-light.svg" alt="">16 px</div>
+          <div class="sample"><img class="icon-22" src="svg/translate-tiles-a-zh-light.svg" alt="">22 px</div>
+          <div class="sample"><img class="icon-32" src="svg/translate-tiles-a-zh-light.svg" alt="">32 px</div>
+          <div class="sample"><img class="icon-96" src="svg/translate-tiles-a-zh-light.svg" alt="">96 px</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Dark mode vector</h2>
+      <p>Grey tiles with black glyphs, tuned for a dark macOS menu bar.</p>
+      <div class="swatch dark">
+        <div class="menubar"><img class="icon-22" src="svg/translate-tiles-a-zh-dark.svg" alt="Dark mode BarTranslateACO icon"></div>
+        <div class="icon-row">
+          <div class="sample"><img class="icon-16" src="svg/translate-tiles-a-zh-dark.svg" alt="">16 px</div>
+          <div class="sample"><img class="icon-22" src="svg/translate-tiles-a-zh-dark.svg" alt="">22 px</div>
+          <div class="sample"><img class="icon-32" src="svg/translate-tiles-a-zh-dark.svg" alt="">32 px</div>
+          <div class="sample"><img class="icon-96" src="svg/translate-tiles-a-zh-dark.svg" alt="">96 px</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="asset-links">
+    <strong>Vector files:</strong>
+    <code>docs/icon-proposals/svg/translate-tiles-a-zh-light.svg</code> and
+    <code>docs/icon-proposals/svg/translate-tiles-a-zh-dark.svg</code>.
+    If this direction looks right, the next step is converting these SVGs into the app’s 16, 32, and 64 px PNG asset sets and replacing the inherited upstream menu icon files.
+  </section>
+</body>
+</html>
