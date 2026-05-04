@@ -1,5 +1,13 @@
 # BarTranslate Changelog
 
+## v2.2.0 | Chinese input method compatibility 
+
+Big thanks to [@xniPh690](https://github.com/xniPh690) for the contribution!
+
+## v2.1.0 | macOS AppStore
+
+BarTranslate is now also available on the macOS AppStore: https://apps.apple.com/nl/app/bartranslate/id6759278154
+
 ## v2.0.0 | Autofocus; Removed DeepL
 
 - When opening BarTranslate, the translation input is now focussed automatically (except on startup).
