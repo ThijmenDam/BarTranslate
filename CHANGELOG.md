@@ -2,6 +2,8 @@
 
 ## v2.2.0 | Chinese input method compatibility 
 
+Resolve issue where Chinese input method suggestions appeared behind the BarTranslate panel.
+
 Big thanks to [@xniPh690](https://github.com/xniPh690) for the contribution!
 
 ## v2.1.0 | macOS AppStore
