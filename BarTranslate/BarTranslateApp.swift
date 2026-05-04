@@ -45,6 +45,10 @@ class BarTranslate: ObservableObject {
   }
 }
 
+class KeyablePanel: NSPanel {
+  override var canBecomeKey: Bool { true }
+}
+
 class AppDelegate: NSObject, NSApplicationDelegate {
   static private(set) var instance: AppDelegate!
   
@@ -112,9 +116,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let contentView = ContentView(BT: BT)
     
     // Application Panel
-    let panel = NSPanel(
-      contentRect: NSRect(x: 0, y: 0, width: Constants.AppSize.width, height: Constants.AppSize.height),
-      styleMask: [.titled, .fullSizeContentView],
+    let panel = KeyablePanel(
+      contentRect: NSRect(x: 0, y: 0, width: Constants.AppSize.width, height: Constants.AppSize.height + Constants.ArrowSize.height),
+      styleMask: [.borderless],
       backing: .buffered,
       defer: false)
     panel.isFloatingPanel = true
@@ -122,13 +126,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
     panel.contentViewController = NSHostingController(rootView: contentView)
     panel.isMovableByWindowBackground = false
+    panel.isOpaque = false
     panel.backgroundColor = .clear
-    panel.titleVisibility = .hidden
-    panel.titlebarAppearsTransparent = true
-    panel.standardWindowButton(.closeButton)?.isHidden = true
-    panel.standardWindowButton(.miniaturizeButton)?.isHidden = true
-    panel.standardWindowButton(.zoomButton)?.isHidden = true
     panel.hasShadow = true
+    panel.animationBehavior = .utilityWindow
     panel.delegate = self
     self.panel = panel
     
@@ -150,7 +151,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       positionPanel()
       panel.makeKeyAndOrderFront(sender)
       NSApp.activate(ignoringOtherApps: true)
-      
+
       // Autofocus HTML input
       if let webView = BT.webView, !webView.isHidden {
         injectFocusScript(webView: webView, provider: translationProvider)
