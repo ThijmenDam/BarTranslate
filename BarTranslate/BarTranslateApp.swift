@@ -129,6 +129,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     panel.isOpaque = false
     panel.backgroundColor = .clear
     panel.hasShadow = true
+    panel.animationBehavior = .utilityWindow
     panel.delegate = self
     self.panel = panel
     
@@ -145,23 +146,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   // Show or hide BarTranslate panel
   @objc func togglePanel(_ sender: AnyObject?) {
     if panel.isVisible {
-      NSAnimationContext.runAnimationGroup({ context in
-        context.duration = 0.15
-        self.panel.animator().alphaValue = 0.0
-      }) {
-        self.panel.orderOut(sender)
-        self.panel.alphaValue = 1.0
-      }
+      panel.orderOut(sender)
     } else {
       positionPanel()
-      panel.alphaValue = 0.0
       panel.makeKeyAndOrderFront(sender)
       NSApp.activate(ignoringOtherApps: true)
-
-      NSAnimationContext.runAnimationGroup { context in
-        context.duration = 0.15
-        self.panel.animator().alphaValue = 1.0
-      }
 
       // Autofocus HTML input
       if let webView = BT.webView, !webView.isHidden {
@@ -186,13 +175,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
   
   func panelDidResignKey(_ notification: Notification) {
-    NSAnimationContext.runAnimationGroup({ context in
-      context.duration = 0.15
-      self.panel.animator().alphaValue = 0.0
-    }) {
-      self.panel.orderOut(nil)
-      self.panel.alphaValue = 1.0
-    }
+    panel.orderOut(nil)
   }
 }
 
