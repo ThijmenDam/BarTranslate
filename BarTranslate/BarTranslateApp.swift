@@ -45,6 +45,10 @@ class BarTranslate: ObservableObject {
   }
 }
 
+class KeyablePanel: NSPanel {
+  override var canBecomeKey: Bool { true }
+}
+
 class AppDelegate: NSObject, NSApplicationDelegate {
   static private(set) var instance: AppDelegate!
   
@@ -112,9 +116,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let contentView = ContentView(BT: BT)
     
     // Application Panel
-    let panel = NSPanel(
-      contentRect: NSRect(x: 0, y: 0, width: Constants.AppSize.width, height: Constants.AppSize.height),
-      styleMask: [.titled, .fullSizeContentView],
+    let panel = KeyablePanel(
+      contentRect: NSRect(x: 0, y: 0, width: Constants.AppSize.width, height: Constants.AppSize.height + Constants.ArrowSize.height),
+      styleMask: [.borderless],
       backing: .buffered,
       defer: false)
     panel.isFloatingPanel = true
@@ -122,12 +126,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
     panel.contentViewController = NSHostingController(rootView: contentView)
     panel.isMovableByWindowBackground = false
+    panel.isOpaque = false
     panel.backgroundColor = .clear
-    panel.titleVisibility = .hidden
-    panel.titlebarAppearsTransparent = true
-    panel.standardWindowButton(.closeButton)?.isHidden = true
-    panel.standardWindowButton(.miniaturizeButton)?.isHidden = true
-    panel.standardWindowButton(.zoomButton)?.isHidden = true
     panel.hasShadow = true
     panel.delegate = self
     self.panel = panel
@@ -145,12 +145,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   // Show or hide BarTranslate panel
   @objc func togglePanel(_ sender: AnyObject?) {
     if panel.isVisible {
-      panel.orderOut(sender)
+      NSAnimationContext.runAnimationGroup({ context in
+        context.duration = 0.15
+        self.panel.animator().alphaValue = 0.0
+      }) {
+        self.panel.orderOut(sender)
+        self.panel.alphaValue = 1.0
+      }
     } else {
       positionPanel()
+      panel.alphaValue = 0.0
       panel.makeKeyAndOrderFront(sender)
       NSApp.activate(ignoringOtherApps: true)
-      
+
+      NSAnimationContext.runAnimationGroup { context in
+        context.duration = 0.15
+        self.panel.animator().alphaValue = 1.0
+      }
+
       // Autofocus HTML input
       if let webView = BT.webView, !webView.isHidden {
         injectFocusScript(webView: webView, provider: translationProvider)
@@ -174,7 +186,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
   
   func panelDidResignKey(_ notification: Notification) {
-    panel.orderOut(nil)
+    NSAnimationContext.runAnimationGroup({ context in
+      context.duration = 0.15
+      self.panel.animator().alphaValue = 0.0
+    }) {
+      self.panel.orderOut(nil)
+      self.panel.alphaValue = 1.0
+    }
   }
 }
 
