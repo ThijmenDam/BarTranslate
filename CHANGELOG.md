@@ -1,5 +1,16 @@
 # BarTranslate Changelog
 
+All notable changes to BarTranslate are documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+
+- BarTranslate now remembers the last-used source and target languages between launches (#54).
+
 ## v2.2.0 | Chinese input method compatibility 
 
 Resolve issue where Chinese input method suggestions appeared behind the BarTranslate panel.

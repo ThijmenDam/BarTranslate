@@ -12,6 +12,25 @@ import AppKit
 
 enum TranslationProvider: String {
   case google
+  
+  var baseURL: URL {
+    switch self {
+    case .google: return URL(string: "https://translate.google.com")!
+    }
+  }
+  
+  // Query param names each provider uses to encode the selected languages in its URL.
+  var sourceLanguageParam: String {
+    switch self {
+    case .google: return "sl"
+    }
+  }
+  
+  var targetLanguageParam: String {
+    switch self {
+    case .google: return "tl"
+    }
+  }
 }
 
 enum MenuBarIcon: String, CaseIterable, Identifiable {
