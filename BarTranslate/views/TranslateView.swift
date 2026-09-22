@@ -38,6 +38,8 @@ struct WebView: NSViewRepresentable {
     
     let config = WKWebViewConfiguration()
     config.defaultWebpagePreferences = prefs
+    config.userContentController.add(BT, name: BarTranslate.languageChangeMessageName)
+    config.userContentController.addUserScript(BarTranslate.languageChangeHookScript)
     
     
 #if DEBUG

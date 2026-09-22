@@ -30,18 +30,85 @@ struct BarTranslateApp: App {
   }
 }
 
-class BarTranslate: ObservableObject {
+class BarTranslate: NSObject, ObservableObject {
   @Published var currentView: CurrentContentView = .translate
   var webView: WKWebView?
+  private var currentProvider: TranslationProvider = DefaultSettings.translationProvider
+  
+  static let languageChangeMessageName = "languageChanged"
+  
+  // Google Translate reflects the selected languages in its URL via history.pushState, which never triggers a full
+  // navigation (and isn't reliably observable via WKWebView's `url` KVO), so notify Swift ourselves instead.
+  static let languageChangeHookScript = WKUserScript(
+    source: """
+      (function() {
+        function notifyLanguageChange() {
+          window.webkit.messageHandlers.\(languageChangeMessageName).postMessage(location.href);
+        }
+        var originalPushState = history.pushState;
+        history.pushState = function() {
+          originalPushState.apply(history, arguments);
+          notifyLanguageChange();
+        };
+        var originalReplaceState = history.replaceState;
+        history.replaceState = function() {
+          originalReplaceState.apply(history, arguments);
+          notifyLanguageChange();
+        };
+        window.addEventListener('popstate', notifyLanguageChange);
+      })();
+    """,
+    injectionTime: .atDocumentStart,
+    forMainFrameOnly: true
+  )
   
   func reloadWebView(for provider: TranslationProvider) {
     guard let webView = webView else { return }
+    currentProvider = provider
 
-    let providerURL = URL(string: "https://translate.google.com")!
-    let request = URLRequest(url: providerURL)
+    let request = URLRequest(url: providerURL(for: provider))
     
     webView.load(request)
     injectCSS(webView: webView, provider: provider)
+  }
+  
+  // Restores the last-used source/target languages for this provider, if any were saved.
+  private func providerURL(for provider: TranslationProvider) -> URL {
+    var components = URLComponents(url: provider.baseURL, resolvingAgainstBaseURL: false)!
+    
+    if let sourceLanguage = UserDefaults.standard.string(forKey: sourceLanguageKey(for: provider)),
+       let targetLanguage = UserDefaults.standard.string(forKey: targetLanguageKey(for: provider)) {
+      components.queryItems = [
+        URLQueryItem(name: provider.sourceLanguageParam, value: sourceLanguage),
+        URLQueryItem(name: provider.targetLanguageParam, value: targetLanguage)
+      ]
+    }
+    
+    return components.url!
+  }
+  
+  private func sourceLanguageKey(for provider: TranslationProvider) -> String {
+    "preferredSourceLanguage_\(provider.rawValue)"
+  }
+  
+  private func targetLanguageKey(for provider: TranslationProvider) -> String {
+    "preferredTargetLanguage_\(provider.rawValue)"
+  }
+}
+
+extension BarTranslate: WKScriptMessageHandler {
+  func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+    guard message.name == Self.languageChangeMessageName,
+          let urlString = message.body as? String,
+          let url = URL(string: urlString),
+          let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems else { return }
+    
+    if let sourceLanguage = queryItems.first(where: { $0.name == currentProvider.sourceLanguageParam })?.value {
+      UserDefaults.standard.set(sourceLanguage, forKey: sourceLanguageKey(for: currentProvider))
+    }
+    if let targetLanguage = queryItems.first(where: { $0.name == currentProvider.targetLanguageParam })?.value {
+      UserDefaults.standard.set(targetLanguage, forKey: targetLanguageKey(for: currentProvider))
+    }
   }
 }
 
