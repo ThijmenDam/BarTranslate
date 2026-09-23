@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The "Toggle App" shortcut can now also be combined from multiple modifier keys (⌘⌥⌃⇧), matching the new Quick Translate shortcut. If both shortcuts end up identical, Toggle App takes priority and Quick Translate is turned off until you change one of them.
 - New "Appearance" setting, grouped with the menu bar icon setting: choose System, Light, or Dark to control the appearance of BarTranslate and the translation page.
 
-## v2.2.0 | Chinese input method compatibility 
+## v2.2.0 | Chinese input method compatibility
 
 Resolve issue where Chinese input method suggestions appeared behind the BarTranslate panel.
 
@@ -27,7 +27,7 @@ BarTranslate is now also available on the macOS AppStore: https://apps.apple.com
 ## v2.0.0 | Autofocus; Removed DeepL
 
 - When opening BarTranslate, the translation input is now focussed automatically (except on startup).
-- Removed DeepL due to compatibility issues with WKWebView. 
+- Removed DeepL due to compatibility issues with WKWebView.
 
 ## v1.2.0 | CSS Hosted Externally
 
