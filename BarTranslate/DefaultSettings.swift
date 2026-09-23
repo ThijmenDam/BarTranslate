@@ -55,6 +55,15 @@ enum DarkModePreference: String, CaseIterable, Identifiable {
     case .dark: return NSAppearance(named: .darkAqua)
     }
   }
+  
+  // Resolves 'system' against the current effective appearance, since providers need an actual light/dark choice.
+  var resolvedIsDark: Bool {
+    switch self {
+    case .dark: return true
+    case .light: return false
+    case .system: return NSApp.effectiveAppearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua
+    }
+  }
 }
 
 struct DefaultSettings {
