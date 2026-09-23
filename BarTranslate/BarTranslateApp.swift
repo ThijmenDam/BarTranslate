@@ -123,30 +123,42 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   var statusBarItem: NSStatusItem!
   var hotkeyToggleApp: HotKey!
   var hotkeyToggleSettings: HotKey!
+  var hotkeyQuickTranslate: HotKey!
   
   var BT: BarTranslate = BarTranslate()
     
   @AppStorage("translationProvider") private var translationProvider: TranslationProvider = DefaultSettings.translationProvider
   @AppStorage("showHideKey") private var showHideKey: String = DefaultSettings.ToggleApp.key.description
-  @AppStorage("showHideModifier") private var showHideModifier: String = DefaultSettings.ToggleApp.modifier.description
+  @AppStorage("showHideModifier") private var showHideModifiers: String = DefaultSettings.ToggleApp.modifier.description
+  @AppStorage("quickTranslateKey") private var quickTranslateKey: String = DefaultSettings.QuickTranslate.key.description
+  @AppStorage("quickTranslateModifiers") private var quickTranslateModifiers: String = modifiersToString(DefaultSettings.QuickTranslate.modifiers)
   @AppStorage("menuBarIcon") private var menuBarIcon: MenuBarIcon = DefaultSettings.menuBarIcon
   
   override init() {
     super.init()
     UserDefaults.standard.addObserver(self, forKeyPath: "showHideKey", options: .new, context: nil)
     UserDefaults.standard.addObserver(self, forKeyPath: "showHideModifier", options: .new, context: nil)
+    UserDefaults.standard.addObserver(self, forKeyPath: "quickTranslateKey", options: .new, context: nil)
+    UserDefaults.standard.addObserver(self, forKeyPath: "quickTranslateModifiers", options: .new, context: nil)
     UserDefaults.standard.addObserver(self, forKeyPath: "menuBarIcon", options: .new, context: nil)
   }
   
   deinit {
     UserDefaults.standard.removeObserver(self, forKeyPath: "showHideKey")
     UserDefaults.standard.removeObserver(self, forKeyPath: "showHideModifier")
+    UserDefaults.standard.removeObserver(self, forKeyPath: "quickTranslateKey")
+    UserDefaults.standard.removeObserver(self, forKeyPath: "quickTranslateModifiers")
     UserDefaults.standard.removeObserver(self, forKeyPath: "menuBarIcon")
   }
   
   override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
     if keyPath == "showHideKey" || keyPath == "showHideModifier" {
       setupToggleAppHotkeys()
+      // Toggle App always wins ties, so a change to it can resolve (or create) a conflict with the Quick Translate hotkey.
+      setupQuickTranslateHotkey()
+    }
+    else if keyPath == "quickTranslateKey" || keyPath == "quickTranslateModifiers" {
+      setupQuickTranslateHotkey()
     }
     else if keyPath == "menuBarIcon" {
       updateMenuBarIcon()
@@ -156,13 +168,43 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func setupToggleAppHotkeys() {
     
     let key = Key(string: showHideKey) ?? DefaultSettings.ToggleApp.key
-    let mod = Key(string: showHideModifier) ?? DefaultSettings.ToggleApp.modifier
+    let mods = stringToModifiers(showHideModifiers)
+    
+    // No modifiers selected means this hotkey is turned off; don't register a bare-key global shortcut.
+    guard !mods.isEmpty else {
+      hotkeyToggleApp = nil
+      return
+    }
     
     hotkeyToggleApp = HotKey(
       key: key,
-      modifiers: keyToNSEventModifierFlags(key: mod),
+      modifiers: combinedModifierFlags(mods),
       keyDownHandler: {
         self.togglePanel(nil)
+      }
+    )
+  }
+  
+  func setupQuickTranslateHotkey() {
+    
+    let key = Key(string: quickTranslateKey) ?? DefaultSettings.QuickTranslate.key
+    let mods = stringToModifiers(quickTranslateModifiers)
+    
+    // An empty modifier set turns the hotkey off; an exact match with Toggle App also disables it, since that one always wins.
+    let toggleAppKey = Key(string: showHideKey) ?? DefaultSettings.ToggleApp.key
+    let toggleAppMods = Set(stringToModifiers(showHideModifiers).map { $0.description })
+    let conflictsWithToggleApp = !toggleAppMods.isEmpty && toggleAppMods == Set(mods.map { $0.description }) && key == toggleAppKey
+    
+    guard !mods.isEmpty, !conflictsWithToggleApp else {
+      hotkeyQuickTranslate = nil
+      return
+    }
+    
+    hotkeyQuickTranslate = HotKey(
+      key: key,
+      modifiers: combinedModifierFlags(mods),
+      keyDownHandler: {
+        self.quickTranslate()
       }
     )
   }
@@ -208,6 +250,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     setupToggleAppHotkeys()
+    setupQuickTranslateHotkey()
   }
   
   // Show or hide BarTranslate panel
@@ -223,6 +266,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       if let webView = BT.webView, !webView.isHidden {
         injectFocusScript(webView: webView, provider: translationProvider)
       }
+    }
+  }
+  
+  // Shows the panel (bringing it to front if already open) and immediately translates whatever's on the clipboard.
+  @objc func quickTranslate() {
+    BT.currentView = .translate
+    
+    if !panel.isVisible {
+      positionPanel()
+      panel.makeKeyAndOrderFront(nil)
+    }
+    NSApp.activate(ignoringOtherApps: true)
+    panel.makeKey()
+    
+    guard let webView = BT.webView, !webView.isHidden else { return }
+    
+    if let clipboardText = NSPasteboard.general.string(forType: .string), !clipboardText.isEmpty {
+      injectClipboardText(webView: webView, text: clipboardText, provider: translationProvider)
+    } else {
+      injectFocusScript(webView: webView, provider: translationProvider)
     }
   }
   
