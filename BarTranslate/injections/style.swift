@@ -59,6 +59,11 @@ private func fallbackCSS(provider: TranslationProvider) -> String {
 
 // Injects CSS into the translation webview, such that redundant elements are hidden.
 func injectCSS(webView: WKWebView, provider: TranslationProvider) {
+#if DEBUG
+  // Debug builds always use the bundled fallback CSS, skipping the gist entirely, so CSS can be iterated on
+  // locally without publishing to the gist first. Remember to actually publish CSS changes to the gist before release!
+  let cssToInject = fallbackCSS(provider: provider)
+#else
   let sem = DispatchSemaphore.init(value: 0)
   
   // Links to the CSS that has to be injected for Google translate
@@ -86,6 +91,7 @@ func injectCSS(webView: WKWebView, provider: TranslationProvider) {
   sem.wait()    // Wait until the semaphore has been signaled from other thread, which will be once the async task has completed
   
   let cssToInject = css ?? fallbackCSS(provider: provider)
+#endif
   
   inject(webView: webView, css: cssToInject, provider: provider)
   print("Injected CSS for \(provider)")

@@ -40,10 +40,37 @@ enum MenuBarIcon: String, CaseIterable, Identifiable {
   var id: String { self.rawValue }
 }
 
+enum DarkModePreference: String, CaseIterable, Identifiable {
+  case system
+  case light
+  case dark
+  
+  var id: String { self.rawValue }
+  
+  // nil lets the app inherit the system appearance instead of forcing one.
+  var appearance: NSAppearance? {
+    switch self {
+    case .system: return nil
+    case .light: return NSAppearance(named: .aqua)
+    case .dark: return NSAppearance(named: .darkAqua)
+    }
+  }
+  
+  // Resolves 'system' against the current effective appearance, since providers need an actual light/dark choice.
+  var resolvedIsDark: Bool {
+    switch self {
+    case .dark: return true
+    case .light: return false
+    case .system: return NSApp.effectiveAppearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua
+    }
+  }
+}
+
 struct DefaultSettings {
   
   static let translationProvider = TranslationProvider.google
   static let menuBarIcon = MenuBarIcon.original
+  static let darkModePreference = DarkModePreference.system
   
   struct ToggleApp {
     static let key = Key(string: ";")!

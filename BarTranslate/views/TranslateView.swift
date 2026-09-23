@@ -83,8 +83,10 @@ struct WebView: NSViewRepresentable {
     
     // Delegate method called when the web view finishes loading.
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-      // Shows view when content is loaded.
-      webView.isHidden = false
+      // Syncs the page's own theme before revealing, so the webview never flashes the wrong one.
+      parent.BT.syncPageDarkMode {
+        webView.isHidden = false
+      }
     }
   }
 }

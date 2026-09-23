@@ -16,12 +16,11 @@ By downloading BarTranslate from the App Store, you support the project with a s
 
 **Automatic updates**. Always run the latest version.
 
-**Apple notarization**. The App Store version is verified by Apple, so no Gatekeeper warnings or "unidentified developer" prompts. 
+**Apple notarization**. The App Store version is verified by Apple, so no Gatekeeper warnings or "unidentified developer" prompts.
 
 <a href="https://apps.apple.com/nl/app/bartranslate/id6759278154">
     <img src="docs/assets/images/download-on-the-appstore.svg" alt="Download on the Mac App Store" height="48"/>
 </a>
-
 
 ## Installation (manual)
 
@@ -36,16 +35,16 @@ By downloading BarTranslate from the App Store, you support the project with a s
 
 Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discussions)!
 
-* Translations are done by presenting a simple (altered) webview of **Google Translate** in a quick and easily accessible interface.
-* Configurable hotkeys to toggle the app.
-* Smart autofocus on the source text field when opening the app.
-* Configurable "Quick Translate" hotkey: instantly translates whatever's on your clipboard.
+- Translations are done by presenting a simple (altered) webview of **Google Translate** in a quick and easily accessible interface.
+- Configurable hotkeys to toggle the app.
+- Smart autofocus on the source text field when opening the app.
+- Configurable "Quick Translate" hotkey: instantly translates whatever's on your clipboard.
+- Dark mode setting (System, Light, or Dark) for the app and the translation pages.
 
 ### Planned
 
-* Dark mode for the translation pages.
-* Configurable hotkeys to select/swap languages.
-* Moveable BarTranslate panel that you can pin anywhere on your screen.
+- Configurable hotkeys to select/swap languages.
+- Moveable BarTranslate panel that you can pin anywhere on your screen.
 
 ## Support the author
 
