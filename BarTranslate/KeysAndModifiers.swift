@@ -80,3 +80,17 @@ func keyToNSEventModifierFlags(key: Key) -> NSEvent.ModifierFlags {
     return NSEvent.ModifierFlags.option
   }
 }
+
+// Combines multiple modifier keys (e.g. option + shift) into a single set of event flags for hotkeys that support more than one modifier.
+func combinedModifierFlags(_ keys: [Key]) -> NSEvent.ModifierFlags {
+  keys.reduce(into: []) { flags, key in flags.insert(keyToNSEventModifierFlags(key: key)) }
+}
+
+// Modifier combinations are persisted in UserDefaults as a comma-separated list of key descriptions (e.g. "⌥,⇧").
+func modifiersToString(_ keys: [Key]) -> String {
+  keys.map { $0.description }.joined(separator: ",")
+}
+
+func stringToModifiers(_ string: String) -> [Key] {
+  string.split(separator: ",").compactMap { Key(string: String($0)) }
+}

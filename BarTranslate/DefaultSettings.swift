@@ -50,4 +50,9 @@ struct DefaultSettings {
     static let modifier = Key(string: "⌥")!
   }
   
+  struct QuickTranslate {
+    static let key = Key(string: ";")!
+    static let modifiers: [Key] = [.option, .shift]
+  }
+  
 }
