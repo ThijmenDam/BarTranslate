@@ -1,18 +1,17 @@
 /* THIS IS FALLBACK CSS. For the latest CSS, refer to https://gist.github.com/ThijmenDam/6d8727f27ff1a1c5397682d866ffae9b */
 
-.pGxpHc,                  /* Page header */
-.VjFXz,                   /* Space behind page header */
-.qgyq3b,                  /* "Send feedback" button */
-.jNeWz,                   /* Microphone input (source text) */
-.ZTPlmc,                  /* Character count (source text) */
-.jrbQGd,                  /* Text translation model dropdown (source text) */
-.scLCMd,                  /* Input tools (virtual keyboard) menu (source text) */
-.KIXMEf,                  /* Share button */
-.a8FIud,                  /* Favorite button */
-.nG3XIb,                  /* Rate translation button */
-.hgbeOc,                  /* Empty space at top */
-button:has(path[d^="M12 13.9v-3.72h9.36"]), /* "Search with Google" button, matched by its icon (locale-independent) */
-nav                       /* Buttons below translate input */
-{
+.pGxpHc,                                              /* Page header */
+.VjFXz,                                               /* Space behind page header */
+.qgyq3b,                                              /* "Send feedback" button */
+.jNeWz,                                               /* Microphone input (source text) */
+.ZTPlmc,                                              /* Character count (source text) */
+.jrbQGd,                                              /* Text translation model dropdown (source text) */
+.scLCMd,                                              /* Input tools (virtual keyboard) menu (source text) */
+.a8FIud,                                              /* Favorite button */
+.hgbeOc,                                              /* Empty space at top */
+button:has(path[d^="M12 13.9v-3.72h9.36"]),           /* "Search with Google" button, matched by its icon (locale-independent) */
+button:has(path[d^="M12 6c0-.55-.45-1-1-1H5.82"]),    /* "Rate this translation" button, matched by its icon since Google's class names for it keep changing */
+button:has(path[d^="M18 16c-.79 0-1.5.31-2.03.81"]),  /* "Share translation" button, matched by its icon since Google's class names for it keep changing */
+nav {                                                 /* Buttons below translate input */
   display: none !important;
 }

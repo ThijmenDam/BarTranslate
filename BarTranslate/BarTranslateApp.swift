@@ -32,6 +32,8 @@ struct BarTranslateApp: App {
 
 class BarTranslate: NSObject, ObservableObject {
   @Published var currentView: CurrentContentView = .translate
+  // Whether the webview has finished its initial page load; unrelated to whether it's currently the visible tab.
+  @Published var webViewLoaded = false
   var webView: WKWebView?
   private var currentProvider: TranslationProvider = DefaultSettings.translationProvider
   
@@ -296,7 +298,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       NSApp.activate(ignoringOtherApps: true)
 
       // Autofocus HTML input
-      if let webView = BT.webView, !webView.isHidden {
+      if let webView = BT.webView, BT.webViewLoaded {
         injectFocusScript(webView: webView, provider: translationProvider)
       }
     }
@@ -313,7 +315,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     NSApp.activate(ignoringOtherApps: true)
     panel.makeKey()
     
-    guard let webView = BT.webView, !webView.isHidden else { return }
+    guard let webView = BT.webView, BT.webViewLoaded else { return }
     
     if let clipboardText = NSPasteboard.general.string(forType: .string), !clipboardText.isEmpty {
       injectClipboardText(webView: webView, text: clipboardText, provider: translationProvider)

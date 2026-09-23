@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - You can now listen to the pronunciation of your original text, not just the translation (#33).
+- Fixed the translation page's text-input cursor visually showing up on top of the Settings screen.
 
 ## v2.2.0 | Chinese input method compatibility
 

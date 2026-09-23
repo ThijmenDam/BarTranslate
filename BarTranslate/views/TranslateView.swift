@@ -59,12 +59,15 @@ struct WebView: NSViewRepresentable {
     
     let coordinator = context.coordinator
     
-    guard !coordinator.initialPageloadComplete else { return }
-    BT.reloadWebView(for: translationProvider)
+    if !coordinator.initialPageloadComplete {
+      BT.reloadWebView(for: translationProvider)
+      coordinator.initialPageloadComplete = true
+      nsView.navigationDelegate = context.coordinator
+    }
     
-    coordinator.initialPageloadComplete = true
-    
-    nsView.navigationDelegate = context.coordinator
+    // Keep the webview's own NSView hidden while Settings is shown, so its cursor rects/tracking areas
+    // (an AppKit-level concept SwiftUI's allowsHitTesting/disabled don't affect) don't bleed through.
+    nsView.isHidden = !BT.webViewLoaded || BT.currentView != .translate
   }
   
   // Creates a coordinator. This method is automatically called by SwiftUI.
@@ -85,7 +88,8 @@ struct WebView: NSViewRepresentable {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
       // Syncs the page's own theme before revealing, so the webview never flashes the wrong one.
       parent.BT.syncPageDarkMode {
-        webView.isHidden = false
+        self.parent.BT.webViewLoaded = true
+        webView.isHidden = self.parent.BT.currentView != .translate
       }
     }
   }

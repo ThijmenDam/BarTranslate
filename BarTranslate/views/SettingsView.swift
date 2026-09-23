@@ -86,10 +86,6 @@ struct SettingsView: View {
           .labelsHidden()
           .pickerStyle(.segmented)
           .frame(width: 160)
-          // Segmented pickers with text labels otherwise show an I-beam cursor, as if the text were selectable.
-          .onHover { isHovering in
-            if isHovering { NSCursor.pointingHand.push() } else { NSCursor.pop() }
-          }
           Spacer()
         }
         
@@ -196,6 +192,7 @@ struct SettingsView: View {
           .buttonStyle(.plain)
           .frame(minWidth: 24)
           .padding(.vertical, 4)
+          .contentShape(Rectangle()) // extend the tappable area to the full padded frame, not just the text glyphs
           .background(isOn ? Color.accentColor : Color.gray.opacity(0.25))
           .foregroundColor(isOn ? .white : .primary)
           .cornerRadius(5)
