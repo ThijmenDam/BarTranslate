@@ -3,11 +3,15 @@
 .pGxpHc,                  /* Page header */
 .VjFXz,                   /* Space behind page header */
 .qgyq3b,                  /* "Send feedback" button */
-.FFpbKc,                  /* Microphone input, amount of words */
+.jNeWz,                   /* Microphone input (source text) */
+.ZTPlmc,                  /* Character count (source text) */
+.jrbQGd,                  /* Text translation model dropdown (source text) */
+.scLCMd,                  /* Input tools (virtual keyboard) menu (source text) */
 .KIXMEf,                  /* Share button */
 .a8FIud,                  /* Favorite button */
 .nG3XIb,                  /* Rate translation button */
 .hgbeOc,                  /* Empty space at top */
+button:has(path[d^="M12 13.9v-3.72h9.36"]), /* "Search with Google" button, matched by its icon (locale-independent) */
 nav                       /* Buttons below translate input */
 {
   display: none !important;
