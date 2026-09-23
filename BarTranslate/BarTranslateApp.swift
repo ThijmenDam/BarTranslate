@@ -133,6 +133,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   @AppStorage("quickTranslateKey") private var quickTranslateKey: String = DefaultSettings.QuickTranslate.key.description
   @AppStorage("quickTranslateModifiers") private var quickTranslateModifiers: String = modifiersToString(DefaultSettings.QuickTranslate.modifiers)
   @AppStorage("menuBarIcon") private var menuBarIcon: MenuBarIcon = DefaultSettings.menuBarIcon
+  @AppStorage("darkModePreference") private var darkModePreference: DarkModePreference = DefaultSettings.darkModePreference
   
   override init() {
     super.init()
@@ -141,6 +142,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     UserDefaults.standard.addObserver(self, forKeyPath: "quickTranslateKey", options: .new, context: nil)
     UserDefaults.standard.addObserver(self, forKeyPath: "quickTranslateModifiers", options: .new, context: nil)
     UserDefaults.standard.addObserver(self, forKeyPath: "menuBarIcon", options: .new, context: nil)
+    UserDefaults.standard.addObserver(self, forKeyPath: "darkModePreference", options: .new, context: nil)
   }
   
   deinit {
@@ -149,6 +151,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     UserDefaults.standard.removeObserver(self, forKeyPath: "quickTranslateKey")
     UserDefaults.standard.removeObserver(self, forKeyPath: "quickTranslateModifiers")
     UserDefaults.standard.removeObserver(self, forKeyPath: "menuBarIcon")
+    UserDefaults.standard.removeObserver(self, forKeyPath: "darkModePreference")
   }
   
   override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -162,6 +165,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     else if keyPath == "menuBarIcon" {
       updateMenuBarIcon()
+    }
+    else if keyPath == "darkModePreference" {
+      updateDarkModeAppearance()
     }
   }
   
@@ -215,6 +221,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
   
+  // Forces the app (including the translation page's prefers-color-scheme) into the chosen appearance, or nil to follow the system.
+  func updateDarkModeAppearance() {
+    NSApp.appearance = darkModePreference.appearance
+  }
+  
   func applicationDidFinishLaunching(_ notification: Notification) {
     
     // Immediately close the main (empty) app window defined in 'BarTranslateApp'.
@@ -251,6 +262,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     setupToggleAppHotkeys()
     setupQuickTranslateHotkey()
+    updateDarkModeAppearance()
   }
   
   // Show or hide BarTranslate panel

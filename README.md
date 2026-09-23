@@ -40,10 +40,10 @@ Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discu
 * Configurable hotkeys to toggle the app.
 * Smart autofocus on the source text field when opening the app.
 * Configurable "Quick Translate" hotkey: instantly translates whatever's on your clipboard.
+* Dark mode setting (System, Light, or Dark) for the app and the translation pages.
 
 ### Planned
 
-* Dark mode for the translation pages.
 * Configurable hotkeys to select/swap languages.
 * Moveable BarTranslate panel that you can pin anywhere on your screen.
 

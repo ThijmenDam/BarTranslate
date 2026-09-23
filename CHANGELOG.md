@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - BarTranslate now remembers the last-used source and target languages between launches (#54).
 - New "Quick Translate" hotkey (#27, #51): press it and BarTranslate opens with a translation of your clipboard ready instantly. Configurable in Settings, defaults to ⌥⇧;.
 - The "Toggle App" shortcut can now also be combined from multiple modifier keys (⌘⌥⌃⇧), matching the new Quick Translate shortcut. If both shortcuts end up identical, Toggle App takes priority and Quick Translate is turned off until you change one of them.
+- New "Appearance" setting, grouped with the menu bar icon setting: choose System, Light, or Dark to control the appearance of BarTranslate and the translation page.
 
 ## v2.2.0 | Chinese input method compatibility 
 

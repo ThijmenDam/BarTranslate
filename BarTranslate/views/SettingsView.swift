@@ -8,6 +8,7 @@
 import SwiftUI
 import Foundation
 import HotKey
+import AppKit
 
 struct SponsorButton: View {
   var body: some View {
@@ -33,6 +34,7 @@ struct SettingsView: View {
   @AppStorage("quickTranslateKey") private var quickTranslateKey: String = DefaultSettings.QuickTranslate.key.description
   @AppStorage("quickTranslateModifiers") private var quickTranslateModifiersRaw: String = modifiersToString(DefaultSettings.QuickTranslate.modifiers)
   @AppStorage("menuBarIcon") private var menuBarIcon: MenuBarIcon = DefaultSettings.menuBarIcon
+  @AppStorage("darkModePreference") private var darkModePreference: DarkModePreference = DefaultSettings.darkModePreference
 
   private var showHideModifiers: Set<String> {
     Set(showHideModifiersRaw.split(separator: ",").map(String.init))
@@ -72,21 +74,40 @@ struct SettingsView: View {
       SponsorButton()
       #endif
       
-      // Menu Bar Icon Toggle
-      HStack {
-        Text("Menu Bar Icon").frame(width: Self.labelWidth, alignment: .leading)
-        Picker("", selection: $menuBarIcon) {
-            ForEach(MenuBarIcon.allCases) { icon in
-                Image(icon.rawValue)
-                    .resizable()
-                    .scaledToFit()
-                    .tag(icon)
+      // Appearance and Menu Bar Icon, grouped together as both are appearance settings.
+      VStack(alignment: .leading, spacing: 12) {
+        HStack {
+          Text("Appearance").frame(width: Self.labelWidth, alignment: .leading)
+          Picker("", selection: $darkModePreference) {
+            Text("System").tag(DarkModePreference.system)
+            Text("Light").tag(DarkModePreference.light)
+            Text("Dark").tag(DarkModePreference.dark)
           }
+          .labelsHidden()
+          .pickerStyle(.segmented)
+          .frame(width: 160)
+          // Segmented pickers with text labels otherwise show an I-beam cursor, as if the text were selectable.
+          .onHover { isHovering in
+            if isHovering { NSCursor.pointingHand.push() } else { NSCursor.pop() }
+          }
+          Spacer()
         }
-        .labelsHidden()
-        .pickerStyle(.segmented)
-        .frame(width: 100)
-        Spacer()
+        
+        HStack {
+          Text("Menu Bar Icon").frame(width: Self.labelWidth, alignment: .leading)
+          Picker("", selection: $menuBarIcon) {
+              ForEach(MenuBarIcon.allCases) { icon in
+                  Image(icon.rawValue)
+                      .resizable()
+                      .scaledToFit()
+                      .tag(icon)
+            }
+          }
+          .labelsHidden()
+          .pickerStyle(.segmented)
+          .frame(width: 100)
+          Spacer()
+        }
       }
       
       Divider()
