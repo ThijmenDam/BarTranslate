@@ -3,9 +3,9 @@
 🚀 A handy (free) menu bar translator widget for macOS.
 
 <p align="center">
-    <img src="docs/assets/images/bartranslate-appstore-promo-1.png" alt="BarTranslate promotional image 1"/>
+    <img src="promo/bartranslate-appstore-promo-1.png" alt="BarTranslate promotional image 1"/>
     <br/>
-    <img src="docs/assets/images/bartranslate-appstore-promo-2.png" alt="BarTranslate promotional image 2"/>
+    <img src="promo/bartranslate-appstore-promo-2.png" alt="BarTranslate promotional image 2"/>
 </p>
 
 Translations are done by presenting a simple (altered) webview of **Google Translate** in a quick and easily accessible interface.
@@ -19,7 +19,7 @@ By downloading BarTranslate from the App Store, you support the project with a s
 **Apple notarization**. The App Store version is verified by Apple, so no Gatekeeper warnings or "unidentified developer" prompts.
 
 <a href="https://apps.apple.com/nl/app/bartranslate/id6759278154">
-    <img src="docs/assets/images/download-on-the-appstore.svg" alt="Download on the Mac App Store" height="48"/>
+    <img src="promo/download-on-the-appstore.svg" alt="Download on the Mac App Store" height="48"/>
 </a>
 
 ## Installation (manual)
