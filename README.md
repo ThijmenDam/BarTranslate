@@ -40,6 +40,7 @@ Feel free to [share your ideas](https://github.com/ThijmenDam/BarTranslate/discu
 - Smart autofocus on the source text field when opening the app.
 - Configurable "Quick Translate" hotkey: instantly translates whatever's on your clipboard.
 - Dark mode setting (System, Light, or Dark) for the app and the translation pages.
+- Remembers your last-used source and target languages between launches.
 
 ### Planned
 
