@@ -334,7 +334,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     // Position panel centered below the menu bar icon
     let panelX = buttonFrame.midX - (panelSize.width / 2)
-    let panelY = buttonFrame.minY - panelSize.height - 5  // 5pt gap
+    let preferredPanelY = buttonFrame.minY - panelSize.height - 5  // 5pt gap
+    let panelY = window.screen.map {
+      min(preferredPanelY, $0.visibleFrame.maxY - panelSize.height)
+    } ?? preferredPanelY
     
     panel.setFrameOrigin(NSPoint(x: panelX, y: panelY))
   }
