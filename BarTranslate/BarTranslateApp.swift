@@ -286,6 +286,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     setupToggleAppHotkeys()
     setupQuickTranslateHotkey()
     updateDarkModeAppearance()
+    
+    // Moving the panel right before its first reveal can briefly show it at its launch position; keep it under the icon ahead of time.
+    DispatchQueue.main.async {
+      self.positionPanel()
+      if let statusItemWindow = self.statusBarItem.button?.window {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.repositionHiddenPanel), name: NSWindow.didMoveNotification, object: statusItemWindow)
+      }
+      NotificationCenter.default.addObserver(self, selector: #selector(self.repositionHiddenPanel), name: NSApplication.didChangeScreenParametersNotification, object: nil)
+    }
+  }
+  
+  @objc func repositionHiddenPanel() {
+    if !panel.isVisible {
+      positionPanel()
+    }
   }
   
   // Show or hide BarTranslate panel
