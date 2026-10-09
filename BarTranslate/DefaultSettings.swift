@@ -39,6 +39,17 @@ enum MenuBarIcon: String, CaseIterable, Identifiable {
   case monochrome = "MenuIconMonochrome"
   
   var id: String { self.rawValue }
+  
+  // Settings uses separate 20pt previews
+  var previewImageName: String { self.rawValue + "Preview" }
+  
+  var accessibilityName: String {
+    switch self {
+    case .original: return "Original"
+    case .minimal: return "Minimal"
+    case .monochrome: return "Monochrome"
+    }
+  }
 }
 
 enum DarkModePreference: String, CaseIterable, Identifiable {
