@@ -24,6 +24,39 @@ struct SponsorButton: View {
   }
 }
 
+struct MenuBarIconOption: View {
+  let icon: MenuBarIcon
+  let isSelected: Bool
+  let action: () -> Void
+
+  // Must match the preview assets' point size so they render pixel-exact.
+  private static let size: CGFloat = 20
+  private static let inset: CGFloat = 4
+
+  @State private var isHovered = false
+
+  private var highlightOpacity: Double {
+    isSelected ? 0.1 : (isHovered ? 0.05 : 0)
+  }
+
+  var body: some View {
+    Button(action: action) {
+      Image(icon.previewImageName)
+        .frame(width: Self.size, height: Self.size)
+        .padding(Self.inset)
+        .background(
+          RoundedRectangle(cornerRadius: 6, style: .continuous)
+            .fill(Color.primary.opacity(highlightOpacity))
+        )
+        .contentShape(Rectangle())
+    }
+    .onHover { isHovered = $0 }
+    .buttonStyle(.plain)
+    .accessibilityLabel(icon.accessibilityName)
+    .accessibilityAddTraits(isSelected ? .isSelected : [])
+  }
+}
+
 struct SettingsView: View {
   
   private static let labelWidth: CGFloat = 130
@@ -91,17 +124,14 @@ struct SettingsView: View {
         
         HStack {
           Text("Menu Bar Icon").frame(width: Self.labelWidth, alignment: .leading)
-          Picker("", selection: $menuBarIcon) {
-              ForEach(MenuBarIcon.allCases) { icon in
-                  Image(icon.rawValue)
-                      .resizable()
-                      .scaledToFit()
-                      .tag(icon)
+          HStack(spacing: 4) {
+            ForEach(MenuBarIcon.allCases) { icon in
+              MenuBarIconOption(icon: icon, isSelected: menuBarIcon == icon) {
+                menuBarIcon = icon
+              }
             }
           }
-          .labelsHidden()
-          .pickerStyle(.segmented)
-          .frame(width: 100)
+          .padding(.leading, -4)
           Spacer()
         }
       }

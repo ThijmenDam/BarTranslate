@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- New monochrome menu bar icon option (#80): a flat icon that automatically turns white or black to match your menu bar, just like most other menu bar apps. Choose it under "Menu Bar Icon" in Settings.
+
 ### Fixed
 
 - The panel no longer jumps when first opened after launching BarTranslate.
