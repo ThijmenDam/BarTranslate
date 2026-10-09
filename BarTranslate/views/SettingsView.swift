@@ -101,7 +101,7 @@ struct SettingsView: View {
           }
           .labelsHidden()
           .pickerStyle(.segmented)
-          .frame(width: 100)
+          .frame(width: 150)
           Spacer()
         }
       }

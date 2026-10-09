@@ -36,6 +36,7 @@ enum TranslationProvider: String {
 enum MenuBarIcon: String, CaseIterable, Identifiable {
   case original = "MenuIcon"
   case minimal = "MenuIconMinimal"
+  case monochrome = "MenuIconMonochrome"
   
   var id: String { self.rawValue }
 }
